@@ -38,7 +38,7 @@ def info(ch):
     zy = None
     if m:
         tone, top, bottom = m.groups()
-        zy = ("˙" + bottom) if tone == "5" or top.strip() == "˙" else bottom + TONE.get(tone, "")
+        zy = ("˙" + bottom) if tone in ("0", "5") or top.strip() == "˙" else bottom + TONE.get(tone, "")
     rad = re.search(r'<span class="field">部首</span>\s*<span class="value">\s*<a[^>]*>(.*?)</a>', html)
     strokes = re.search(r'<span class="field">總筆畫</span>\s*<span class="value"><strong>(\d+)</strong>', html)
     return {"zhuyin": OVERRIDE.get(ch, zy), "dictZhuyin": zy,

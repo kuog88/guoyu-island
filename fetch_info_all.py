@@ -3,13 +3,16 @@
 輸出：
 - char_info_all.json：{字: {zhuyin, radical, strokes}}（注音是字典第一個讀音）
 - word_zy.json：{語詞: [每個字的注音]}（語詞第一個讀音，用來決定多音字在課文裡的念法）
-可以重複執行，已經抓過的會略過。
+可以重複執行，已經抓過的會略過；加 --all 全部重抓。
+字典頁面的輕聲標成 tone-0（不是 tone-5），要當輕聲處理。
 """
 import json
 import os
 import re
 import time
 from concurrent.futures import ThreadPoolExecutor
+
+import sys
 
 import requests
 
@@ -36,7 +39,7 @@ def zy_items(html):
     m = re.search(r"<label>(.*?)</label>", html, re.S)
     out = []
     for tone, top, bottom in ITEM.findall(m.group(1) if m else ""):
-        out.append(("˙" + bottom) if tone == "5" or top.strip() == "˙" else bottom + TONE.get(tone, ""))
+        out.append(("˙" + bottom) if tone in ("0", "5") or top.strip() == "˙" else bottom + TONE.get(tone, ""))
     return out
 
 
@@ -62,18 +65,19 @@ def main():
         words |= {w for w in l["words"] if len(w) >= 2}
     cinfo = json.load(open("char_info_all.json", encoding="utf-8")) if os.path.exists("char_info_all.json") else {}
     winfo = json.load(open("word_zy.json", encoding="utf-8")) if os.path.exists("word_zy.json") else {}
-    todo_c = sorted(c for c in chars if c not in cinfo or not cinfo[c].get("zhuyin"))
-    todo_w = sorted(w for w in words if w not in winfo)
+    redo = "--all" in sys.argv
+    todo_c = sorted(c for c in chars if redo or c not in cinfo or not cinfo[c].get("zhuyin"))
+    todo_w = sorted(w for w in words if redo or w not in winfo)
     print("chars", len(chars), "todo", len(todo_c), "| words", len(words), "todo", len(todo_w), flush=True)
     with ThreadPoolExecutor(5) as ex:
         for i, (c, v) in enumerate(ex.map(char_info, todo_c)):
-            cinfo[c] = v
+            cinfo[c] = v if v["zhuyin"] else cinfo.get(c, v)  # 抓失敗時保留舊資料
             if i % 200 == 0:
                 print("char", i, flush=True)
                 json.dump(cinfo, open("char_info_all.json", "w", encoding="utf-8"), ensure_ascii=False)
         json.dump(cinfo, open("char_info_all.json", "w", encoding="utf-8"), ensure_ascii=False)
         for i, (w, v) in enumerate(ex.map(word_info, todo_w)):
-            winfo[w] = v
+            winfo[w] = v if v else winfo.get(w)
             if i % 200 == 0:
                 print("word", i, flush=True)
                 json.dump(winfo, open("word_zy.json", "w", encoding="utf-8"), ensure_ascii=False)

@@ -408,7 +408,7 @@ function bossBank(lv){
   const rads = uniq(allGen.map(c => INFO[c][1]));
   for (const c of shuffle(lv.chars)){
     const r = INFO[c] && INFO[c][1];
-    if (!r || r === c) continue;
+    if (!r || r === c || INFO[c][3]) continue; // 教育部和康熙部首不同的字不出題
     const ds = shuffle(rads.filter(x => x !== r)).slice(0, 2);
     bank.radical.push({kind:"radical", t:c, opts:shuffle([r, ...ds]), ans:r});
   }
@@ -816,7 +816,7 @@ function chest(){
     if (!b.classList.contains("open")){ b.classList.add("open"); burst(b); sfx("pop"); collect(c); save(); }
     left.delete(c); say(c);
     const ws = lessonWords(l).filter(w => w.includes(c)).concat(allWords.filter(w => w.includes(c))), d = document.getElementById("detail");
-    d.innerHTML = `<span class="bigchar">${esc(c)}</span><dl><dt>注音</dt><dd>${esc(zy(c))}</dd><dt>部首</dt><dd>${esc(radLabel(i[1]))}</dd><dt>筆畫</dt><dd>${i[2]} 畫</dd>${ws.length ? `<dt>語詞</dt><dd>${uniq(ws).slice(0,3).map(w => rubyWord(w)).join("、")}</dd>` : ""}</dl>`;
+    d.innerHTML = `<span class="bigchar">${esc(c)}</span><dl><dt>注音</dt><dd>${esc(zy(c))}</dd><dt>部首</dt><dd>${esc(radLabel(i[1]))}${i[3] ? `<span class="muted">（有的課本歸在「${i[3].map(esc).join("」「")}」部）</span>` : ""}</dd><dt>筆畫</dt><dd>${i[2]} 畫</dd>${ws.length ? `<dt>語詞</dt><dd>${uniq(ws).slice(0,3).map(w => rubyWord(w)).join("、")}</dd>` : ""}</dl>`;
     d.hidden = false;
     if (!left.size){ document.getElementById("next").hidden = false; document.getElementById("skip").hidden = true; setMsg("全部打開了！我們出發吧！"); }
   });

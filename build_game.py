@@ -4,6 +4,8 @@
 - lessons_115_1.json：各版本、各年級每課的生字、認讀字、語詞（scrape_lessons.py）
 - char_info_all.json、word_zy.json：注音、部首、筆畫，語詞的注音（fetch_info_all.py）
 - char_info_g1.json：一年級的注音（含手動校正的多音字）
+- stroke_count.json：教育部筆順網的筆畫數（fetch_stroke_count.py）
+- radical_alt.json：教育部字典和康熙字典歸部不同的字（make_radical_alt.py）
 - sentences_g1.txt：一年級句子填空（自編）
 - strokes_g1.json：一年級筆順（fetch_strokes.py）
 """
@@ -96,11 +98,20 @@ def parse_lesson_items(path):
     return out
 
 
+def strokes_of(c, dict_n, moe_count):
+    """字卡的筆畫數要和孩子實際寫的一樣。字典用部首原形計算（礻算 5 畫、衤算 6 畫），
+    筆順網比字典少 1 畫的就用筆順網的；筆順資料比字典多的是資料本身有誤，仍用字典。"""
+    n = moe_count.get(c)
+    return n if n and dict_n and n == dict_n - 1 else (dict_n or n or 0)
+
+
 def main():
     lessons = json.load(open("lessons_115_1.json", encoding="utf-8"))
     cinfo = json.load(open("char_info_all.json", encoding="utf-8"))
     wzy = json.load(open("word_zy.json", encoding="utf-8"))
     g1fix = json.load(open("char_info_g1.json", encoding="utf-8"))
+    moe_count = json.load(open("stroke_count.json", encoding="utf-8"))
+    rad_alt = json.load(open("radical_alt.json", encoding="utf-8"))
     os.makedirs("game/data", exist_ok=True)
     os.makedirs("game/strokes", exist_ok=True)
     stats = {}
@@ -115,7 +126,9 @@ def main():
             z = (g1fix.get(c) or {}).get("zhuyin") if g == 1 else None
             z = z or v.get("zhuyin")
             if z and v.get("radical"):
-                info[c] = [z, v["radical"], v.get("strokes") or 0]
+                info[c] = [z, v["radical"], strokes_of(c, v.get("strokes"), moe_count)]
+                if c in rad_alt:
+                    info[c].append(rad_alt[c])
         out_lessons, wz = [], {}
         for l in ls:
             words = [w for w in l["words"] if all(c in info for c in w)]
