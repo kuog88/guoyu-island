@@ -5,7 +5,7 @@
 - char_info_all.json、word_zy.json：注音、部首、筆畫，語詞的注音（fetch_info_all.py）
 - char_info_g1.json：一年級的注音（含手動校正的多音字）
 - stroke_count.json：教育部筆順網的筆畫數（fetch_stroke_count.py）
-- radical_alt.json：教育部字典和康熙字典歸部不同的字（make_radical_alt.py）
+- radical_textbook.json：課本（康熙）歸部和教育部字典不同的字
 - sentences_g1.txt：一年級句子填空（自編）
 - strokes_g1.json：一年級筆順（fetch_strokes.py）
 """
@@ -111,7 +111,7 @@ def main():
     wzy = json.load(open("word_zy.json", encoding="utf-8"))
     g1fix = json.load(open("char_info_g1.json", encoding="utf-8"))
     moe_count = json.load(open("stroke_count.json", encoding="utf-8"))
-    rad_alt = json.load(open("radical_alt.json", encoding="utf-8"))
+    rad_tb = json.load(open("radical_textbook.json", encoding="utf-8"))
     os.makedirs("game/data", exist_ok=True)
     os.makedirs("game/strokes", exist_ok=True)
     stats = {}
@@ -126,9 +126,13 @@ def main():
             z = (g1fix.get(c) or {}).get("zhuyin") if g == 1 else None
             z = z or v.get("zhuyin")
             if z and v.get("radical"):
+                # [注音, 部首, 筆畫, 字卡註記的另一種部首, 不出部首題]
                 info[c] = [z, v["radical"], strokes_of(c, v.get("strokes"), moe_count)]
-                if c in rad_alt:
-                    info[c].append(rad_alt[c])
+                if c in rad_tb["textbook"]:
+                    info[c][1:2] = [rad_tb["textbook"][c]]
+                    info[c].append(v["radical"])
+                elif c in rad_tb["unsure"]:
+                    info[c] += [rad_tb["unsure"][c], 1]
         out_lessons, wz = [], {}
         for l in ls:
             words = [w for w in l["words"] if all(c in info for c in w)]

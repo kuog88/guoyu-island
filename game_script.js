@@ -6,7 +6,7 @@ const BUILD = "__BUILD__";
 const ORDER = "ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙㄧㄨㄩㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥㄦ";
 const LOOKALIKE = {ㄅ:"ㄆㄉ",ㄆ:"ㄅㄊ",ㄇ:"ㄈㄋ",ㄈ:"ㄇㄏ",ㄉ:"ㄊㄅ",ㄊ:"ㄉㄆ",ㄋ:"ㄌㄇ",ㄌ:"ㄋㄖ",ㄍ:"ㄎㄏ",ㄎ:"ㄍㄏ",ㄏ:"ㄈㄎ",ㄐ:"ㄑㄓ",ㄑ:"ㄐㄔ",ㄒ:"ㄕㄙ",ㄓ:"ㄗㄐ",ㄔ:"ㄘㄑ",ㄕ:"ㄙㄒ",ㄖ:"ㄌㄦ",ㄗ:"ㄓㄘ",ㄘ:"ㄔㄗ",ㄙ:"ㄕㄒ",ㄧ:"ㄩㄨ",ㄨ:"ㄧㄩ",ㄩ:"ㄧㄨ",ㄚ:"ㄛㄜ",ㄛ:"ㄜㄡ",ㄜ:"ㄛㄝ",ㄝ:"ㄜㄟ",ㄞ:"ㄟㄠ",ㄟ:"ㄞㄝ",ㄠ:"ㄡㄞ",ㄡ:"ㄠㄛ",ㄢ:"ㄤㄣ",ㄣ:"ㄥㄢ",ㄤ:"ㄢㄥ",ㄥ:"ㄣㄤ",ㄦ:"ㄜㄖ"};
 const TONES = [{v:1,k:"ˉ",n:"一聲"},{v:2,k:"ˊ",n:"二聲"},{v:3,k:"ˇ",n:"三聲"},{v:4,k:"ˋ",n:"四聲"},{v:5,k:"˙",n:"輕聲"}];
-/* 字典部首用康熙部首，旁邊附上孩子在課本看到的偏旁寫法 */
+/* 部首以課本（康熙）歸部為準，旁邊附上孩子在課本看到的偏旁寫法 */
 const RAD_VAR = {水:"氵",手:"扌",人:"亻",心:"忄",艸:"艹",辵:"辶",阜:"阝左",邑:"阝右",犬:"犭",火:"灬",肉:"月",衣:"衤",示:"礻",玉:"王",刀:"刂",竹:"⺮",食:"飠",网:"罒",攴:"攵",牛:"牜",老:"耂",糸:"糹",言:"訁",金:"釒",足:"⻊",絲:"糸"};
 const radLabel = r => RAD_VAR[r] ? `${r}（${RAD_VAR[r]}）` : r;
 
@@ -408,8 +408,8 @@ function bossBank(lv){
   const rads = uniq(allGen.map(c => INFO[c][1]));
   for (const c of shuffle(lv.chars)){
     const r = INFO[c] && INFO[c][1];
-    if (!r || r === c || INFO[c][3]) continue; // 教育部和康熙部首不同的字不出題
-    const ds = shuffle(rads.filter(x => x !== r)).slice(0, 2);
+    if (!r || r === c || INFO[c][4]) continue; // 歸部無法確認的字不出題
+    const ds = shuffle(rads.filter(x => x !== r && x !== INFO[c][3])).slice(0, 2); // 教育部字典的歸部不當錯誤選項
     bank.radical.push({kind:"radical", t:c, opts:shuffle([r, ...ds]), ans:r});
   }
   const lw = lessonWords(lv);
@@ -816,7 +816,7 @@ function chest(){
     if (!b.classList.contains("open")){ b.classList.add("open"); burst(b); sfx("pop"); collect(c); save(); }
     left.delete(c); say(c);
     const ws = lessonWords(l).filter(w => w.includes(c)).concat(allWords.filter(w => w.includes(c))), d = document.getElementById("detail");
-    d.innerHTML = `<span class="bigchar">${esc(c)}</span><dl><dt>注音</dt><dd>${esc(zy(c))}</dd><dt>部首</dt><dd>${esc(radLabel(i[1]))}${i[3] ? `<span class="muted">（有的課本歸在「${i[3].map(esc).join("」「")}」部）</span>` : ""}</dd><dt>筆畫</dt><dd>${i[2]} 畫</dd>${ws.length ? `<dt>語詞</dt><dd>${uniq(ws).slice(0,3).map(w => rubyWord(w)).join("、")}</dd>` : ""}</dl>`;
+    d.innerHTML = `<span class="bigchar">${esc(c)}</span><dl><dt>注音</dt><dd>${esc(zy(c))}</dd><dt>部首</dt><dd>${esc(radLabel(i[1]))}${i[3] ? `<span class="muted">（${i[4] ? "也有字典歸在" : "教育部國語小字典歸在"}「${esc(i[3])}」部）</span>` : ""}</dd><dt>筆畫</dt><dd>${i[2]} 畫</dd>${ws.length ? `<dt>語詞</dt><dd>${uniq(ws).slice(0,3).map(w => rubyWord(w)).join("、")}</dd>` : ""}</dl>`;
     d.hidden = false;
     if (!left.size){ document.getElementById("next").hidden = false; document.getElementById("skip").hidden = true; setMsg("全部打開了！我們出發吧！"); }
   });

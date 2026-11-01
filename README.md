@@ -23,7 +23,7 @@
 | `lessons_115_1.json`、`lessons_114_2.json` | 各版本各課的生字、認讀字、語詞（教育百科生字詞彙表） |
 | `char_info_all.json`、`word_zy.json`、`char_info_g1.json` | 注音、部首、筆畫（教育部字典） |
 | `stroke_count.json` | 教育部筆順網的筆畫數（g0v/zh-stroke-data）；字卡筆畫和描寫筆數用它統一（`fetch_stroke_count.py`） |
-| `radical_alt.json` | 教育部字典和康熙字典歸部不同的字（例如最：冂／曰），字卡兩種都列、不出部首題（`make_radical_alt.py`） |
+| `radical_textbook.json` | 課本（康熙）歸部和教育部字典不同的字（例如最：曰，教育部歸冂），以課本為準出題、字卡註記教育部歸部 |
 | `strokes_g1.json` | 一年級筆順（Make Me a Hanzi 字形，依教育部筆順重新排序） |
 | `bank_g3.txt`～`bank_g6.txt` | 各年級共用題庫（成語、關聯詞、量詞、修辭、句子變身、標點、句意、換句話說），自編 |
 | `lessons_g{3-6}_{nani,kang,han}.txt` | 各版本各課的選詞填空、句子積木，自編 |
@@ -43,6 +43,6 @@ python build_game.py
 ## 資料來源與授權提醒
 
 - 課文生字、語詞：教育部教育百科「生字詞彙表」。
-- 注音、部首、筆畫：教育部字典；筆畫數以教育部筆順網為準；康熙部首比對用 Unicode Unihan。
+- 注音、部首、筆畫：教育部字典；筆畫數以教育部筆順網為準；部首以課本（康熙）歸部為準，比對用 Unicode Unihan 15.0 kRSKangXi。
 - 筆順字形：Make Me a Hanzi（hanzi-writer-data）；筆順順序參考 g0v/zh-stroke-data（教育部常用國字標準字體筆順）。正式商用前請向教育部確認授權。
 - 題庫、閱讀短文、句子都是自編，未使用課本原文或出版社試題。
