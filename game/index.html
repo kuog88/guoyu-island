@@ -459,7 +459,7 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 </style>
 
 <div id="app" aria-live="polite"></div>
-<button class="musicbtn" id="music" aria-label="背景音樂" aria-pressed="true">♪</button>
+<button class="musicbtn" id="music" aria-label="背景音樂" aria-pressed="false">♪</button>
 
 
 <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5.0/dist/hanzi-writer.min.js"></script>
@@ -468,7 +468,7 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 const PUB = {nani:"南一", kang:"康軒", han:"翰林"};
 const GRADE = ["", "一", "二", "三", "四", "五", "六"];
 const STORE = "guoyu-island-v3";
-const BUILD = "20261101195216";
+const BUILD = "20261101204552";
 const ORDER = "ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙㄧㄨㄩㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥㄦ";
 const LOOKALIKE = {ㄅ:"ㄆㄉ",ㄆ:"ㄅㄊ",ㄇ:"ㄈㄋ",ㄈ:"ㄇㄏ",ㄉ:"ㄊㄅ",ㄊ:"ㄉㄆ",ㄋ:"ㄌㄇ",ㄌ:"ㄋㄖ",ㄍ:"ㄎㄏ",ㄎ:"ㄍㄏ",ㄏ:"ㄈㄎ",ㄐ:"ㄑㄓ",ㄑ:"ㄐㄔ",ㄒ:"ㄕㄙ",ㄓ:"ㄗㄐ",ㄔ:"ㄘㄑ",ㄕ:"ㄙㄒ",ㄖ:"ㄌㄦ",ㄗ:"ㄓㄘ",ㄘ:"ㄔㄗ",ㄙ:"ㄕㄒ",ㄧ:"ㄩㄨ",ㄨ:"ㄧㄩ",ㄩ:"ㄧㄨ",ㄚ:"ㄛㄜ",ㄛ:"ㄜㄡ",ㄜ:"ㄛㄝ",ㄝ:"ㄜㄟ",ㄞ:"ㄟㄠ",ㄟ:"ㄞㄝ",ㄠ:"ㄡㄞ",ㄡ:"ㄠㄛ",ㄢ:"ㄤㄣ",ㄣ:"ㄥㄢ",ㄤ:"ㄢㄥ",ㄥ:"ㄣㄤ",ㄦ:"ㄜㄖ"};
 const TONES = [{v:1,k:"ˉ",n:"一聲"},{v:2,k:"ˊ",n:"二聲"},{v:3,k:"ˇ",n:"三聲"},{v:4,k:"ˋ",n:"四聲"},{v:5,k:"˙",n:"輕聲"}];
@@ -583,14 +583,14 @@ function duck(down){
   try { BGM.gain.gain.setTargetAtTime(down ? BGM.vol*.25 : BGM.vol, actx.currentTime, .15); } catch(e){}
 }
 const musicBtn = document.getElementById("music");
-function syncMusicBtn(){ if (musicBtn) musicBtn.setAttribute("aria-pressed", String(S.music !== false)); }
+function syncMusicBtn(){ if (musicBtn) musicBtn.setAttribute("aria-pressed", String(S.music === true)); }
 if (musicBtn) musicBtn.onclick = e => {
   e.stopPropagation();
-  S.music = S.music === false; save(); syncMusicBtn();
+  S.music = S.music !== true; save(); syncMusicBtn();
   S.music ? bgmStart() : bgmStop();
 };
-/* 瀏覽器規定要先點一下畫面才能出聲音 */
-document.addEventListener("pointerdown", () => { if (S.music !== false) bgmStart(); }, true);
+/* 預設不放音樂，按右下角 ♪ 才會開；打開過的話，下次點畫面時再接著放（瀏覽器規定要先點一下才能出聲音） */
+document.addEventListener("pointerdown", () => { if (S.music === true) bgmStart(); }, true);
 document.addEventListener("visibilitychange", () => {
   if (!actx) return;
   if (document.hidden) actx.suspend(); else if (BGM.on) actx.resume();

@@ -117,14 +117,14 @@ function duck(down){
   try { BGM.gain.gain.setTargetAtTime(down ? BGM.vol*.25 : BGM.vol, actx.currentTime, .15); } catch(e){}
 }
 const musicBtn = document.getElementById("music");
-function syncMusicBtn(){ if (musicBtn) musicBtn.setAttribute("aria-pressed", String(S.music !== false)); }
+function syncMusicBtn(){ if (musicBtn) musicBtn.setAttribute("aria-pressed", String(S.music === true)); }
 if (musicBtn) musicBtn.onclick = e => {
   e.stopPropagation();
-  S.music = S.music === false; save(); syncMusicBtn();
+  S.music = S.music !== true; save(); syncMusicBtn();
   S.music ? bgmStart() : bgmStop();
 };
-/* 瀏覽器規定要先點一下畫面才能出聲音 */
-document.addEventListener("pointerdown", () => { if (S.music !== false) bgmStart(); }, true);
+/* 預設不放音樂，按右下角 ♪ 才會開；打開過的話，下次點畫面時再接著放（瀏覽器規定要先點一下才能出聲音） */
+document.addEventListener("pointerdown", () => { if (S.music === true) bgmStart(); }, true);
 document.addEventListener("visibilitychange", () => {
   if (!actx) return;
   if (document.hidden) actx.suspend(); else if (BGM.on) actx.resume();
