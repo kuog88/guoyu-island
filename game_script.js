@@ -51,11 +51,15 @@ let voice = null, actx = null;
 function pickVoice(){ try { const vs = speechSynthesis.getVoices(); voice = vs.find(v => /zh[-_]TW/i.test(v.lang)) || vs.find(v => /zh/i.test(v.lang)) || null; } catch(e){} }
 if ("speechSynthesis" in window){ pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
 function say(text){
-  try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = "zh-TW"; u.rate = .8; if (voice) u.voice = voice; speechSynthesis.speak(u); } catch(e){}
+  try {
+    speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = "zh-TW"; u.rate = .8; if (voice) u.voice = voice;
+    duck(true); u.onend = u.onerror = () => duck(false);
+    speechSynthesis.speak(u);
+  } catch(e){}
 }
 function sfx(kind){
   try {
-    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    audio();
     const notes = {ok:[660,880], no:[220,180], pop:[900], win:[523,659,784,1046]}[kind];
     notes.forEach((f,i) => {
       const o = actx.createOscillator(), g = actx.createGain(), t = actx.currentTime + i*.11;
@@ -65,6 +69,68 @@ function sfx(kind){
     });
   } catch(e){}
 }
+/* 背景音樂：用 Web Audio 即時合成的輕柔循環（不用音樂檔，沒有版權問題）。
+   四個和弦一輪，每輪旋律從五聲音階隨機挑，聽起來不會一直重複。 */
+const BGM = {on:false, timer:null, bar:0, next:0, gain:null, vol:.07};
+const CHORDS = [[48,55,64,71],[45,52,60,67],[41,48,57,64],[43,50,59,65]]; // Cmaj7 Am7 Fmaj7 G7（MIDI）
+const PENTA = [60,62,64,67,69,72,74,76];
+const BEAT = 60/72;
+const hz = m => 440 * Math.pow(2, (m-69)/12);
+function audio(){ actx = actx || new (window.AudioContext || window.webkitAudioContext)(); return actx; }
+function tone(f, t, len, vol, type){
+  const o = actx.createOscillator(), g = actx.createGain();
+  o.type = type; o.frequency.value = f;
+  g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol, t + Math.min(.08, len/4));
+  g.gain.exponentialRampToValueAtTime(.0005, t + len);
+  o.connect(g).connect(BGM.gain); o.start(t); o.stop(t + len + .05);
+}
+function playBar(t){
+  const ch = CHORDS[BGM.bar % 4];
+  ch.forEach((m,i) => tone(hz(m), t + i*.04, BEAT*4.2, i ? .16 : .22, "sine"));          // 和弦墊底
+  [0,1,2,3].forEach(b => { if (Math.random() < .7) tone(hz(rand(PENTA)), t + b*BEAT + (Math.random() < .3 ? BEAT/2 : 0), BEAT*1.6, .2, "triangle"); }); // 旋律
+  tone(hz(ch[0]-12), t, BEAT*2, .25, "sine");                                             // 低音
+  BGM.bar++;
+}
+function bgmTick(){
+  while (BGM.next < actx.currentTime + 1.5){ playBar(BGM.next); BGM.next += BEAT*4; }
+}
+function bgmStart(){
+  try {
+    audio();
+    if (!BGM.gain){ BGM.gain = actx.createGain(); BGM.gain.gain.value = 0; BGM.gain.connect(actx.destination); }
+    if (actx.state === "suspended") actx.resume();
+    if (BGM.on) return;
+    BGM.on = true; BGM.next = actx.currentTime + .1;
+    BGM.gain.gain.cancelScheduledValues(actx.currentTime);
+    BGM.gain.gain.setTargetAtTime(BGM.vol, actx.currentTime, .8);
+    bgmTick(); BGM.timer = setInterval(bgmTick, 400);
+  } catch(e){}
+}
+function bgmStop(){
+  if (!BGM.on) return;
+  BGM.on = false; clearInterval(BGM.timer);
+  try { BGM.gain.gain.setTargetAtTime(0, actx.currentTime, .2); } catch(e){}
+}
+/* 唸題目時把音樂調小聲 */
+function duck(down){
+  if (!BGM.on) return;
+  try { BGM.gain.gain.setTargetAtTime(down ? BGM.vol*.25 : BGM.vol, actx.currentTime, .15); } catch(e){}
+}
+const musicBtn = document.getElementById("music");
+function syncMusicBtn(){ if (musicBtn) musicBtn.setAttribute("aria-pressed", String(S.music !== false)); }
+if (musicBtn) musicBtn.onclick = e => {
+  e.stopPropagation();
+  S.music = S.music === false; save(); syncMusicBtn();
+  S.music ? bgmStart() : bgmStop();
+};
+/* 瀏覽器規定要先點一下畫面才能出聲音 */
+document.addEventListener("pointerdown", () => { if (S.music !== false) bgmStart(); }, true);
+document.addEventListener("visibilitychange", () => {
+  if (!actx) return;
+  if (document.hidden) actx.suspend(); else if (BGM.on) actx.resume();
+});
+syncMusicBtn();
+
 function burst(el){
   if (!el) return;
   const r = el.getBoundingClientRect(), box = document.createElement("div");

@@ -453,9 +453,13 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 .pick.right{border-color:var(--ok)!important;background:var(--ok-bg)!important;color:var(--ok)}
 .pick.wrong{border-color:var(--bad)!important;background:var(--bad-bg)!important;color:var(--bad);animation:shake .3s}
 @media (min-width:700px){.boxes .pick{font-size:32px;min-height:100px}.longs .pick{font-size:25px}}
+.musicbtn{position:fixed;right:max(12px,env(safe-area-inset-right,0px));bottom:max(12px,env(safe-area-inset-bottom,0px));z-index:50;width:48px;height:48px;border-radius:50%;background:var(--card);border:2px solid var(--line);font-size:22px;display:grid;place-items:center;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.musicbtn[aria-pressed="false"]{opacity:.55}
+.musicbtn[aria-pressed="false"]::after{content:"";position:absolute;width:30px;height:3px;border-radius:2px;background:var(--soft);transform:rotate(-45deg)}
 </style>
 
 <div id="app" aria-live="polite"></div>
+<button class="musicbtn" id="music" aria-label="背景音樂" aria-pressed="true">♪</button>
 
 
 <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5.0/dist/hanzi-writer.min.js"></script>
