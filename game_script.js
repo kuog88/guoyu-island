@@ -246,11 +246,11 @@ function map(switched){
   const cardCount = S.cards.filter(c => mine.has(c)).length;
   const carried = switched ? Object.keys(S.mastery).filter(c => known(c) && mine.has(c)) : [];
   render(`
-    <div class="mapbar"><span class="chip ${S.version}">${GRADE[DATA.grade]}年級・${PUB[S.version]}版</span>
+    <div class="mapbar"><button class="btn small" id="settings">← 國文首頁</button>
+      <span class="chip ${S.version}">${GRADE[DATA.grade]}年級・${PUB[S.version]}版</span>
       <span class="spacer"></span>
       <button class="btn small" id="dex">字卡 ${cardCount}/${mine.size}</button>
-      <button class="btn small" id="report">家長報表</button>
-      <button class="btn small" id="settings">設定</button></div>
+      <button class="btn small" id="report">家長報表</button></div>
     <div class="tabs">${Object.entries(rg).map(([k,r]) => `<button class="tab" data-r="${k}" aria-pressed="${S.range===k}"><b>${r.name}</b><span>${r.sub}</span></button>`).join("")}</div>
     ${carried.length ? `<div class="carry">換到${PUB[S.version]}版：你已經會 ${carried.length} 個字了，這些字的題目會變少。</div>` : ""}
     <div class="map" id="map">${lv.map((l,i) => {
