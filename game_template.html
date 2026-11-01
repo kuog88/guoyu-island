@@ -1,0 +1,464 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>國語闖關島</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+/* Layout: 手機優先的單欄 App。設定 → 島嶼地圖（之字形路徑）→ 課關卡（四站）→ 結算。 */
+:root{
+  --sea:#e3f1f4; --sea-deep:#bfe0e7; --sand:#fffaf0; --card:#ffffff; --ink:#1d2b33; --soft:#5b6b73; --line:#d4e3e7;
+  --coral:#e5533d; --coral-ink:#ffffff; --ok:#1f9d6b; --ok-bg:#dff5ea; --bad:#d64545; --bad-bg:#fde6e3; --star:#f2a516;
+  --nani:#c2410c; --nani-bg:#fdeee5; --kang:#1d4ed8; --kang-bg:#e8eefc; --han:#047857; --han-bg:#e2f4ec;
+  --kai:"DFKai-SB","BiauKai","TW-Kai","LXGW WenKai TC","KaiTi",serif;
+  --ui:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --sea:#0f2329; --sea-deep:#16323a; --sand:#14252b; --card:#1b2f36; --ink:#e7f1f3; --soft:#9fb4bb; --line:#2a454d;
+  --coral:#ff7a63; --coral-ink:#1b0e0b; --ok:#4fd1a1; --ok-bg:#16382c; --bad:#ff8a80; --bad-bg:#3d1d1b; --star:#ffc24b;
+  --nani:#fb923c; --nani-bg:#3a2216; --kang:#7ea4ff; --kang-bg:#1b2645; --han:#4fd1a1; --han-bg:#153328; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --sea:#0f2329; --sea-deep:#16323a; --sand:#14252b; --card:#1b2f36; --ink:#e7f1f3; --soft:#9fb4bb; --line:#2a454d;
+  --coral:#ff7a63; --coral-ink:#1b0e0b; --ok:#4fd1a1; --ok-bg:#16382c; --bad:#ff8a80; --bad-bg:#3d1d1b; --star:#ffc24b;
+  --nani:#fb923c; --nani-bg:#3a2216; --kang:#7ea4ff; --kang-bg:#1b2645; --han:#4fd1a1; --han-bg:#153328; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{background:var(--sea);color:var(--ink);font-family:var(--ui);font-size:16px;line-height:1.6}
+#app{max-width:720px;margin:0 auto;min-height:100%;padding-block:16px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:20px;align-content:start}
+h1,h2,h3{margin:0;text-wrap:balance;line-height:1.3}
+h1{font-family:var(--kai);font-size:34px;font-weight:700}
+h2{font-size:20px;font-weight:900}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+button:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
+.muted{color:var(--soft);font-size:14px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.spacer{flex:1}
+.btn{min-height:48px;padding:10px 20px;border-radius:14px;font-weight:700;background:var(--card);border:2px solid var(--line)}
+.btn.primary{background:var(--coral);color:var(--coral-ink);border-color:var(--coral)}
+.btn.small{min-height:36px;padding:4px 12px;font-size:14px;border-radius:10px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:2px 10px;border-radius:999px;font-size:13px;font-weight:700}
+.chip.nani{background:var(--nani-bg);color:var(--nani)} .chip.kang{background:var(--kang-bg);color:var(--kang)} .chip.han{background:var(--han-bg);color:var(--han)}
+.panel{background:var(--sand);border:2px solid var(--line);border-radius:20px;padding:20px;display:grid;gap:16px}
+
+/* 設定 */
+.hero{display:grid;gap:6px;padding-top:8px}
+.vers{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.ver{display:grid;gap:4px;text-align:left;padding:16px;border-radius:16px;background:var(--card);border:3px solid var(--line);min-width:0}
+.ver b{font-size:22px;font-family:var(--kai)}
+.ver.nani b{color:var(--nani)} .ver.kang b{color:var(--kang)} .ver.han b{color:var(--han)}
+.ver[aria-pressed="true"].nani{border-color:var(--nani);background:var(--nani-bg)}
+.ver[aria-pressed="true"].kang{border-color:var(--kang);background:var(--kang-bg)}
+.ver[aria-pressed="true"].han{border-color:var(--han);background:var(--han-bg)}
+.lessonpick{display:grid;gap:8px}
+.lp{display:flex;gap:12px;align-items:center;text-align:left;padding:10px 14px;border-radius:12px;background:var(--card);border:2px solid var(--line)}
+.lp[aria-pressed="true"]{border-color:var(--coral);box-shadow:0 0 0 2px var(--coral) inset}
+.lp .n{font-variant-numeric:tabular-nums;color:var(--soft);font-size:14px;min-width:48px}
+.lp .t{font-family:var(--kai);font-size:19px}
+
+/* 地圖 */
+.mapbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:var(--card);border-radius:16px;padding:10px 14px;border:2px solid var(--line)}
+.carry{background:var(--ok-bg);color:var(--ok);border-radius:14px;padding:10px 14px;font-weight:700;font-size:15px}
+.map{display:grid;gap:6px;padding-block:8px;position:relative}
+.node{display:grid;grid-template-columns:72px 1fr;gap:14px;align-items:center;width:min(100%,420px);text-align:left;padding:10px 14px 10px 10px;border-radius:22px;background:var(--card);border:3px solid var(--line);position:relative}
+.node:nth-child(4n+2){margin-left:12%} .node:nth-child(4n+3){margin-left:24%} .node:nth-child(4n){margin-left:12%}
+@media (max-width:480px){.node:nth-child(4n+2),.node:nth-child(4n){margin-left:6%}.node:nth-child(4n+3){margin-left:12%}.node{width:88%}}
+.island{width:72px;height:72px;border-radius:50% 50% 46% 54%/55% 50% 50% 45%;display:grid;place-items:center;font-family:var(--kai);font-size:30px;font-weight:700;background:var(--sea-deep);color:var(--ink)}
+.node.done .island{background:var(--ok-bg);color:var(--ok)}
+.node.cur{border-color:var(--coral)}
+.node.cur .island{background:var(--coral);color:var(--coral-ink)}
+.node[disabled]{opacity:.5;cursor:not-allowed}
+.node .ttl{font-family:var(--kai);font-size:20px;line-height:1.3}
+.node .meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:13px;color:var(--soft)}
+.stars{color:var(--star);letter-spacing:2px;font-size:15px}
+.stars .off{color:var(--line)}
+.meter{height:6px;border-radius:3px;background:var(--sea-deep);overflow:hidden;width:90px}
+.meter i{display:block;height:100%;background:var(--ok)}
+.tagpre{background:var(--coral);color:var(--coral-ink);border-radius:6px;padding:0 6px;font-size:12px;font-weight:700}
+
+/* 關卡 */
+.top{display:flex;align-items:center;gap:10px}
+.steps{display:flex;gap:6px;flex:1;justify-content:center}
+.steps span{height:8px;flex:1;max-width:60px;border-radius:4px;background:var(--sea-deep)}
+.steps span.on{background:var(--coral)} .steps span.ok{background:var(--ok)}
+.stname{font-weight:900;font-size:15px;color:var(--soft);text-align:center}
+.qcard{background:var(--sand);border-radius:24px;border:2px solid var(--line);padding:24px 16px;display:grid;gap:20px;justify-items:center;text-align:center}
+.prompt{font-size:18px;font-weight:700}
+.bigchar{font-family:var(--kai);font-size:clamp(96px,26vw,140px);line-height:1}
+.speak{display:inline-flex;align-items:center;gap:8px;min-height:56px;padding:8px 22px;border-radius:999px;background:var(--card);border:2px solid var(--line);font-weight:700;font-size:18px}
+.speak svg{width:24px;height:24px}
+.zy{font-family:var(--kai);font-size:28px;letter-spacing:2px}
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%}
+.opt{min-height:96px;border-radius:20px;background:var(--card);border:3px solid var(--line);font-family:var(--kai);font-size:52px;display:grid;place-items:center;transition:transform .12s}
+.opt.zyo{font-size:26px;letter-spacing:2px}
+.opt:active{transform:scale(.96)}
+.opt.right{background:var(--ok-bg);border-color:var(--ok);color:var(--ok)}
+.opt.wrong{background:var(--bad-bg);border-color:var(--bad);color:var(--bad);animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.sentence{font-family:var(--kai);font-size:clamp(30px,8vw,40px);line-height:2;text-align:left;max-width:100%}
+/* 課本式直排注音：字的右邊一欄注音，聲調符號放在右側中間，輕聲點在最上面 */
+.zc{display:inline-flex;align-items:center;margin-right:.08em;vertical-align:middle}
+.bpmf{display:inline-flex;flex-direction:column;align-items:center;font-size:.42em;line-height:1;position:relative;padding-right:.55em;margin-left:.05em;color:var(--soft)}
+.bpmf i{font-style:normal}
+.bpmf .tn{position:absolute;right:0;top:50%;transform:translateY(-50%)}
+.blank{display:inline-block;min-width:1em;border-bottom:4px solid var(--coral);color:var(--coral);text-align:center;line-height:1.2}
+.feedback{min-height:28px;font-weight:900;font-size:18px}
+.feedback.ok{color:var(--ok)} .feedback.no{color:var(--bad)}
+
+/* 認識新字 */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:10px;width:100%}
+.ccard{display:grid;justify-items:center;gap:2px;padding:10px 4px;border-radius:16px;background:var(--card);border:2px solid var(--line)}
+.ccard b{font-family:var(--kai);font-size:44px;line-height:1.1;font-weight:400}
+.ccard span{font-family:var(--kai);font-size:16px;color:var(--soft)}
+.ccard.read{border-style:dashed}
+.ccard[aria-pressed="true"]{border-color:var(--coral)}
+.detail{width:100%;background:var(--card);border-radius:16px;padding:14px 16px;display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;text-align:left;border:2px solid var(--line)}
+.detail .bigchar{font-size:84px}
+.detail dl{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;margin:0;font-size:15px}
+.detail dt{color:var(--soft)} .detail dd{margin:0;font-family:var(--kai);font-size:18px}
+
+/* 結算 */
+.result{display:grid;gap:14px;justify-items:center;text-align:center}
+.bigstars{font-size:56px;color:var(--star);letter-spacing:6px}
+.bigstars .off{color:var(--line)}
+.learned{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;font-family:var(--kai);font-size:28px}
+.learned span{padding:2px 10px;border-radius:10px;background:var(--ok-bg);color:var(--ok)}
+.learned span.weak{background:var(--bad-bg);color:var(--bad)}
+@media (prefers-reduced-motion:reduce){.opt{transition:none}.opt.wrong{animation:none}}
+
+/* 月考範圍分頁 */
+.tabs{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px}
+.tab{padding:10px 12px;border-radius:14px;background:var(--card);border:2px solid var(--line);text-align:left;display:grid;gap:0}
+.tab b{font-size:16px} .tab span{font-size:13px;color:var(--soft)}
+.tab[aria-pressed="true"]{border-color:var(--coral);box-shadow:0 0 0 2px var(--coral) inset}
+.ranges{display:grid;gap:10px}
+.range{display:grid;gap:2px;text-align:left;padding:14px 16px;border-radius:14px;background:var(--card);border:2px solid var(--line)}
+.range b{font-size:18px}
+.range[aria-pressed="true"]{border-color:var(--coral);box-shadow:0 0 0 2px var(--coral) inset}
+.node .island.zyi{font-size:34px}
+
+/* 點注音鍵盤 */
+.spell{display:flex;align-items:center;justify-content:center;gap:18px}
+.slots{display:flex;align-items:center;gap:6px}
+.slotcol{display:grid;gap:6px}
+.slot{width:56px;height:56px;border-radius:12px;border:3px dashed var(--line);background:var(--card);font-family:var(--kai);font-size:34px;display:grid;place-items:center;line-height:1}
+.slot.filled{border-style:solid;border-color:var(--kang)}
+.slot.locked{border-style:solid;border-color:var(--line);color:var(--soft)}
+.slot.next{border-color:var(--coral)}
+.slot.right{border-color:var(--ok);background:var(--ok-bg);color:var(--ok)}
+.slot.wrong{border-color:var(--bad);background:var(--bad-bg);color:var(--bad);animation:shake .3s}
+.slot.tone{width:44px;height:44px;font-size:30px}
+.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;width:100%}
+.key{min-height:64px;border-radius:16px;background:var(--card);border:3px solid var(--line);font-family:var(--kai);font-size:36px;display:grid;place-items:center}
+.key:active{transform:scale(.95)}
+.tones{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;width:100%}
+.tkey{min-height:60px;border-radius:14px;background:var(--sea-deep);border:3px solid transparent;display:grid;place-items:center;gap:0;line-height:1.1;padding:4px}
+.tkey b{font-family:var(--kai);font-size:30px;font-weight:400}
+.tkey span{font-size:12px;color:var(--soft)}
+.keyrow{display:flex;gap:10px;justify-content:center;width:100%}
+.key:disabled,.tkey:disabled{opacity:.35}
+
+/* ===== 互動小遊戲 ===== */
+:root{--shadow:rgba(20,50,60,.15);--water:#9fd3e0;--water2:#7cc3d4;--grass:#9ccf7a;--rock:#c9bba2;--boss:#7b5cc4;--plank:#e0ab72}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--shadow:rgba(0,0,0,.35);--water:#1d4a57;--water2:#235866;--grass:#3f6b3a;--rock:#7a6f5c;--boss:#a98bff;--plank:#a8743f}}
+:root[data-theme="dark"]{--shadow:rgba(0,0,0,.35);--water:#1d4a57;--water2:#235866;--grass:#3f6b3a;--rock:#7a6f5c;--boss:#a98bff;--plank:#a8743f}
+.stage{position:relative;border-radius:24px;overflow:hidden;border:2px solid var(--line);background:var(--sand);display:grid;gap:14px;padding:16px 12px;justify-items:center;text-align:center}
+.bubble{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:8px 14px;font-weight:700;max-width:100%}
+.say{display:flex;align-items:center;gap:10px;justify-content:center}
+.avatar{width:52px;height:60px;flex:none}
+.avatar.jump{animation:jump .5s}
+@keyframes jump{40%{transform:translateY(-16px)}}
+
+/* 寶箱 */
+.chests{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:12px;width:100%}
+.chest{position:relative;height:96px;border-radius:14px;background:var(--plank);border:3px solid rgba(0,0,0,.15);display:grid;place-items:center;overflow:hidden;transition:transform .15s}
+.chest::before{content:"";position:absolute;inset:0 0 auto;height:42%;background:rgba(0,0,0,.12);border-bottom:3px solid rgba(0,0,0,.15);transition:transform .35s;transform-origin:top}
+.chest::after{content:"";position:absolute;width:14px;height:18px;border-radius:4px;background:var(--star);top:34%;left:50%;transform:translateX(-50%)}
+.chest b{opacity:0;font-family:var(--kai);font-size:44px;font-weight:400;line-height:1;transition:opacity .3s .15s;color:var(--ink)}
+.chest small{position:absolute;bottom:4px;font-family:var(--kai);font-size:14px;color:var(--soft);opacity:0}
+.chest.open{background:var(--card)}
+.chest.open::before{transform:scaleY(.12)}
+.chest.open::after{display:none}
+.chest.open b,.chest.open small{opacity:1}
+.chest:not(.open):hover{transform:translateY(-3px)}
+
+/* 氣球 */
+.sky{width:100%;height:290px;position:relative;background:linear-gradient(var(--sea),var(--sand));border-radius:18px}
+.balloon{position:absolute;width:96px;display:grid;justify-items:center;animation:bob 3s ease-in-out infinite}
+.balloon .ball{width:96px;height:112px;border-radius:50% 50% 48% 52%/55% 55% 45% 45%;display:grid;place-items:center;font-family:var(--kai);font-size:50px;color:#fff;box-shadow:inset -10px -12px 0 rgba(0,0,0,.12)}
+.balloon .str{width:2px;height:40px;background:var(--soft)}
+.balloon.pop{animation:pop .4s forwards}
+.balloon.no{animation:wobble .4s}
+@keyframes bob{50%{transform:translateY(-14px)}}
+@keyframes pop{to{transform:scale(1.6);opacity:0}}
+@keyframes wobble{25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}
+
+/* 撈魚拼注音 */
+.pond{width:100%;background:linear-gradient(var(--water),var(--water2));border-radius:18px;padding:14px 10px;display:grid;gap:14px}
+.boat{justify-self:center;display:flex;align-items:center;gap:14px;background:var(--sand);border-radius:18px 18px 44px 44px;padding:10px 22px 14px;border:4px solid var(--plank)}
+.boat .bigchar{font-size:84px}
+.slots{display:flex;align-items:center;gap:6px}
+.slotcol{display:grid;gap:6px}
+.slot{width:52px;height:52px;border-radius:12px;border:3px dashed var(--soft);background:var(--card);font-family:var(--kai);font-size:32px;display:grid;place-items:center;line-height:1;padding:0}
+.slot.filled{border-style:solid;border-color:var(--kang)}
+.slot.locked{border-style:solid;border-color:var(--line);color:var(--soft)}
+.slot.next{border-color:var(--coral);border-style:solid}
+.slot.right{border-color:var(--ok);background:var(--ok-bg);color:var(--ok)}
+.slot.wrong{border-color:var(--bad);background:var(--bad-bg);color:var(--bad);animation:shake .3s}
+.slot.tone{width:42px;height:42px;font-size:28px}
+.fishes{display:grid;grid-template-columns:repeat(4,1fr);gap:10px 8px}
+.fish{position:relative;height:62px;display:grid;place-items:center;animation:swim 2.4s ease-in-out infinite}
+.fish:nth-child(2n){animation-delay:-1.2s}
+.fish:nth-child(3n){animation-duration:2.9s}
+.fish svg{position:absolute;inset:0;width:100%;height:100%}
+.fish span{position:relative;font-family:var(--kai);font-size:32px;color:#1d2b33;margin-left:14%}
+.fish.caught{animation:caught .45s forwards}
+.fish.away{animation:away .5s}
+@keyframes swim{50%{transform:translateX(6px) rotate(-3deg)}}
+@keyframes caught{to{transform:translateY(-60px) scale(.4);opacity:0}}
+@keyframes away{50%{transform:translateX(30px)}}
+.shells{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.shell{min-height:62px;border-radius:50% 50% 14px 14px;background:var(--sand);border:3px solid var(--rock);display:grid;place-items:center;line-height:1.05;padding:4px}
+.shell b{font-family:var(--kai);font-size:30px;font-weight:400}
+.shell span{font-size:11px;color:var(--soft)}
+.shell:disabled,.fish:disabled{opacity:.35}
+.tools{display:flex;gap:10px;justify-content:center}
+
+/* 修橋 */
+.river{width:100%;position:relative;background:linear-gradient(var(--sea) 0 58%,var(--water) 58%);border-radius:18px;padding:84px 8px 26px;overflow:hidden}
+.bridge{display:flex;align-items:flex-end;justify-content:center;gap:4px}
+.cliffL,.cliffR{width:34px;height:96px;background:var(--grass);border-radius:10px 10px 0 0;flex:none}
+.plank{min-width:64px;height:84px;background:var(--plank);border-radius:8px;display:grid;place-items:center;border:3px solid rgba(0,0,0,.12);padding:0 4px}
+.plank .sentence{font-size:34px;line-height:1}
+.plank.gap{background:transparent;border:3px dashed var(--ink)}
+.plank.fill{animation:dropin .35s}
+@keyframes dropin{from{transform:translateY(-40px);opacity:0}}
+.walker{position:absolute;top:22px;left:10px;width:46px;height:54px;transition:left 1.4s ease-in-out}
+.stones{display:flex;gap:14px;justify-content:center}
+.stone{width:92px;height:76px;border-radius:46% 54% 40% 60%/55% 45% 55% 45%;background:var(--rock);font-family:var(--kai);font-size:40px;display:grid;place-items:center;color:var(--ink)}
+.stone.sink{animation:sink .6s forwards}
+@keyframes sink{to{transform:translateY(80px);opacity:0}}
+
+/* 魔王 */
+.arena{width:100%;display:grid;gap:12px;justify-items:center;background:linear-gradient(var(--sea-deep),var(--sand));border-radius:18px;padding:14px 8px}
+.bossrow{display:flex;align-items:center;gap:14px;justify-content:center;width:100%}
+.boss{width:116px;height:106px;flex:none;color:var(--boss)}
+.boss.hit{animation:hit .5s}
+.boss.laugh{animation:laugh .6s}
+.boss.dead{animation:dead .8s forwards}
+@keyframes hit{20%{transform:translateX(-10px) rotate(-8deg);filter:brightness(1.6)}60%{transform:translateX(8px)}}
+@keyframes laugh{25%,75%{transform:scale(1.1,.9)}50%{transform:scale(.95,1.08)}}
+@keyframes dead{to{transform:scale(.2) rotate(200deg);opacity:0}}
+.hp{display:flex;gap:4px;width:150px}
+.hp i{flex:1;height:12px;border-radius:3px;background:var(--boss)}
+.hp i.gone{background:var(--line)}
+.hearts{font-size:24px;color:var(--bad);letter-spacing:4px}
+.hearts .off{color:var(--line)}
+.scroll{background:var(--sand);border:3px solid var(--plank);border-radius:14px;padding:8px 14px;max-width:100%}
+.magic{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.star{width:96px;height:92px;clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);background:var(--star);font-family:var(--kai);font-size:34px;display:grid;place-items:center;padding-top:12px;color:#3a2a00}
+.star.fly{animation:fly .5s forwards}
+.star.dud{animation:wobble .4s;opacity:.35}
+@keyframes fly{to{transform:translate(0,-160px) scale(.3) rotate(180deg);opacity:0}}
+
+/* 地圖、圖鑑、月考範圍 */
+.tabs{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px}
+.tab{padding:10px 12px;border-radius:14px;background:var(--card);border:2px solid var(--line);text-align:left;display:grid}
+.tab b{font-size:16px}
+.tab span{font-size:13px;color:var(--soft)}
+.tab[aria-pressed="true"]{border-color:var(--coral);box-shadow:0 0 0 2px var(--coral) inset}
+.ranges{display:grid;gap:10px}
+.range{display:grid;gap:2px;text-align:left;padding:14px 16px;border-radius:14px;background:var(--card);border:2px solid var(--line)}
+.range b{font-size:18px}
+.range[aria-pressed="true"]{border-color:var(--coral);box-shadow:0 0 0 2px var(--coral) inset}
+.mapavatar{position:absolute;width:44px;height:50px;transition:top .5s ease,left .5s ease;z-index:2;pointer-events:none}
+.dex{display:grid;grid-template-columns:repeat(auto-fill,minmax(60px,1fr));gap:8px}
+.dex span{aspect-ratio:1;border-radius:12px;background:var(--card);border:2px solid var(--line);display:grid;place-items:center;font-family:var(--kai);font-size:32px}
+.dex span.no{color:transparent;background:var(--sea-deep);border-style:dashed}
+.burst{position:fixed;pointer-events:none;inset:0;z-index:20}
+.burst i{position:absolute;width:10px;height:10px;border-radius:50%;animation:burst .7s forwards}
+@keyframes burst{to{transform:translate(var(--x),var(--y)) scale(.3);opacity:0}}
+@media (prefers-reduced-motion:reduce){.balloon,.fish{animation:none!important}.walker,.mapavatar{transition:none}}
+
+/* 描一描：田字格寫字板 */
+.pad{position:relative;border-radius:18px;background:var(--card);border:4px solid var(--coral);touch-action:none;margin:0 auto}
+.pad::before,.pad::after{content:"";position:absolute;pointer-events:none;border-color:var(--line);border-style:dashed}
+.pad::before{left:50%;top:0;bottom:0;border-left-width:2px;border-right:0;border-top:0;border-bottom:0}
+.pad::after{top:50%;left:0;right:0;border-top-width:2px;border-left:0;border-right:0;border-bottom:0}
+.pad svg{position:relative;z-index:1;display:block}
+.gems{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:100%}
+.gems i{width:18px;height:18px;border-radius:50%;background:var(--sea-deep);transition:background .2s,transform .2s}
+.gems i.lit{background:var(--star);transform:scale(1.15)}
+.writehead{display:flex;align-items:center;gap:14px;justify-content:center}
+.writehead .bigchar{font-size:64px}
+.dex button{all:unset;cursor:pointer}
+.dex button span{aspect-ratio:1;border-radius:12px;background:var(--card);border:2px solid var(--line);display:grid;place-items:center;font-family:var(--kai);font-size:32px}
+.dex button:focus-visible span{outline:3px solid var(--coral)}
+
+/* 手機、平板優先：防止誤觸縮放、選取文字 */
+button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.stage,.map,.tabs{-webkit-user-select:none;user-select:none}
+@media (min-width:700px){
+  #app{max-width:860px;gap:24px}
+  body{font-size:18px}
+  .btn{min-height:56px;font-size:18px}
+  .bubble{font-size:20px}
+  .avatar{width:64px;height:74px}
+  .node{width:min(100%,520px)}
+  .node .ttl{font-size:24px}
+  .island{width:84px;height:84px}
+  .chests{grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}
+  .chest{height:120px}
+  .chest b{font-size:56px}
+  .sky{height:360px}
+  .balloon{transform-origin:bottom}
+  .balloon .ball{width:120px;height:140px;font-size:64px}
+  .fishes{gap:16px 14px}
+  .fish{height:80px}
+  .fish span{font-size:40px}
+  .slot{width:64px;height:64px;font-size:40px}
+  .slot.tone{width:52px;height:52px}
+  .boat .bigchar{font-size:110px}
+  .shell{min-height:76px}
+  .stone{width:120px;height:96px;font-size:52px}
+  .plank{min-width:84px;height:100px}
+  .plank .sentence{font-size:44px}
+  .star{width:120px;height:114px;font-size:44px}
+  .boss{width:150px;height:138px}
+  .sentence{font-size:44px}
+}
+@media (min-width:700px) and (orientation:landscape){
+  #app{max-width:1000px}
+  .pond{grid-template-columns:auto 1fr;align-items:center}
+  .pond .shells,.pond .tools{grid-column:1 / -1}
+}
+
+/* 年級選擇、魔王關的語詞寶石選項 */
+.grades{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.gbtn{min-height:56px;border-radius:14px;background:var(--card);border:2px solid var(--line);font-weight:900;font-size:18px}
+.gbtn[aria-pressed="true"]{border-color:var(--coral);box-shadow:0 0 0 2px var(--coral) inset;color:var(--coral)}
+.gem{min-width:104px;min-height:64px;padding:8px 18px;border-radius:14px;background:var(--star);color:#3a2a00;font-family:var(--kai);font-size:28px;clip-path:polygon(8% 0,92% 0,100% 50%,92% 100%,8% 100%,0 50%)}
+.gem.fly{animation:fly .5s forwards}
+.gem.dud{animation:wobble .4s;opacity:.35}
+.magic{max-width:100%}
+.chest.rc{border-style:dashed}
+@media (max-width:420px){.plank{min-width:52px;height:76px}.plank .sentence{font-size:28px}.gem{font-size:24px;min-width:90px}}
+@media (min-width:700px){.gem{font-size:36px;min-height:80px;min-width:140px}.gbtn{min-height:68px;font-size:22px}}
+
+/* 漂流瓶閱讀 */
+.sea{width:100%;border-radius:18px;background:linear-gradient(var(--sea) 0%,var(--water) 100%);padding:16px 12px;display:grid;gap:12px;justify-items:center;min-height:140px}
+.bottle{width:150px;height:96px;position:relative;animation:bob 2.6s ease-in-out infinite}
+.bottle span{position:absolute;inset:18px 10px 18px 34px;border-radius:30px 40px 40px 30px;background:rgba(255,255,255,.55);border:3px solid rgba(29,43,51,.35)}
+.bottle span::before{content:"";position:absolute;left:-30px;top:16px;width:30px;height:22px;border-radius:6px 0 0 6px;background:var(--plank)}
+.bottle span::after{content:"";position:absolute;inset:12px 16px;border-radius:4px;background:var(--sand);transform:rotate(-6deg)}
+.bottle.opened{animation:pop .45s forwards}
+.letter{max-height:46vh;overflow-y:auto;background:var(--sand);border:2px solid var(--plank);border-radius:6px 6px 14px 14px;padding:14px 16px;text-align:left;max-width:640px;width:100%;box-shadow:0 4px 0 var(--shadow);background-image:repeating-linear-gradient(transparent 0 33px,var(--line) 33px 34px)}
+.letter h3{font-family:var(--kai);font-size:22px;text-align:center;margin-bottom:6px}
+.letter p{font-family:var(--kai);font-size:20px;line-height:34px;text-indent:2em;margin:0}
+.treasure{display:flex;gap:10px;justify-content:center}
+.treasure i{width:26px;height:26px;transform:rotate(45deg);border-radius:4px;background:var(--sea-deep)}
+.treasure i.lit{background:var(--star);box-shadow:0 0 10px var(--star)}
+.rq{width:100%;max-width:640px;display:grid;gap:10px;text-align:left}
+.qtext{font-weight:900;font-size:18px}
+.answers{display:grid;gap:10px}
+.ansbtn{display:flex;gap:12px;align-items:center;text-align:left;min-height:56px;padding:10px 14px;border-radius:14px;background:var(--card);border:3px solid var(--line);font-size:17px}
+.ansbtn b{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--sea-deep);font-size:14px}
+.ansbtn.right{border-color:var(--ok);background:var(--ok-bg);color:var(--ok)}
+.ansbtn.wrong{border-color:var(--bad);background:var(--bad-bg);color:var(--bad);animation:shake .3s}
+@media (min-width:700px){.letter p{font-size:24px;line-height:40px}.letter{background-image:repeating-linear-gradient(transparent 0 39px,var(--line) 39px 40px)}.qtext{font-size:22px}.ansbtn{font-size:20px;min-height:68px}}
+.letter{background-attachment:local}
+
+/* 家長報表 */
+.rep{gap:12px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.kpis div{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:10px 12px;display:grid}
+.kpis b{font-size:28px;font-weight:900;font-variant-numeric:tabular-nums;line-height:1.2}
+.kpis small{font-size:15px;color:var(--soft);font-weight:700}
+.kpis span{font-size:13px;color:var(--soft)}
+.rcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.rcard{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;gap:8px;align-content:start;min-width:0}
+.kv{display:grid;grid-template-columns:auto 1fr auto 1fr;gap:4px 8px;font-size:14px;align-items:baseline}
+.kv span{color:var(--soft)} .kv b{font-variant-numeric:tabular-nums}
+.meter.wide{width:100%;height:10px;border-radius:5px}
+.meter i.low{background:var(--bad)}
+.wchips{display:flex;flex-wrap:wrap;gap:6px}
+.wchips span{font-family:var(--kai);font-size:24px;padding:0 10px;border-radius:10px;background:var(--bad-bg);color:var(--bad)}
+.rep .tbl{overflow-x:auto;border:2px solid var(--line);border-radius:14px;background:var(--card)}
+.rep table{border-collapse:collapse;width:100%;min-width:520px;font-size:15px}
+.rep th,.rep td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+.rep tr:last-child td{border-bottom:0}
+.rep th{font-size:13px;color:var(--soft)}
+.rep td.c,.rep th.c{text-align:right;font-variant-numeric:tabular-nums}
+.rep td.big{font-family:var(--kai);font-size:28px}
+.rep .bad{color:var(--bad);font-weight:700}
+.bars{display:grid;gap:8px}
+.brow{display:grid;grid-template-columns:7em 1fr 3.2em 4em;gap:10px;align-items:center;font-size:14px}
+.brow b{text-align:right;font-variant-numeric:tabular-nums}
+.btn.danger{background:var(--bad);border-color:var(--bad);color:#fff}
+@media (max-width:480px){.brow{grid-template-columns:6em 1fr 3em}.brow .muted{display:none}}
+
+/* 三年級以上的句式關卡 */
+.ctext{font-family:var(--kai);font-size:24px;line-height:2;text-align:left;margin:0}
+.sentcard{width:100%;background:var(--card);border:2px solid var(--line);border-radius:16px;padding:14px 16px}
+.blank.filled{color:var(--ok);border-bottom-color:var(--ok);padding:0 4px}
+.cards{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;width:100%}
+.wcard{min-height:58px;min-width:88px;padding:8px 18px;border-radius:14px;background:var(--card);border:3px solid var(--line);font-family:var(--kai);font-size:26px;box-shadow:0 3px 0 var(--line)}
+.wcard.right{border-color:var(--ok);background:var(--ok-bg);color:var(--ok)}
+.wcard.wrong{border-color:var(--bad);background:var(--bad-bg);color:var(--bad);animation:shake .3s}
+.cards.idioms .wcard{background:var(--star);border-color:transparent;color:#3a2a00;box-shadow:0 3px 0 rgba(0,0,0,.15)}
+.cards.conns .wcard{border-radius:10px;border-style:dashed;font-size:22px}
+.trainbox{width:100%;overflow:hidden;display:grid;gap:0}
+.train{background:var(--kang-bg);border:3px solid var(--kang);border-radius:16px 16px 6px 6px;padding:12px 14px;position:relative;transition:transform 1.2s ease-in}
+.train::after{content:"";position:absolute;left:18px;right:18px;bottom:-14px;height:14px;background:radial-gradient(circle at 12px 7px,var(--ink) 6px,transparent 7px) 0 0/48px 14px repeat-x}
+.train.go{transform:translateX(110%)}
+.rail{height:6px;margin-top:14px;border-radius:3px;background:repeating-linear-gradient(90deg,var(--soft) 0 14px,transparent 14px 22px)}
+/* 錯字偵探 */
+.case{width:100%;background:var(--card);border:2px solid var(--line);border-radius:16px;padding:14px 12px}
+.hunt{font-family:var(--kai);font-size:28px;line-height:1.9;margin:0;text-align:left}
+.hunt .ch{font:inherit;padding:0 2px;border-radius:6px;background:transparent}
+.hunt .ch:hover{background:var(--sea-deep)}
+.hunt .ch.found{background:var(--bad-bg);color:var(--bad);outline:3px solid var(--bad)}
+.hunt .ch.fixed{background:var(--ok-bg);color:var(--ok);outline-color:var(--ok)}
+.hunt .ch.nope{animation:shake .3s}
+.fixbox{width:100%;display:grid;gap:10px;justify-items:center}
+/* 量詞配對 */
+.match{width:100%;display:grid;grid-template-columns:1.4fr 1fr;gap:14px}
+.mleft,.mright{display:grid;gap:10px;align-content:start}
+.mitem,.mword{min-height:58px;border-radius:14px;background:var(--card);border:3px solid var(--line);font-family:var(--kai);font-size:24px}
+.mitem.sel{border-color:var(--coral);box-shadow:0 0 0 3px var(--coral) inset}
+.mitem.done{border-color:var(--ok);background:var(--ok-bg);color:var(--ok)}
+.mword{background:var(--sand)}
+.mword.used{opacity:.35}
+.mword.nope{animation:shake .3s;border-color:var(--bad)}
+/* 排順序：成語拼圖、句子積木 */
+.tray{width:100%;min-height:74px;border:3px dashed var(--line);border-radius:16px;padding:10px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;background:var(--card)}
+.pool{width:100%;display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.tile{min-height:54px;padding:6px 14px;border-radius:12px;background:var(--plank);border:3px solid rgba(0,0,0,.12);font-family:var(--kai);font-size:24px;color:var(--ink);box-shadow:0 3px 0 rgba(0,0,0,.15)}
+.tile:disabled{opacity:.25;box-shadow:none}
+.tile.on{background:var(--kang-bg);border-color:var(--kang)}
+.tile.on.right{background:var(--ok-bg);border-color:var(--ok);color:var(--ok)}
+.tile.on.wrong{background:var(--bad-bg);border-color:var(--bad);animation:shake .3s}
+.idi .tile{width:64px;height:64px;padding:0;font-size:36px}
+@media (min-width:700px){.ctext{font-size:30px}.hunt{font-size:34px}.wcard{font-size:30px;min-height:68px}.tile{font-size:28px;min-height:62px}.idi .tile{width:80px;height:80px;font-size:44px}.mitem,.mword{font-size:28px;min-height:68px}}
+.tagnew{background:var(--kang);color:#fff;border-radius:6px;padding:0 6px;font-size:12px;font-weight:700}
+
+/* 高年級：修辭偵探、句子變身、成語誤用辨別 */
+.evidence{width:100%;background:var(--sand);border:3px dashed var(--plank);border-radius:14px;padding:12px 16px 14px;position:relative;transition:transform .5s,opacity .5s}
+.evidence.filed{transform:translateY(40px) scale(.85);opacity:.6}
+.evtag{display:inline-block;font-size:12px;font-weight:900;color:var(--coral-ink);background:var(--coral);border-radius:6px;padding:0 8px;margin-bottom:4px}
+.boxes{width:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.boxes .pick{min-height:84px;border-radius:10px 10px 16px 16px;background:var(--plank);border:3px solid rgba(0,0,0,.15);font-family:var(--kai);font-size:26px;color:var(--ink);box-shadow:inset 0 10px 0 rgba(0,0,0,.08)}
+.longs{width:100%;display:grid;gap:10px}
+.longs .pick{min-height:60px;text-align:left;padding:10px 14px;border-radius:14px;background:var(--card);border:3px solid var(--line);font-family:var(--kai);font-size:21px;line-height:1.6}
+.pick.right{border-color:var(--ok)!important;background:var(--ok-bg)!important;color:var(--ok)}
+.pick.wrong{border-color:var(--bad)!important;background:var(--bad-bg)!important;color:var(--bad);animation:shake .3s}
+@media (min-width:700px){.boxes .pick{font-size:32px;min-height:100px}.longs .pick{font-size:25px}}
+</style>
+
+<div id="app" aria-live="polite"></div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5.0/dist/hanzi-writer.min.js"></script>
+<script>
+__SCRIPT__
+</script>

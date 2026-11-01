@@ -1,0 +1,187 @@
+<title>國語闖關生字重疊與關卡設計</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;900&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* Layout: 單欄報告；先結論，再數據（橫條圖），最後是關卡設計與資料結構 */
+:root{
+  --bg:#f7f8f6; --surface:#ffffff; --fg:#1f2622; --muted:#5d6862; --line:#dde3df; --track:#eceff0;
+  --nani:#c2410c; --kang:#1d4ed8; --han:#047857; --all:#6d28d9; --all-bg:#f1ebfd;
+  --warn:#b45309; --warn-bg:#fdf3e1;
+  --display:"Noto Serif TC","Songti TC",serif;
+  --body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141917; --surface:#1c2320; --fg:#e6ebe8; --muted:#9aa6a0; --line:#2e3833; --track:#26302b;
+  --nani:#fb923c; --kang:#7ea4ff; --han:#4fd1a1; --all:#b79bff; --all-bg:#2a2141; --warn:#fbbf24; --warn-bg:#3a2c10; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141917; --surface:#1c2320; --fg:#e6ebe8; --muted:#9aa6a0; --line:#2e3833; --track:#26302b;
+  --nani:#fb923c; --kang:#7ea4ff; --han:#4fd1a1; --all:#b79bff; --all-bg:#2a2141; --warn:#fbbf24; --warn-bg:#3a2c10; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.7}
+.wrap{max-width:980px;margin:0 auto;padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:44px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.3}
+h1{font-size:clamp(26px,4vw,36px);font-weight:900}
+h2{font-size:23px;font-weight:900}
+h3{font-size:16px;font-weight:600}
+p{margin:0;max-width:70ch}
+section{display:grid;gap:16px}
+.eyebrow{font-size:12px;letter-spacing:.12em;color:var(--muted);font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:2px;min-width:0}
+.stat b{font-family:var(--display);font-size:30px;font-weight:900;font-variant-numeric:tabular-nums;line-height:1.2}
+.stat span{font-size:13px;color:var(--muted)}
+.callout{background:var(--warn-bg);border-radius:10px;padding:14px 16px;display:grid;gap:6px}
+.callout h3{color:var(--warn)}
+.chart{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:10px}
+.row{display:grid;grid-template-columns:52px 1fr 56px;gap:10px;align-items:center;font-variant-numeric:tabular-nums;font-size:13px}
+.row .lab{color:var(--muted)}
+.row .val{text-align:right}
+.track{background:var(--track);height:14px;border-radius:3px;position:relative;overflow:hidden}
+.bar{position:absolute;inset:0 auto 0 0;border-radius:3px}
+.pair{display:grid;gap:3px}
+.key{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--muted)}
+.key i{display:inline-block;width:12px;height:12px;border-radius:2px;vertical-align:-1px;margin-right:6px}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:600px}
+th,td{padding:8px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+tr:last-child td{border-bottom:0}
+th{font-size:13px;color:var(--muted);font-weight:700}
+td.num{font-variant-numeric:tabular-nums;text-align:right}
+.zero{color:var(--warn);font-weight:700}
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;counter-reset:s}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;gap:4px;align-content:start;min-width:0}
+.step::before{counter-increment:s;content:"步驟 " counter(s);font-size:12px;color:var(--muted);letter-spacing:.08em;font-weight:700}
+.stations{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.st{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:6px;align-content:start;min-width:0}
+.st .tag{justify-self:start;font-size:12px;font-weight:700;padding:1px 8px;border-radius:999px;background:var(--all-bg);color:var(--all)}
+.st ul{margin:0;padding-left:1.2em}
+pre{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.6}
+ol.plan,ul.plain{margin:0;padding-left:1.3em;display:grid;gap:6px}
+.muted{color:var(--muted);font-size:14px}
+a{color:inherit}
+</style>
+
+<div class="wrap">
+<header style="display:grid;gap:12px">
+  <div class="eyebrow">南一・康軒・翰林｜國小國語 1–6 年級</div>
+  <h1>生字重疊率與闖關設計</h1>
+  <p>抓取教育百科 115 上（201 課）與 114 下（207 課）三個版本每一課的生字、語詞後計算重疊。結論：<b>不能用課去對應，要用字去對應。</b></p>
+</header>
+
+<section>
+  <div class="stats">
+    <div class="stat"><b>3,247</b><span>115 上 18 冊的生字筆數</span></div>
+    <div class="stat"><b>2,135</b><span>去除重複後的不同生字（省 34%）</span></div>
+    <div class="stat"><b>~5%</b><span>三到六年級同一冊兩版本的生字重疊</span></div>
+    <div class="stat"><b>47%</b><span>學到六上為止，三版本都教過的字</span></div>
+  </div>
+  <div class="callout">
+    <h3>修正上次的建議</h3>
+    <p>上次提到「生字重疊夠高的課就當成同一關」。實際算出來，三到六年級幾乎找不到重疊超過 30% 的課。連同名課〈請到我的家鄉來〉（康軒 4上L9、翰林 4上L2）的生字重疊也是 0%。所以三個版本不會有共用的「關卡」，能共用的是「字」。</p>
+  </div>
+</section>
+
+<section>
+  <h2>同一冊幾乎不重疊，累積起來才會趨同</h2>
+  <p>三個版本最後教的字大多相同，只是教的順序不一樣。同一冊比較時，三版都有的字非常少；改成算「學到這個年級為止」的總量，三版都教過的比例會逐年上升。</p>
+  <div class="chart" id="c1"></div>
+  <div class="key"><span><i style="background:var(--muted)"></i>同一冊（只看該學期）</span><span><i style="background:var(--all)"></i>累積到該年級上學期</span></div>
+  <p class="muted">數字是三個版本都有教的字，佔三版本所有字的比例。累積值包含 114 學年度下學期課本。</p>
+</section>
+
+<section>
+  <h2>同一個字，各版本相差幾個學期教</h2>
+  <p>三版都會教的 1,406 個字裡，只有 123 個是同一學期教，多數差 1 到 3 個學期。所以每個字什麼時候解鎖，要依孩子選的版本來決定。</p>
+  <div class="chart" id="c2"></div>
+</section>
+
+<section>
+  <h2>同名與同題材的課，生字幾乎不同</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>課</th><th>對照課</th><th style="text-align:right">生字重疊</th><th>共同字詞</th></tr></thead>
+    <tbody id="named"></tbody>
+  </table></div>
+  <p class="muted">重疊率 = 共同生字 ÷ 較少的那一課生字數。重疊超過 30% 的 13 組全部在一年級，都是「左、右、上、我、的」這類基本字。</p>
+</section>
+
+<section>
+  <h2>換版本時，每課大約一半的字已經學過</h2>
+  <p>某一課的生字，在其他版本學到同一學期結束時也已經教過的平均比例：</p>
+  <div class="chart" id="c3"></div>
+  <p class="muted">轉學或換版本的孩子，新版本每一課大約有四到五成的字可以直接算已學會，其餘再補就好。</p>
+</section>
+
+<section>
+  <h2>建議架構：以字為單位的題庫，課只是播放清單</h2>
+  <div class="flow">
+    <div class="step"><h3>選版本與年級</h3><span class="muted">家長設定一次</span></div>
+    <div class="step"><h3>選目前進度</h3><span class="muted">上到第幾課，之前的課全部解鎖</span></div>
+    <div class="step"><h3>版本地圖</h3><span class="muted">一課是一個島，依該版本順序排列</span></div>
+    <div class="step"><h3>進入課關卡</h3><span class="muted">依該課生字和語詞，從共用題庫抽題</span></div>
+    <div class="step"><h3>記錄學會的字</h3><span class="muted">進度記在字上，不記在關卡上</span></div>
+  </div>
+<pre>// 共用題庫：一個字只做一次（全部 2,934 字，1上～6下）
+{ "char": "灘", "zhuyin": "ㄊㄢ", "radical": "水", "strokes": 22,
+  "words": ["沙灘", "海灘"], "questions": ["q_灘_01", "q_灘_02"] }
+
+// 版本播放清單：資料直接來自 lessons_115_1.json
+{ "id": "han-2上-04", "title": "沙灘上的畫", "chars": ["沙","灘","海",...], "words": ["沙灘","海邊",...] }
+
+// 孩子的進度：記錄學會的字，換版本也能沿用
+{ "version": "han", "at": "han-2上-04", "mastered": { "灘": 0.9, "沙": 1.0 } }</pre>
+</section>
+
+<section>
+  <h2>每一課關卡的內容呈現</h2>
+  <p>每一課分成四站，難度遞增。前三站的題目都綁在字或詞上，所以三版本共用；只有第四站的短文要依課的主題另外寫。</p>
+  <div class="stations">
+    <div class="st"><span class="tag">第一站・認字</span><h3>生字卡</h3><ul>
+      <li>看字選注音、聽音選字</li><li>部首拼字：把「氵」和「難」拼成「灘」</li><li>筆順描寫（認讀字跳過這站）</li></ul></div>
+    <div class="st"><span class="tag">第二站・用詞</span><h3>語詞配對</h3><ul>
+      <li>字和語詞連連看</li><li>造詞接龍</li><li>看圖選語詞</li></ul></div>
+    <div class="st"><span class="tag">第三站・句子</span><h3>填空與改錯</h3><ul>
+      <li>把語詞填進自己寫的句子</li><li>找出句中錯字（形近字：灘／難）</li><li>標點與量詞</li></ul></div>
+    <div class="st"><span class="tag">第四站・魔王</span><h3>閱讀與複習</h3><ul>
+      <li>依課的主題自寫的 150–300 字短文，3 題理解題</li><li>混入前幾課答錯的字，間隔複習</li><li>過關得星星與收集卡</li></ul></div>
+  </div>
+</section>
+
+<section>
+  <h2>製作順序</h2>
+  <ol class="plan">
+    <li><b>先做三版本都教的 1,406 個字。</b>每個版本學到六上約 2,000 字，其中 1,292 字（約 64%）三版都有，先做這些最划算。</li>
+    <li>再做兩個版本有教的 731 字，最後做只有一個版本教的 797 字。</li>
+    <li>先試做一個年級，建議二上：216 字一冊，字量最整齊，又是三版本開始分歧的年級。</li>
+    <li>短文閱讀依每課主題自己寫，不要放課文原文；相同題材（國王的新衣、三國故事、唐詩）可以一篇給多個版本共用。</li>
+  </ol>
+  <div class="callout">
+    <h3>要另外處理的資料</h3>
+    <ul class="plain">
+      <li><b>筆順：</b>要用教育部〈常用國字標準字體筆順〉的臺灣筆順，不能直接套用中國大陸的筆順資料，兩者有些字不一樣。</li>
+      <li><b>注音、部首、筆畫：</b>這次抓的資料沒有，要從教育部字典另外取得，或人工補。</li>
+      <li><b>115 下學期：</b>教育百科還沒上架，目前用 114 下代替；新學期上架後重新執行抓取程式即可。</li>
+    </ul>
+  </div>
+</section>
+
+<section class="muted" style="font-size:13px;gap:4px">
+  <p>資料來源：<a href="https://pedia.cloud.edu.tw/Bookmark/TextWord" target="_blank" rel="noopener">教育百科・生字詞彙表</a>，115 學年度上學期與 114 學年度下學期，國語，南一／康軒／翰林。分析只用「生字」（要會寫的字），認讀字沒有算進去。</p>
+</section>
+</div>
+
+<script>
+const PUB={nani:"南一",kang:"康軒",han:"翰林"};
+function bars(el,rows,max,fmt){el.innerHTML=rows.map(r=>`<div class="pair">${r.bars.map((b,i)=>`<div class="row"><span class="lab">${i===0?r.label:""}</span><div class="track"><div class="bar" style="width:${b.v/max*100}%;background:${b.c}"></div></div><span class="val">${fmt(b.v)}</span></div>`).join("")}</div>`).join("")}
+const vol=[23.5,4.6,0.6,0.6,1.6,0.5], cum=[23.5,32.4,41.6,42.1,43.8,46.8];
+bars(document.getElementById("c1"),vol.map((v,i)=>({label:"一二三四五六"[i]+"上",bars:[{v,c:"var(--muted)"},{v:cum[i],c:"var(--all)"}]})),100,v=>v+"%");
+const gap={0:123,1:308,2:331,3:226,4:154,5:111,6:77,7:45,8:23,9:8};
+bars(document.getElementById("c2"),Object.entries(gap).map(([k,v])=>({label:k==="0"?"同學期":"差 "+k,bars:[{v,c:"var(--all)"}]})),331,v=>v+" 字");
+const reuse=[56.1,48.8,42.8,44.0,45.8,46.3];
+bars(document.getElementById("c3"),reuse.map((v,i)=>({label:"一二三四五六"[i]+"上",bars:[{v,c:"var(--kang)"}]})),100,v=>v+"%");
+const named=[
+ ["康軒 1上L3 秋千","翰林 1上L6 秋千",27,"秋、千、陪；秋千"],
+ ["康軒 2上L7 國王的新衣裳","翰林 2上L3 國王做新衣",0,"大臣（語詞）"],
+ ["康軒 4上L9 請到我的家鄉來","翰林 4上L2 請到我的家鄉來",0,"無"],
+ ["康軒 6上L9 空城計","南一 6上L9 火燒連環船",0,"無"],
+ ["南一 6上L3 客至","翰林 6上L10 過故人莊",0,"無"]];
+document.getElementById("named").innerHTML=named.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td class="num ${r[2]===0?"zero":""}">${r[2]}%</td><td>${r[3]}</td></tr>`).join("");
+</script>

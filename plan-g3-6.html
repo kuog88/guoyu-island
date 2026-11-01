@@ -1,0 +1,202 @@
+<title>三至六年級關卡改版規劃</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;900&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* Layout: 單欄規劃書；先講為什麼改，再講每課怎麼排、新玩法長什麼樣、題庫怎麼來、分幾步做、要你決定什麼 */
+:root{
+  --bg:#f3f7f8; --surface:#ffffff; --fg:#1d2b33; --muted:#5b6b73; --line:#d4e3e7;
+  --word:#1d6fb8; --word-bg:#e3effa; --sent:#c2410c; --sent-bg:#fdeee5; --read:#047857; --read-bg:#e2f4ec;
+  --accent:#e5533d;
+  --display:"Noto Serif TC","Songti TC",serif;
+  --kai:"DFKai-SB","BiauKai","TW-Kai","Noto Serif TC",serif;
+  --ui:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0f1c21;--surface:#172a31;--fg:#e7f1f3;--muted:#9fb4bb;--line:#2a454d;--word:#7eb6f0;--word-bg:#17304a;--sent:#fb923c;--sent-bg:#3a2216;--read:#4fd1a1;--read-bg:#153328;--accent:#ff7a63;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1c21;--surface:#172a31;--fg:#e7f1f3;--muted:#9fb4bb;--line:#2a454d;--word:#7eb6f0;--word-bg:#17304a;--sent:#fb923c;--sent-bg:#3a2216;--read:#4fd1a1;--read-bg:#153328;--accent:#ff7a63;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--ui);font-size:15px;line-height:1.7}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:960px;margin:0 auto;padding-block:28px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:40px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.3}
+h1{font-size:clamp(26px,4vw,36px);font-weight:900} h2{font-size:23px;font-weight:900} h3{font-size:17px;font-weight:600}
+p{margin:0;max-width:72ch}
+section{display:grid;gap:14px;scroll-margin-top:64px}
+.muted{color:var(--muted);font-size:14px}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:6px}
+nav a{text-decoration:none;color:var(--fg);font-size:14px;padding:4px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface)}
+nav a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:1px 8px;border-radius:999px}
+.tag.w{background:var(--word-bg);color:var(--word)} .tag.s{background:var(--sent-bg);color:var(--sent)} .tag.r{background:var(--read-bg);color:var(--read)}
+/* 比例條 */
+.ratio{display:grid;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.rrow{display:grid;grid-template-columns:9.5em 1fr;gap:12px;align-items:center;font-size:14px}
+.stack{display:flex;height:26px;border-radius:5px;overflow:hidden;font-size:12px;font-weight:700}
+.stack span{display:grid;place-items:center;white-space:nowrap;overflow:hidden}
+.stack .w{background:var(--word-bg);color:var(--word)} .stack .s{background:var(--sent-bg);color:var(--sent)} .stack .r{background:var(--read-bg);color:var(--read)}
+.key{display:flex;flex-wrap:wrap;gap:12px;font-size:13px;color:var(--muted)}
+/* 表格 */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:14px}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+tr:last-child td{border-bottom:0}
+th{font-size:12px;color:var(--muted);white-space:nowrap}
+td.c{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.g{white-space:nowrap;font-weight:700}
+tr.del td{color:var(--muted);text-decoration:line-through}
+/* 玩法卡片 */
+.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.game{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:8px;align-content:start;min-width:0}
+.game header{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.game h3{margin-right:auto}
+.mock{border:1px dashed var(--line);border-radius:10px;padding:10px 12px;display:grid;gap:8px;background:var(--bg)}
+.mock .q{font-family:var(--kai);font-size:19px;line-height:1.7}
+.blank{display:inline-block;min-width:2.2em;border-bottom:3px solid var(--accent);text-align:center;color:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips span{font-family:var(--kai);font-size:17px;padding:2px 12px;border-radius:10px;background:var(--surface);border:1px solid var(--line)}
+.chips span.ok{border-color:var(--read);color:var(--read);font-weight:700}
+.tile{display:inline-grid;place-items:center;width:40px;height:40px;border-radius:8px;background:var(--sent-bg);color:var(--sent);font-family:var(--kai);font-size:22px;margin-right:4px}
+.wrongch{color:var(--accent);text-decoration:underline wavy}
+ol.steps{margin:0;padding-left:1.4em;display:grid;gap:12px}
+ol.steps li{max-width:78ch}
+.ask{display:grid;gap:12px}
+.ask div{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;padding:12px 14px;display:grid;gap:4px}
+.src{font-size:13px;color:var(--muted);display:grid;gap:4px}
+.src a{color:inherit}
+</style>
+
+<div class="wrap">
+<header style="display:grid;gap:10px">
+  <span class="muted">國語闖關島・115 學年度上學期・南一／康軒／翰林</span>
+  <h1>三至六年級關卡改版規劃</h1>
+  <p>三到六年級的關卡要從「認字、拼注音」轉成考卷上真正佔分多的題型：成語、選詞填空、句型、照樣造句、修辭、標點和句子變化。這份規劃說明每一課怎麼重新分配 20 題、每種題型怎麼做成互動玩法、題庫從哪裡來，以及要請你決定的事。</p>
+</header>
+
+<nav aria-label="章節"><a href="#why">為什麼改</a><a href="#lesson">每課怎麼排</a><a href="#games">新玩法</a><a href="#bank">題庫來源</a><a href="#steps">製作步驟</a><a href="#ask">請你決定</a></nav>
+
+<section id="why">
+  <h2>為什麼改：考卷的配分和現在的關卡差很多</h2>
+  <p>我參考了學校實際用的國語試題審核表。它依許育健教授的建議，把國語評量分成「字詞短語」「句式語法」「段篇讀寫」三大向度，並建議各年級的配分比例。三到六年級的考卷，句子和閱讀才是大宗，但目前的關卡幾乎全是字詞題。</p>
+  <div class="ratio">
+    <div class="rrow"><span>中年級考卷建議</span><div class="stack"><span class="w" style="width:30%">字詞 30%</span><span class="s" style="width:50%">句式語法 50%</span><span class="r" style="width:20%">段篇 20%</span></div></div>
+    <div class="rrow"><span>高年級考卷建議</span><div class="stack"><span class="w" style="width:20%">字詞 20%</span><span class="s" style="width:30%">句式 30%</span><span class="r" style="width:50%">段篇讀寫 50%</span></div></div>
+    <div class="rrow"><span>目前每課 20 題</span><div class="stack"><span class="w" style="width:100%">字詞 100%（聽音、拼注音、看注音寫字、錯字、部首、聽語詞）</span></div></div>
+    <div class="rrow"><span>改版後每課 20 題</span><div class="stack"><span class="w" style="width:25%">字詞 25%</span><span class="s" style="width:75%">句式語法 75%</span></div></div>
+  </div>
+  <div class="key"><span><span class="tag w">字詞</span> 字音、字形、詞義、量詞</span><span><span class="tag s">句式語法</span> 成語、句型、造句、修辭、標點、句子變化</span><span><span class="tag r">段篇</span> 閱讀理解</span></div>
+  <p class="muted">段篇閱讀照你之前的決定，維持獨立的「閱讀加強」區，不放進一般關卡。所以一般關卡以句式語法為主，閱讀加強負責段篇。高年級段篇佔 50%，建議閱讀加強也要擴充（見步驟 3）。</p>
+</section>
+
+<section id="lesson">
+  <h2>每一課怎麼排：仍然 20 題，每次隨機抽</h2>
+  <h3>中年級（三、四年級）</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>順序</th><th>關卡</th><th>向度</th><th class="c">題數</th><th>考什麼</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>打開寶箱</td><td>—</td><td class="c">—</td><td>認識這課的生字和語詞，不計分</td></tr>
+      <tr><td>2</td><td>看注音修小橋</td><td><span class="tag w">字詞</span></td><td class="c">3</td><td>看注音寫國字（保留，題數減少）</td></tr>
+      <tr><td>3</td><td>錯字偵探</td><td><span class="tag w">字詞</span></td><td class="c">2</td><td>在句子裡找出錯字並改正</td></tr>
+      <tr><td>4</td><td>量詞配對</td><td><span class="tag w">字詞</span></td><td class="c">1</td><td>量詞、疊詞、狀聲詞</td></tr>
+      <tr><td>5</td><td>成語拼圖</td><td><span class="tag s">四字詞語</span></td><td class="c">3</td><td>排出成語、在情境裡選對成語</td></tr>
+      <tr><td>6</td><td>選詞填空</td><td><span class="tag s">詞義</span></td><td class="c">3</td><td>近義詞辨別、相反詞</td></tr>
+      <tr><td>7</td><td>關聯詞火車</td><td><span class="tag s">句型</span></td><td class="c">2</td><td>因果、轉折、遞進、並列、假設、條件</td></tr>
+      <tr><td>8</td><td>句子積木</td><td><span class="tag s">句型</span></td><td class="c">2</td><td>句子重組、照樣造句</td></tr>
+      <tr><td>9</td><td>打魔王</td><td><span class="tag s">句式</span></td><td class="c">4</td><td>標點、句意理解、換句話說、綜合複習</td></tr>
+      <tr class="del"><td>—</td><td>射氣球、撈魚拼注音</td><td>字詞</td><td class="c">0</td><td>三年級以上拿掉</td></tr>
+    </tbody>
+  </table></div>
+  <h3>高年級（五、六年級）</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>順序</th><th>關卡</th><th>向度</th><th class="c">題數</th><th>考什麼</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>打開寶箱</td><td>—</td><td class="c">—</td><td>認識生字和語詞</td></tr>
+      <tr><td>2</td><td>看注音修小橋</td><td><span class="tag w">字詞</span></td><td class="c">2</td><td>看注音寫國字</td></tr>
+      <tr><td>3</td><td>錯字偵探</td><td><span class="tag w">字詞</span></td><td class="c">2</td><td>句子裡的同音、形近錯字</td></tr>
+      <tr><td>4</td><td>成語拼圖</td><td><span class="tag s">四字詞語</span></td><td class="c">4</td><td>排成語、情境選用、找出用錯的成語</td></tr>
+      <tr><td>5</td><td>選詞填空</td><td><span class="tag s">詞義</span></td><td class="c">2</td><td>易混淆詞（例如發現／發明）</td></tr>
+      <tr><td>6</td><td>修辭偵探</td><td><span class="tag s">修辭</span></td><td class="c">3</td><td>譬喻、擬人、誇飾、排比、設問、類疊、摹寫</td></tr>
+      <tr><td>7</td><td>關聯詞火車</td><td><span class="tag s">句型</span></td><td class="c">2</td><td>加入「即使…也」「與其…不如」等高年級句型</td></tr>
+      <tr><td>8</td><td>句子變身</td><td><span class="tag s">句式變化</span></td><td class="c">2</td><td>合併句子、換句話說、倒裝句、被動句</td></tr>
+      <tr><td>9</td><td>打魔王</td><td><span class="tag s">句式</span></td><td class="c">3</td><td>標點、引號、綜合複習</td></tr>
+    </tbody>
+  </table></div>
+  <p class="muted">每次進關卡都從題庫隨機抽題，還不熟的題型和成語優先出現。家長報表也會跟著改成按這些題型統計。</p>
+</section>
+
+<section id="games">
+  <h2>新玩法：每種題型都有自己的互動方式</h2>
+  <p>下面的例句都是示意，正式題目會依各課的語詞和主題另外撰寫。</p>
+  <div class="games">
+    <div class="game"><header><h3>成語拼圖</h3><span class="tag s">中・高</span></header>
+      <p>四個字卡打亂，孩子依序點回正確順序；拼好後成語會發光，並顯示意思。進階版會挖空一個字，要從形近字裡選。</p>
+      <div class="mock"><div><span class="tile">轉</span><span class="tile">目</span><span class="tile">睛</span><span class="tile">不</span></div><p class="muted">→ 目不轉睛：眼睛一直看著，不轉動。</p></div></div>
+    <div class="game"><header><h3>成語情境選用</h3><span class="tag s">中・高</span></header>
+      <p>句子裡缺一個成語，三個成語寫在寶石上，選對的發射。高年級另有「哪一句的成語用錯了」。</p>
+      <div class="mock"><p class="q">看魔術表演時，弟弟看得<span class="blank">？</span>，連眼睛都捨不得眨。</p><div class="chips"><span class="ok">目不轉睛</span><span>東張西望</span><span>垂頭喪氣</span></div></div></div>
+    <div class="game"><header><h3>選詞填空</h3><span class="tag s">中・高</span></header>
+      <p>一組易混淆的詞放在天平兩邊，把對的詞拖進句子。答錯時會說明兩個詞的差別。</p>
+      <div class="mock"><p class="q">愛迪生<span class="blank">？</span>了電燈，讓夜晚變得明亮。</p><div class="chips"><span class="ok">發明</span><span>發現</span></div></div></div>
+    <div class="game"><header><h3>關聯詞火車</h3><span class="tag s">中・高</span></header>
+      <p>兩節車廂是前後兩個句子，中間的連結器要選對的關聯詞，火車才能開走。也會問「這是什麼關係的句子」。</p>
+      <div class="mock"><p class="q">他<span class="blank">？</span>喜歡畫畫，<span class="blank">？</span>常常參加比賽。</p><div class="chips"><span class="ok">不但…而且</span><span>雖然…但是</span><span>因為…所以</span></div></div></div>
+    <div class="game"><header><h3>句子積木</h3><span class="tag s">中・高</span></header>
+      <p>把打散的詞語積木依序點選，疊成通順的句子。照樣造句版會給一個句型骨架，孩子用積木填出新句子。</p>
+      <div class="mock"><div class="chips"><span>圖書館</span><span>放學後</span><span>我們</span><span>一起去</span><span>看書</span></div><p class="muted">→ 放學後，我們一起去圖書館看書。</p></div></div>
+    <div class="game"><header><h3>錯字偵探</h3><span class="tag w">中・高</span></header>
+      <p>用放大鏡在句子裡點出錯字，再從選項中選出正確的字。比單獨考錯字更接近考卷的「改錯」。</p>
+      <div class="mock"><p class="q">他很專心的看書，一點也不分<span class="wrongch">新</span>。</p><div class="chips"><span class="ok">心</span><span>辛</span><span>欣</span></div></div></div>
+    <div class="game"><header><h3>量詞配對</h3><span class="tag w">中</span></header>
+      <p>左邊是東西、右邊是量詞，連連看。也會出疊詞（綠油油、亮晶晶）和狀聲詞。</p>
+      <div class="mock"><div class="chips"><span>一（座）橋</span><span>一（匹）馬</span><span>一（盞）燈</span></div></div></div>
+    <div class="game"><header><h3>修辭偵探</h3><span class="tag s">高</span></header>
+      <p>每個句子是一張證物卡，要判斷用了什麼修辭，放進對的證物箱。也會反過來，給修辭要孩子選出符合的句子。</p>
+      <div class="mock"><p class="q">月亮彎彎的，像一艘小船。</p><div class="chips"><span class="ok">譬喻</span><span>擬人</span><span>誇飾</span></div></div></div>
+    <div class="game"><header><h3>句子變身</h3><span class="tag s">高</span></header>
+      <p>給兩個短句，選出合併得最通順的一句；或把句子改成倒裝、被動，選出意思不變的寫法。</p>
+      <div class="mock"><p class="q">雨停了。我們去操場打球。</p><div class="chips"><span class="ok">雨一停，我們就去操場打球。</span><span>雨停了，但是我們去打球。</span></div></div></div>
+  </div>
+  <p class="muted">照樣造句和自由造句沒有標準答案，電腦很難判斷對錯。規劃先用「句子積木」和「選出正確仿寫」兩種方式出題；另外可以加一個「自由造句」，孩子寫完後存到家長報表，由家長看過按「通過」。這一點需要你決定。</p>
+</section>
+
+<section id="bank">
+  <h2>題庫從哪裡來</h2>
+  <p>我找到的測驗卷和複習評量（學校公告的定期評量卷、出版社評量）都有著作權，不能直接把題目搬進遊戲；學校的命題規範也要求老師不能直接使用廠商試題。所以我會<b>只參考它們的題型和格式，題目全部自己撰寫</b>，寫好後做成審閱頁，請你或老師看過再上線，就像閱讀短文那樣。</p>
+  <div class="tbl"><table>
+    <thead><tr><th>題庫</th><th>內容</th><th>和課文的關係</th><th class="c">預估數量</th></tr></thead>
+    <tbody>
+      <tr><td class="g">成語庫</td><td>成語、意思、自編例句、近義或反義成語、誤用例句（高年級）</td><td>先收各課語詞裡的成語（三上 18 個、四上 29 個、五上 46 個、六上 37 個），再補年級常見成語</td><td class="c">約 280 個</td></tr>
+      <tr><td class="g">選詞填空句</td><td>每課挑 4 個語詞，各寫一個句子，配上易混淆的詞</td><td>直接用該課語詞，三版本各自不同</td><td class="c">約 580 句</td></tr>
+      <tr><td class="g">錯字偵探</td><td>從選詞填空句改出錯字（同音字、形近字）</td><td>同上，不用另外寫</td><td class="c">自動產生</td></tr>
+      <tr><td class="g">關聯詞句型</td><td>因果、轉折、遞進、並列、假設、條件、選擇、讓步等，各配多個句子</td><td>依年級和月考範圍分配</td><td class="c">約 240 題</td></tr>
+      <tr><td class="g">句子積木</td><td>重組句、照樣造句骨架</td><td>盡量用該課語詞造句</td><td class="c">約 240 題</td></tr>
+      <tr><td class="g">量詞、疊詞、狀聲詞</td><td>中年級用</td><td>年級共用</td><td class="c">約 120 題</td></tr>
+      <tr><td class="g">修辭</td><td>七種常考修辭，每種多個例句，含容易混淆的組合</td><td>年級共用，高年級用</td><td class="c">約 160 題</td></tr>
+      <tr><td class="g">句式變化、標點</td><td>合併、換句話說、倒裝、被動；冒號、引號、分號等</td><td>年級共用</td><td class="c">約 200 題</td></tr>
+    </tbody>
+  </table></div>
+  <p class="muted">課文本身的「句型練習」（例如某一課專門練「一邊…一邊…」）在課本和教師手冊裡，我們沒有這份資料，所以句型題目前只能依年級和月考範圍分配。如果你能提供各課的句型清單，我可以把句型題精準對到每一課。</p>
+  <div class="src">
+    <span>參考：<a href="https://www.nhps.hc.edu.tw/uploads/1748241423133HY2FekRS.pdf" target="_blank" rel="noopener">新竹市內湖國小國語科試題審核表（參照許育健教授評量向度比例）</a></span>
+    <span>題型格式參考：各校公告的國語定期評量卷（彰化縣、屏東縣、新竹市等國小），只參考格式，不使用原題。</span>
+  </div>
+</section>
+
+<section id="steps">
+  <h2>製作步驟</h2>
+  <ol class="steps">
+    <li><b>先做中年級的新玩法和一個樣品。</b>做好成語拼圖、選詞填空、關聯詞火車、句子積木、錯字偵探、量詞配對六種玩法，用三年級上學期一個版本（例如康軒）的 12 課做完整題庫，請你試玩確認方向。</li>
+    <li><b>補齊三、四年級三個版本。</b>依同樣做法完成三上、四上三版本的題庫，產生審閱頁給你檢查。</li>
+    <li><b>做高年級。</b>加上修辭偵探、句子變身、成語誤用三種玩法，完成五上、六上三版本題庫。高年級段篇佔 50%，同時把閱讀加強的題型擴充，加入段意、推論、作者意圖等題目；三、四年級也加入閱讀加強。</li>
+    <li><b>更新家長報表。</b>題型表現改成依新題型統計，例如「成語 65%」「關聯詞 80%」「修辭 50%」，家長可以直接看出孩子弱在哪一類。</li>
+  </ol>
+  <p class="muted">一、二年級維持現在的玩法（認字、注音、描寫），不在這次改版範圍。</p>
+</section>
+
+<section id="ask">
+  <h2>請你決定</h2>
+  <div class="ask">
+    <div><b>1. 每課的題型比例可以嗎？</b><span>中年級字詞 6 題、句式 14 題；高年級字詞 4 題、句式 16 題。段篇放在閱讀加強。</span></div>
+    <div><b>2. 要不要加「自由造句」？</b><span>孩子自己寫句子，存到家長報表由家長判斷。不加的話，造句只用積木和選擇的方式。</span></div>
+    <div><b>3. 能不能提供各課的句型清單？</b><span>有的話句型題可以精準對到每一課；沒有的話依年級和月考範圍分配。</span></div>
+    <div><b>4. 樣品先做哪個版本？</b><span>建議用三年級上學期，你孩子或學生用的版本優先。</span></div>
+  </div>
+</section>
+</div>

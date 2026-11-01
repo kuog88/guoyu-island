@@ -1,0 +1,230 @@
+<title>115上國語三版本比對</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;900&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* Layout: 單欄閱讀，年級導覽列置頂；每年級一張「課次 × 三版本」對照表 + 差異重點 */
+:root{
+  --bg:#f7f8f6; --surface:#ffffff; --fg:#1f2622; --muted:#5d6862; --line:#dde3df;
+  --nani:#c2410c; --nani-bg:#fdeee5;
+  --kang:#1d4ed8; --kang-bg:#e8eefc;
+  --han:#047857; --han-bg:#e2f4ec;
+  --mark:#fff2b8; --mark-fg:#5a4500;
+  --display:"Noto Serif TC","Songti TC",serif;
+  --body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141917; --surface:#1c2320; --fg:#e6ebe8; --muted:#9aa6a0; --line:#2e3833;
+  --nani:#fb923c; --nani-bg:#3a2216; --kang:#7ea4ff; --kang-bg:#1b2645; --han:#4fd1a1; --han-bg:#153328;
+  --mark:#4a3d10; --mark-fg:#ffe48a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141917; --surface:#1c2320; --fg:#e6ebe8; --muted:#9aa6a0; --line:#2e3833;
+  --nani:#fb923c; --nani-bg:#3a2216; --kang:#7ea4ff; --kang-bg:#1b2645; --han:#4fd1a1; --han-bg:#153328;
+  --mark:#4a3d10; --mark-fg:#ffe48a; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.7}
+.wrap{max-width:1040px;margin:0 auto;padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:40px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.3}
+h1{font-size:clamp(26px,4vw,36px);font-weight:900}
+h2{font-size:24px;font-weight:900}
+h3{font-size:17px;font-weight:600}
+p{margin:0;max-width:68ch}
+.eyebrow{font-size:12px;letter-spacing:.12em;color:var(--muted);font-weight:700}
+header{display:grid;gap:12px}
+.legend{display:flex;flex-wrap:wrap;gap:8px}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:2px 10px;border-radius:999px;font-size:13px;font-weight:700}
+.pill.nani{background:var(--nani-bg);color:var(--nani)}
+.pill.kang{background:var(--kang-bg);color:var(--kang)}
+.pill.han{background:var(--han-bg);color:var(--han)}
+.pill.mk{background:var(--mark);color:var(--mark-fg)}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding-block:10px;display:flex;flex-wrap:wrap;gap:6px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+nav a{color:var(--fg);text-decoration:none;font-size:14px;padding:4px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
+nav a:hover,nav a:focus-visible{border-color:var(--fg);outline:none}
+section{display:grid;gap:16px;scroll-margin-top:64px}
+.overview{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.ov{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:6px;align-content:start;min-width:0}
+.ov h3{display:flex;align-items:center;gap:8px}
+.ov ul{margin:0;padding-left:1.2em}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:640px}
+th,td{padding:8px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+tr:last-child td{border-bottom:0}
+thead th{font-size:13px;letter-spacing:.06em}
+th.n{width:56px;color:var(--muted);font-variant-numeric:tabular-nums}
+td.n{color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+thead th.nani{color:var(--nani);border-bottom:3px solid var(--nani)}
+thead th.kang{color:var(--kang);border-bottom:3px solid var(--kang)}
+thead th.han{color:var(--han);border-bottom:3px solid var(--han)}
+td.empty{color:var(--muted)}
+mark{background:var(--mark);color:var(--mark-fg);padding:0 4px;border-radius:4px}
+.notes{display:grid;gap:8px;margin:0;padding-left:1.2em}
+.notes li{max-width:80ch}
+.notes b{font-weight:700}
+.n-nani{color:var(--nani);font-weight:700}.n-kang{color:var(--kang);font-weight:700}.n-han{color:var(--han);font-weight:700}
+.caveat{background:var(--surface);border:1px dashed var(--line);border-radius:10px;padding:16px;display:grid;gap:8px;font-size:14px;color:var(--muted)}
+.caveat ul{margin:0;padding-left:1.2em;display:grid;gap:4px}
+a{color:inherit}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow">115學年度上學期・國小國語・一至六年級</div>
+  <h1>南一 / 康軒 / 翰林 課次比對</h1>
+  <p>三個版本 18 冊的課名逐課對照，並整理每個年級的差異。課名以教育部「教育百科・生字詞彙表」115學年度資料為準。<mark>黃底</mark>表示跨版本同題或同一故事來源。</p>
+  <div class="legend"><span class="pill nani">南一</span><span class="pill kang">康軒</span><span class="pill han">翰林</span><span class="pill mk">跨版本重疊</span></div>
+</header>
+
+<nav aria-label="年級"><a href="#overview">總覽</a><a href="#g1">一上</a><a href="#g2">二上</a><a href="#g3">三上</a><a href="#g4">四上</a><a href="#g5">五上</a><a href="#g6">六上</a><a href="#shared">重疊篇章</a><a href="#src">資料說明</a></nav>
+
+<section id="overview">
+  <h2>整體差異</h2>
+  <div class="overview">
+    <div class="ov"><h3><span class="pill nani">南一</span>品格與臺灣在地</h3><ul>
+      <li>中年級大量品格、情緒、人際篇（三上前六課）</li>
+      <li>四上集中「臺灣」主題：欒樹、玉山、臺灣之光</li>
+      <li>四上末三課是民間故事組</li>
+      <li>高年級偏科普與國際：高第建築、登月先鋒</li>
+      <li>一上多一篇「魔法文字」識字前導</li>
+    </ul></div>
+    <div class="ov"><h3><span class="pill kang">康軒</span>語文趣味與經典故事</h3><ul>
+      <li>三上前三課是語文遊戲：字的小旅行、繞口令村</li>
+      <li>人物傳記最多：馬偕、海倫凱勒等</li>
+      <li>六上文言比重最高：治家格言、狐假虎威、空城計</li>
+      <li>依部落格整理，高年級每六課設一次統整活動</li>
+      <li>一上只有 6 課，三版本中最少</li>
+    </ul></div>
+    <div class="ov"><h3><span class="pill han">翰林</span>連續主題成組</h3><ul>
+      <li>常以 2–3 課組成同主題：二上美食、四上月亮、六上藝術</li>
+      <li>古詩文分散在各年級：詠鵝、詩兩首、過故人莊</li>
+      <li>運動與生活題材多：世足賽、桌遊、超級英雄</li>
+      <li>依部落格整理，三上設「閱讀一／閱讀二」</li>
+    </ul></div>
+  </div>
+</section>
+
+<div id="grades" style="display:grid;gap:40px"></div>
+
+<section id="shared">
+  <h2>跨版本重疊篇章</h2>
+  <p>同題或同一故事來源，可共用備課素材，但課次位置不同。</p>
+  <div class="tbl"><table>
+    <thead><tr><th>題材</th><th>出現位置</th><th>備註</th></tr></thead>
+    <tbody>
+      <tr><td>秋千</td><td><span class="n-kang">康軒一上 L3</span>、<span class="n-han">翰林一上 L6</span></td><td>同名課文</td></tr>
+      <tr><td>國王的新衣</td><td><span class="n-kang">康軒二上 L7〈國王的新衣裳〉</span>、<span class="n-han">翰林二上 L3〈國王做新衣〉</span></td><td>同一童話改寫</td></tr>
+      <tr><td>請到我的家鄉來</td><td><span class="n-kang">康軒四上 L9</span>、<span class="n-han">翰林四上 L2</span></td><td>同名課文</td></tr>
+      <tr><td>老鼠嫁女兒</td><td><span class="n-nani">南一四上 L10</span>、<span class="n-han">翰林三上 閱讀二</span></td><td>翰林位置依部落格整理</td></tr>
+      <tr><td>美味的一堂課</td><td><span class="n-kang">康軒四上 L7</span>、<span class="n-han">翰林二上 補充</span></td><td>翰林位置依部落格整理</td></tr>
+      <tr><td>三國故事</td><td><span class="n-kang">康軒六上 L9〈空城計〉</span>、<span class="n-nani">南一六上 L9〈火燒連環船〉</span></td><td>同題材、不同段落，且同在第九課</td></tr>
+      <tr><td>唐詩・田家待客</td><td><span class="n-nani">南一六上 L3〈客至〉</span>、<span class="n-han">翰林六上 L10〈過故人莊〉</span></td><td>主題相近的兩首唐詩</td></tr>
+      <tr><td>耶誕節</td><td><span class="n-nani">南一五上 L11〈耶誕禮物〉</span>、<span class="n-kang">康軒六上 L10〈耶誕節〉</span></td><td>同節慶，年級不同</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="src">
+  <div class="caveat">
+    <h3 style="color:var(--fg)">資料說明</h3>
+    <ul>
+      <li>課名來源：<a href="https://pedia.cloud.edu.tw/Bookmark/TextWord" target="_blank" rel="noopener">教育百科・生字詞彙表</a>（115學年度上學期，國語，依版本與年級篩選）。</li>
+      <li>單元名稱、補充課文、閱讀／統整活動不在上述資料中；文中提到的這些項目引用自 <a href="https://acerksy.pixnet.net/blog" target="_blank" rel="noopener">acerksy 部落格</a>，其中康軒三上第一課仍是舊課名，可信度較低。</li>
+      <li>一上只列注音符號教學（首冊）之後的課文，注音階段沒有比對。</li>
+      <li>教育百科有兩處錯字已更正：翰林三上 L5「為梨花撐傘」、翰林四上 L12「寧靜的音樂會」。</li>
+      <li>題材歸類依課名判斷，未逐篇閱讀課文。正式製作前請以各版本 115 學年度課本或教師手冊目次再核對。</li>
+    </ul>
+  </div>
+</section>
+</div>
+
+<script>
+const G=[
+ {id:"g1",t:"一年級上學期",
+  nani:["魔法文字（前導）","小船","印手印","吹泡泡","你好","外星人","小金魚","紅紅的春"],
+  kang:["拍拍手","這是誰的？","秋千","大個子，小個子","比一比","小路"],
+  han:["一起走","大風吹","火車過山洞","請問","七彩滑梯","秋千","回音"],
+  pre:true,
+  mk:{kang:[2],han:[5]},
+  notes:[
+   "<b>課數不同：</b><span class='n-nani'>南一</span> 7 課加一篇「魔法文字」，<span class='n-han'>翰林</span> 7 課，<span class='n-kang'>康軒</span> 6 課最少。",
+   "<b>同名課文：</b><span class='n-kang'>康軒 L3</span> 與 <span class='n-han'>翰林 L6</span> 都是〈秋千〉。",
+   "<span class='n-nani'>南一</span>以「魔法文字」先帶象形字概念（日、月、山、木、水），另兩版直接進入課文。",
+   "<span class='n-nani'>南一</span>期末落在〈紅紅的春〉，帶入春節題材；<span class='n-kang'>康軒</span>、<span class='n-han'>翰林</span>以遊戲與日常為主（拍手、大風吹、火車過山洞）。"
+  ]},
+ {id:"g2",t:"二年級上學期",
+  nani:["打招呼","爬梯子","勇氣樹","一天的時間","小書蟲","從自己開始","等兔子來撞樹","角和腳","赤腳國王","去農場玩","幸福湯圓","到野外上課"],
+  kang:["新學年新希望","一起做早餐","走過小巷","運動會","坐竹籃船","小鎮的柿餅節","國王的新衣裳","「聰明」的小熊","大象有多重？","新年快樂","遠方來的黑皮","我愛冬天"],
+  han:["我的心情","彩色的天空","國王做新衣","水草下的呱呱","沙灘上的畫","草叢裡的星星","不一樣的美食","美食分享日","好味道","加加減減","奇怪的門","詠鵝"],
+  mk:{kang:[6],han:[2]},
+  notes:[
+   "<b>國王的新衣：</b><span class='n-kang'>康軒 L7</span> 與 <span class='n-han'>翰林 L3</span> 同一童話；<span class='n-nani'>南一</span> 則用另一則國王故事〈赤腳國王〉（L9）。",
+   "<b>古典成分：</b>只有 <span class='n-han'>翰林</span> 收古詩〈詠鵝〉（L12）；<span class='n-nani'>南一</span>〈等兔子來撞樹〉為守株待兔改寫；<span class='n-kang'>康軒</span>〈大象有多重？〉從課名看應是曹沖秤象故事。",
+   "<b>主題編排：</b><span class='n-han'>翰林</span> L7–L9 連續三課談食物；<span class='n-kang'>康軒</span> 依學期時序走（新學年、運動會、柿餅節、新年、冬天）；<span class='n-nani'>南一</span> 偏品格與自我管理（勇氣樹、一天的時間、從自己開始）。",
+   "語文遊戲型課文：<span class='n-nani'>南一〈角和腳〉</span>、<span class='n-han'>翰林〈加加減減〉</span>；<span class='n-kang'>康軒</span>無對應課。"
+  ]},
+ {id:"g3",t:"三年級上學期",
+  nani:["你好，新朋友","我們的約定","下課十分鐘","一顆黑點","火大了","我該怎麼辦？","最年輕的奶奶","魔「髮」哥哥","穿白袍的醫生伯伯","唉呀！誤會大了","石虎的告白","昆蟲的保命妙招"],
+  kang:["字的小旅行","妙故事點點名","繞口令村","小丑魚和海葵","飛舞的絲帶","小女生","淡水小鎮","安平古堡參觀記","馬太鞍的巴拉告","狐狸的故事","巨人的花園","模仿貓"],
+  han:["時間是什麼","妙用便利貼","提早五分鐘","水滾了","為梨花撐傘","小鉛筆大學問","風的味道","寄居蟹找新家","阿塱壹古道","秋千上的婚禮","一路平安","不一樣的團圓"],
+  notes:[
+   "<b>開學單元走向完全不同：</b><span class='n-nani'>南一</span> 談人際與情緒（新朋友、約定、火大了）；<span class='n-kang'>康軒</span> 談文字與語言遊戲（字的小旅行、繞口令村）；<span class='n-han'>翰林</span> 談時間管理（時間是什麼、提早五分鐘）。",
+   "<b>臺灣地景：</b><span class='n-kang'>康軒</span> 最集中（淡水、安平古堡、馬太鞍阿美族），<span class='n-han'>翰林</span> 有〈阿塱壹古道〉，<span class='n-nani'>南一</span> 這冊沒有地景課。",
+   "<b>自然生態各選一種動物：</b><span class='n-nani'>石虎、昆蟲</span>／<span class='n-kang'>小丑魚和海葵</span>／<span class='n-han'>寄居蟹</span>。",
+   "<span class='n-kang'>康軒</span> 收西洋童話〈巨人的花園〉；<span class='n-han'>翰林</span>依部落格整理另有「閱讀一〈靈光一現〉、閱讀二〈老鼠嫁女兒〉」。"
+  ]},
+ {id:"g4",t:"四年級上學期",
+  nani:["窗口邊的臺灣欒樹","奶奶的排骨粥","充滿希望的五味屋","玉山之歌","高舉臺灣之光","臺灣的驕傲","到此「藝」遊","四季的頭髮","阿白觀察記","老鼠嫁女兒","豆粥婆婆","戴斗笠的地藏"],
+  kang:["水陸小高手","放學後","我的籃球夢","永遠的馬偕","假如給我三天光明","攀登生命的高峰","美味的一堂課","建築界的長頸鹿","請到我的家鄉來","奇幻旋律","兔子先生等等我","老鞋匠和小精靈"],
+  han:["美麗島","請到我的家鄉來","鏡頭下的家鄉","飛行夢","月光下","又遠又近的月亮","松鼠先生的麵包","平凡的大俠","王子折箭","海中的熱帶雨林","美食島","寧靜的音樂會"],
+  mk:{kang:[8,6],han:[1],nani:[9]},
+  notes:[
+   "<b>同名課文：</b>〈請到我的家鄉來〉同時出現在 <span class='n-kang'>康軒 L9</span> 與 <span class='n-han'>翰林 L2</span>。",
+   "<b>人物傳記：</b><span class='n-kang'>康軒</span> L4–L6 連續三課（馬偕、海倫凱勒、攀登生命的高峰）；<span class='n-nani'>南一</span> 以臺灣之光取代；<span class='n-han'>翰林</span> 只有〈平凡的大俠〉。",
+   "<b>民間故事：</b><span class='n-nani'>南一</span> L10–L12 是民間故事組（老鼠嫁女兒、豆粥婆婆、戴斗笠的地藏）；<span class='n-kang'>康軒</span> 收格林童話〈老鞋匠和小精靈〉；<span class='n-han'>翰林</span> 收寓言〈王子折箭〉。",
+   "<b>翰林特色：</b>家鄉組（L1–L3）、月亮組（L5–L6），開篇〈美麗島〉為歌詞類文本。"
+  ]},
+ {id:"g5",t:"五年級上學期",
+  nani:["幸福筆記本","做人做事做長久","孔雀錯了","特別的海","漫遊花東","護送螃蟹過馬路","高第的魔法建築","嘗嘗我的家鄉味","小小力量將世界照亮","男生說，女生說","耶誕禮物","漫遊詩情"],
+  kang:["蚊帳大使","從空中看臺灣","攀岩高手","恆久的美","它抓得住你—商標的故事","故事「動」起來","為生命找到出口","最勇敢的女孩","在挫折中成長","山中寄情","與達駭黑熊走入山林","荒島上的國王"],
+  han:["你我之間","風起，大家都在","廉頗與藺相如","來場快樂的桌遊","超級英雄","世足賽的贏家","美景閒情—詩兩首","葫蘆瓜","窗邊的鳴聲","敏銳觀察","你一定會聽見的","藍色連身裙"],
+  mk:{nani:[10]},
+  notes:[
+   "<b>古典文本：</b><span class='n-han'>翰林</span> 有史記故事〈廉頗與藺相如〉與〈詩兩首〉；<span class='n-nani'>南一</span> 以〈漫遊詩情〉收尾；<span class='n-kang'>康軒</span> 從課名看不出古詩文篇。",
+   "<b>臺灣地理：</b><span class='n-kang'>〈從空中看臺灣〉</span>與 <span class='n-nani'>〈漫遊花東〉</span>；<span class='n-han'>翰林</span> 無地理課。",
+   "<b>題材取向：</b><span class='n-kang'>康軒</span> 偏生命教育與說明文（挫折、生命、商標）；<span class='n-han'>翰林</span> 偏運動休閒（桌遊、超級英雄、世足賽）；<span class='n-nani'>南一</span> 偏國際與多元（高第、耶誕、性別〈男生說，女生說〉）。",
+   "依部落格整理，<span class='n-kang'>康軒</span> 在 L6 與 L12 後各有統整活動，另兩版的統整安排未查到。"
+  ]},
+ {id:"g6",t:"六年級上學期",
+  nani:["在天晴了的時候","珍珠鳥","客至","贏得喝采的輸家","哇！原來如此","登月先鋒","明智的抉擇","飢渴好「火」伴","火燒連環船","戲術","紀念照","少年筆耕"],
+  kang:["跑道","朱子治家格言選","談遇見更好的自己","臺灣美食詩選","最好的味覺禮物","珍珠奶茶","大小剛好的鞋子","狐假虎威","空城計","耶誕節","下午茶風波","橘子"],
+  han:["遇見自己","為什麼大家不理我？","孔子說的話","向大自然學習","樹的聯想","善用自嘲，展現幽默","跟著公共藝術去旅行","街頭藝術家","戲臺上的她與他","過故人莊","來一碗溫暖的羹湯","存根"],
+  mk:{nani:[2,8],kang:[8,9],han:[9]},
+  notes:[
+   "<b>文言與古典比重：</b><span class='n-kang'>康軒</span> 最高（朱子治家格言選、狐假虎威、空城計）；<span class='n-han'>翰林</span>〈孔子說的話〉、〈過故人莊〉；<span class='n-nani'>南一</span>〈客至〉、〈火燒連環船〉。",
+   "<b>三國故事同在第九課：</b><span class='n-kang'>康軒〈空城計〉</span>、<span class='n-nani'>南一〈火燒連環船〉</span>。<b>唐詩待客：</b><span class='n-nani'>〈客至〉</span>對應 <span class='n-han'>〈過故人莊〉</span>。",
+   "<b>成組主題：</b><span class='n-kang'>康軒</span> L4–L6 美食組；<span class='n-han'>翰林</span> L7–L9 藝術組；<span class='n-nani'>南一</span> L5–L6 科學太空。",
+   "<b>耶誕：</b><span class='n-kang'>康軒</span> 放在六上，<span class='n-nani'>南一</span> 放在五上，題材相同但年級錯開。"
+  ]}
+];
+const pubs=[["nani","南一"],["kang","康軒"],["han","翰林"]];
+const host=document.getElementById("grades");
+for(const g of G){
+  const n=Math.max(g.nani.length,g.kang.length,g.han.length);
+  let rows="";
+  for(let i=0;i<n;i++){
+    const lab=g.pre?(i===0?"":"L"+i):"L"+(i+1);
+    rows+="<tr><td class='n'>"+lab+"</td>";
+    for(const [k] of pubs){
+      let idx=i;
+      if(g.pre&&k!=="nani"){ idx=i-1; }
+      const v=g[k][idx];
+      const m=(g.mk&&g.mk[k]||[]).includes(idx);
+      rows+=v===undefined?"<td class='empty'>—</td>":"<td>"+(m?"<mark>"+v+"</mark>":v)+"</td>";
+    }
+    rows+="</tr>";
+  }
+  const counts=pubs.map(([k,l])=>"<span class='pill "+k+"'>"+l+" "+g[k].filter(x=>!x.includes("前導")).length+" 課</span>").join("");
+  host.insertAdjacentHTML("beforeend",
+   "<section id='"+g.id+"'><div class='eyebrow'>"+g.t+"</div><h2>"+g.t.slice(0,3)+"上</h2><div class='legend'>"+counts+"</div>"+
+   "<div class='tbl'><table><thead><tr><th class='n'>課次</th>"+pubs.map(([k,l])=>"<th class='"+k+"'>"+l+"</th>").join("")+"</tr></thead><tbody>"+rows+"</tbody></table></div>"+
+   "<h3>差異重點</h3><ul class='notes'>"+g.notes.map(x=>"<li>"+x+"</li>").join("")+"</ul></section>");
+}
+</script>

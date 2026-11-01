@@ -1,0 +1,2355 @@
+{
+ "summary": {
+  "lessonsUp": 201,
+  "lessonsDown": 207,
+  "charEntriesUp": 3247,
+  "uniqueUp": 2135,
+  "uniqueAll": 2934,
+  "inVersions": {
+   "1": 797,
+   "2": 731,
+   "3": 1406
+  },
+  "semesterGap": {
+   "0": 123,
+   "1": 308,
+   "2": 331,
+   "3": 226,
+   "4": 154,
+   "5": 111,
+   "6": 77,
+   "7": 45,
+   "8": 23,
+   "9": 8
+  }
+ },
+ "volume": [
+  {
+   "grade": 1,
+   "count": {
+    "nani": 82,
+    "kang": 74,
+    "han": 77
+   },
+   "union": 136,
+   "all3": 32,
+   "all3Pct": 23.5,
+   "pairPct": {
+    "nani-kang": 41.8,
+    "nani-han": 35.9,
+    "kang-han": 37.3
+   }
+  },
+  {
+   "grade": 2,
+   "count": {
+    "nani": 216,
+    "kang": 216,
+    "han": 216
+   },
+   "union": 499,
+   "all3": 23,
+   "all3Pct": 4.6,
+   "pairPct": {
+    "nani-kang": 17.1,
+    "nani-han": 12.8,
+    "kang-han": 16.1
+   }
+  },
+  {
+   "grade": 3,
+   "count": {
+    "nani": 180,
+    "kang": 163,
+    "han": 176
+   },
+   "union": 466,
+   "all3": 3,
+   "all3Pct": 0.6,
+   "pairPct": {
+    "nani-kang": 5.2,
+    "nani-han": 6.0,
+    "kang-han": 5.9
+   }
+  },
+  {
+   "grade": 4,
+   "count": {
+    "nani": 177,
+    "kang": 180,
+    "han": 176
+   },
+   "union": 479,
+   "all3": 3,
+   "all3Pct": 0.6,
+   "pairPct": {
+    "nani-kang": 5.0,
+    "nani-han": 5.4,
+    "kang-han": 6.6
+   }
+  },
+  {
+   "grade": 5,
+   "count": {
+    "nani": 216,
+    "kang": 224,
+    "han": 222
+   },
+   "union": 580,
+   "all3": 9,
+   "all3Pct": 1.6,
+   "pairPct": {
+    "nani-kang": 6.5,
+    "nani-han": 8.4,
+    "kang-han": 7.2
+   }
+  },
+  {
+   "grade": 6,
+   "count": {
+    "nani": 216,
+    "kang": 217,
+    "han": 219
+   },
+   "union": 602,
+   "all3": 3,
+   "all3Pct": 0.5,
+   "pairPct": {
+    "nani-kang": 5.1,
+    "nani-han": 3.6,
+    "kang-han": 4.1
+   }
+  }
+ ],
+ "cumulative": [
+  {
+   "grade": 1,
+   "count": {
+    "nani": 82,
+    "kang": 74,
+    "han": 77
+   },
+   "union": 136,
+   "all3": 32,
+   "all3Pct": 23.5,
+   "pairPct": {
+    "nani-kang": 41.8,
+    "nani-han": 35.9,
+    "kang-han": 37.3
+   }
+  },
+  {
+   "grade": 2,
+   "count": {
+    "nani": 474,
+    "kang": 478,
+    "han": 478
+   },
+   "union": 759,
+   "all3": 246,
+   "all3Pct": 32.4,
+   "pairPct": {
+    "nani-kang": 46.9,
+    "nani-han": 47.1,
+    "kang-han": 47.5
+   }
+  },
+  {
+   "grade": 3,
+   "count": {
+    "nani": 870,
+    "kang": 853,
+    "han": 866
+   },
+   "union": 1265,
+   "all3": 526,
+   "all3Pct": 41.6,
+   "pairPct": {
+    "nani-kang": 56.4,
+    "nani-han": 55.7,
+    "kang-han": 54.7
+   }
+  },
+  {
+   "grade": 4,
+   "count": {
+    "nani": 1219,
+    "kang": 1184,
+    "han": 1188
+   },
+   "union": 1727,
+   "all3": 727,
+   "all3Pct": 42.1,
+   "pairPct": {
+    "nani-kang": 57.9,
+    "nani-han": 57.0,
+    "kang-han": 54.4
+   }
+  },
+  {
+   "grade": 5,
+   "count": {
+    "nani": 1606,
+    "kang": 1583,
+    "han": 1572
+   },
+   "union": 2235,
+   "all3": 979,
+   "all3Pct": 43.8,
+   "pairPct": {
+    "nani-kang": 59.4,
+    "nani-han": 59.6,
+    "kang-han": 55.8
+   }
+  },
+  {
+   "grade": 6,
+   "count": {
+    "nani": 2030,
+    "kang": 2012,
+    "han": 1995
+   },
+   "union": 2763,
+   "all3": 1292,
+   "all3Pct": 46.8,
+   "pairPct": {
+    "nani-kang": 61.8,
+    "nani-han": 61.4,
+    "kang-han": 59.3
+   }
+  }
+ ],
+ "lessonReuse": [
+  {
+   "id": "nani-1上-00",
+   "pub": "nani",
+   "grade": 1,
+   "label": "1上L0",
+   "title": "魔法文字",
+   "n": 8,
+   "kang": 50.0,
+   "han": 37.5
+  },
+  {
+   "id": "nani-1上-01",
+   "pub": "nani",
+   "grade": 1,
+   "label": "1上L1",
+   "title": "小船",
+   "n": 10,
+   "kang": 70.0,
+   "han": 80.0
+  },
+  {
+   "id": "nani-1上-02",
+   "pub": "nani",
+   "grade": 1,
+   "label": "1上L2",
+   "title": "印手印",
+   "n": 10,
+   "kang": 50.0,
+   "han": 70.0
+  },
+  {
+   "id": "nani-1上-03",
+   "pub": "nani",
+   "grade": 1,
+   "label": "1上L3",
+   "title": "吹泡泡",
+   "n": 10,
+   "kang": 80.0,
+   "han": 90.0
+  },
+  {
+   "id": "nani-1上-04",
+   "pub": "nani",
+   "grade": 1,
+   "label": "1上L4",
+   "title": "你好",
+   "n": 11,
+   "kang": 72.7,
+   "han": 45.5
+  },
+  {
+   "id": "nani-1上-05",
+   "pub": "nani",
+   "grade": 1,
+   "label": "1上L5",
+   "title": "外星人",
+   "n": 11,
+   "kang": 81.8,
+   "han": 45.5
+  },
+  {
+   "id": "nani-1上-06",
+   "pub": "nani",
+   "grade": 1,
+   "label": "1上L6",
+   "title": "小金魚",
+   "n": 11,
+   "kang": 27.3,
+   "han": 9.1
+  },
+  {
+   "id": "nani-1上-07",
+   "pub": "nani",
+   "grade": 1,
+   "label": "1上L7",
+   "title": "紅紅的春",
+   "n": 11,
+   "kang": 18.2,
+   "han": 36.4
+  },
+  {
+   "id": "nani-2上-00",
+   "pub": "nani",
+   "grade": 2,
+   "label": "2上L1",
+   "title": "打招呼",
+   "n": 18,
+   "kang": 66.7,
+   "han": 55.6
+  },
+  {
+   "id": "nani-2上-01",
+   "pub": "nani",
+   "grade": 2,
+   "label": "2上L2",
+   "title": "爬梯子",
+   "n": 18,
+   "kang": 55.6,
+   "han": 61.1
+  },
+  {
+   "id": "nani-2上-02",
+   "pub": "nani",
+   "grade": 2,
+   "label": "2上L3",
+   "title": "勇氣樹",
+   "n": 18,
+   "kang": 50.0,
+   "han": 77.8
+  },
+  {
+   "id": "nani-2上-03",
+   "pub": "nani",
+   "grade": 2,
+   "label": "2上L4",
+   "title": "一天的時間",
+   "n": 18,
+   "kang": 44.4,
+   "han": 50.0
+  },
+  {
+   "id": "nani-2上-04",
+   "pub": "nani",
+   "grade": 2,
+   "label": "2上L5",
+   "title": "小書蟲",
+   "n": 18,
+   "kang": 77.8,
+   "han": 50.0
+  },
+  {
+   "id": "nani-2上-05",
+   "pub": "nani",
+   "grade": 2,
+   "label": "2上L6",
+   "title": "從自己開始",
+   "n": 18,
+   "kang": 44.4,
+   "han": 66.7
+  },
+  {
+   "id": "nani-2上-06",
+   "pub": "nani",
+   "grade": 2,
+   "label": "2上L7",
+   "title": "等兔子來撞樹",
+   "n": 18,
+   "kang": 50.0,
+   "han": 33.3
+  },
+  {
+   "id": "nani-2上-07",
+   "pub": "nani",
+   "grade": 2,
+   "label": "2上L8",
+   "title": "角和腳",
+   "n": 18,
+   "kang": 38.9,
+   "han": 22.2
+  },
+  {
+   "id": "nani-2上-08",
+   "pub": "nani",
+   "grade": 2,
+   "label": "2上L9",
+   "title": "赤腳國王",
+   "n": 18,
+   "kang": 55.6,
+   "han": 55.6
+  },
+  {
+   "id": "nani-2上-09",
+   "pub": "nani",
+   "grade": 2,
+   "label": "2上L10",
+   "title": "去農場玩",
+   "n": 18,
+   "kang": 50.0,
+   "han": 38.9
+  },
+  {
+   "id": "nani-2上-10",
+   "pub": "nani",
+   "grade": 2,
+   "label": "2上L11",
+   "title": "幸福湯圓",
+   "n": 18,
+   "kang": 61.1,
+   "han": 61.1
+  },
+  {
+   "id": "nani-2上-11",
+   "pub": "nani",
+   "grade": 2,
+   "label": "2上L12",
+   "title": "到野外上課",
+   "n": 18,
+   "kang": 38.9,
+   "han": 16.7
+  },
+  {
+   "id": "nani-3上-00",
+   "pub": "nani",
+   "grade": 3,
+   "label": "3上L1",
+   "title": "你好，新朋友",
+   "n": 15,
+   "kang": 73.3,
+   "han": 73.3
+  },
+  {
+   "id": "nani-3上-01",
+   "pub": "nani",
+   "grade": 3,
+   "label": "3上L2",
+   "title": "我們的約定",
+   "n": 15,
+   "kang": 26.7,
+   "han": 33.3
+  },
+  {
+   "id": "nani-3上-02",
+   "pub": "nani",
+   "grade": 3,
+   "label": "3上L3",
+   "title": "下課十分鐘",
+   "n": 15,
+   "kang": 60.0,
+   "han": 60.0
+  },
+  {
+   "id": "nani-3上-03",
+   "pub": "nani",
+   "grade": 3,
+   "label": "3上L4",
+   "title": "一顆黑點",
+   "n": 15,
+   "kang": 26.7,
+   "han": 40.0
+  },
+  {
+   "id": "nani-3上-04",
+   "pub": "nani",
+   "grade": 3,
+   "label": "3上L5",
+   "title": "火大了",
+   "n": 15,
+   "kang": 33.3,
+   "han": 46.7
+  },
+  {
+   "id": "nani-3上-05",
+   "pub": "nani",
+   "grade": 3,
+   "label": "3上L6",
+   "title": "我該怎麼辦?",
+   "n": 15,
+   "kang": 66.7,
+   "han": 60.0
+  },
+  {
+   "id": "nani-3上-06",
+   "pub": "nani",
+   "grade": 3,
+   "label": "3上L7",
+   "title": "最年輕的奶奶",
+   "n": 15,
+   "kang": 13.3,
+   "han": 26.7
+  },
+  {
+   "id": "nani-3上-07",
+   "pub": "nani",
+   "grade": 3,
+   "label": "3上L8",
+   "title": "魔「髮」哥哥",
+   "n": 15,
+   "kang": 40.0,
+   "han": 40.0
+  },
+  {
+   "id": "nani-3上-08",
+   "pub": "nani",
+   "grade": 3,
+   "label": "3上L9",
+   "title": "穿白袍的醫生伯伯",
+   "n": 15,
+   "kang": 26.7,
+   "han": 53.3
+  },
+  {
+   "id": "nani-3上-09",
+   "pub": "nani",
+   "grade": 3,
+   "label": "3上L10",
+   "title": "唉呀!誤會大了",
+   "n": 15,
+   "kang": 53.3,
+   "han": 33.3
+  },
+  {
+   "id": "nani-3上-10",
+   "pub": "nani",
+   "grade": 3,
+   "label": "3上L11",
+   "title": "石虎的告白",
+   "n": 15,
+   "kang": 33.3,
+   "han": 33.3
+  },
+  {
+   "id": "nani-3上-11",
+   "pub": "nani",
+   "grade": 3,
+   "label": "3上L12",
+   "title": "昆蟲的保命妙招",
+   "n": 15,
+   "kang": 26.7,
+   "han": 33.3
+  },
+  {
+   "id": "nani-4上-00",
+   "pub": "nani",
+   "grade": 4,
+   "label": "4上L1",
+   "title": "窗口邊的臺灣欒樹",
+   "n": 15,
+   "kang": 66.7,
+   "han": 40.0
+  },
+  {
+   "id": "nani-4上-01",
+   "pub": "nani",
+   "grade": 4,
+   "label": "4上L2",
+   "title": "奶奶的排骨粥",
+   "n": 15,
+   "kang": 33.3,
+   "han": 80.0
+  },
+  {
+   "id": "nani-4上-02",
+   "pub": "nani",
+   "grade": 4,
+   "label": "4上L3",
+   "title": "充滿希望的五味屋",
+   "n": 15,
+   "kang": 73.3,
+   "han": 46.7
+  },
+  {
+   "id": "nani-4上-03",
+   "pub": "nani",
+   "grade": 4,
+   "label": "4上L4",
+   "title": "玉山之歌",
+   "n": 14,
+   "kang": 35.7,
+   "han": 42.9
+  },
+  {
+   "id": "nani-4上-04",
+   "pub": "nani",
+   "grade": 4,
+   "label": "4上L5",
+   "title": "高舉臺灣之光",
+   "n": 15,
+   "kang": 46.7,
+   "han": 46.7
+  },
+  {
+   "id": "nani-4上-05",
+   "pub": "nani",
+   "grade": 4,
+   "label": "4上L6",
+   "title": "臺灣的驕傲",
+   "n": 15,
+   "kang": 46.7,
+   "han": 33.3
+  },
+  {
+   "id": "nani-4上-06",
+   "pub": "nani",
+   "grade": 4,
+   "label": "4上L7",
+   "title": "到此「藝」遊",
+   "n": 15,
+   "kang": 53.3,
+   "han": 40.0
+  },
+  {
+   "id": "nani-4上-07",
+   "pub": "nani",
+   "grade": 4,
+   "label": "4上L8",
+   "title": "四季的頭髮",
+   "n": 13,
+   "kang": 61.5,
+   "han": 53.8
+  },
+  {
+   "id": "nani-4上-08",
+   "pub": "nani",
+   "grade": 4,
+   "label": "4上L9",
+   "title": "阿白觀察記",
+   "n": 15,
+   "kang": 26.7,
+   "han": 26.7
+  },
+  {
+   "id": "nani-4上-09",
+   "pub": "nani",
+   "grade": 4,
+   "label": "4上L10",
+   "title": "老鼠嫁女兒",
+   "n": 15,
+   "kang": 20.0,
+   "han": 33.3
+  },
+  {
+   "id": "nani-4上-10",
+   "pub": "nani",
+   "grade": 4,
+   "label": "4上L11",
+   "title": "豆粥婆婆",
+   "n": 15,
+   "kang": 26.7,
+   "han": 26.7
+  },
+  {
+   "id": "nani-4上-11",
+   "pub": "nani",
+   "grade": 4,
+   "label": "4上L12",
+   "title": "戴斗笠的地藏",
+   "n": 15,
+   "kang": 26.7,
+   "han": 60.0
+  },
+  {
+   "id": "nani-5上-00",
+   "pub": "nani",
+   "grade": 5,
+   "label": "5上L1",
+   "title": "幸福筆記本",
+   "n": 18,
+   "kang": 38.9,
+   "han": 44.4
+  },
+  {
+   "id": "nani-5上-01",
+   "pub": "nani",
+   "grade": 5,
+   "label": "5上L2",
+   "title": "做人做事做長久",
+   "n": 18,
+   "kang": 38.9,
+   "han": 44.4
+  },
+  {
+   "id": "nani-5上-02",
+   "pub": "nani",
+   "grade": 5,
+   "label": "5上L3",
+   "title": "孔雀錯了",
+   "n": 18,
+   "kang": 55.6,
+   "han": 33.3
+  },
+  {
+   "id": "nani-5上-03",
+   "pub": "nani",
+   "grade": 5,
+   "label": "5上L4",
+   "title": "特別的海",
+   "n": 18,
+   "kang": 38.9,
+   "han": 50.0
+  },
+  {
+   "id": "nani-5上-04",
+   "pub": "nani",
+   "grade": 5,
+   "label": "5上L5",
+   "title": "漫遊花東",
+   "n": 18,
+   "kang": 50.0,
+   "han": 44.4
+  },
+  {
+   "id": "nani-5上-05",
+   "pub": "nani",
+   "grade": 5,
+   "label": "5上L6",
+   "title": "護送螃蟹過馬路",
+   "n": 18,
+   "kang": 38.9,
+   "han": 50.0
+  },
+  {
+   "id": "nani-5上-06",
+   "pub": "nani",
+   "grade": 5,
+   "label": "5上L7",
+   "title": "高第的魔法建築",
+   "n": 18,
+   "kang": 50.0,
+   "han": 50.0
+  },
+  {
+   "id": "nani-5上-07",
+   "pub": "nani",
+   "grade": 5,
+   "label": "5上L8",
+   "title": "嘗嘗我的家鄉味",
+   "n": 18,
+   "kang": 61.1,
+   "han": 38.9
+  },
+  {
+   "id": "nani-5上-08",
+   "pub": "nani",
+   "grade": 5,
+   "label": "5上L9",
+   "title": "小小力量將世界照亮",
+   "n": 18,
+   "kang": 55.6,
+   "han": 61.1
+  },
+  {
+   "id": "nani-5上-09",
+   "pub": "nani",
+   "grade": 5,
+   "label": "5上L10",
+   "title": "男生說，女生說",
+   "n": 18,
+   "kang": 44.4,
+   "han": 55.6
+  },
+  {
+   "id": "nani-5上-10",
+   "pub": "nani",
+   "grade": 5,
+   "label": "5上L11",
+   "title": "耶誕禮物",
+   "n": 18,
+   "kang": 55.6,
+   "han": 27.8
+  },
+  {
+   "id": "nani-5上-11",
+   "pub": "nani",
+   "grade": 5,
+   "label": "5上L12",
+   "title": "漫遊詩情",
+   "n": 18,
+   "kang": 55.6,
+   "han": 72.2
+  },
+  {
+   "id": "nani-6上-00",
+   "pub": "nani",
+   "grade": 6,
+   "label": "6上L1",
+   "title": "在天晴了的時候",
+   "n": 10,
+   "kang": 40.0,
+   "han": 60.0
+  },
+  {
+   "id": "nani-6上-01",
+   "pub": "nani",
+   "grade": 6,
+   "label": "6上L2",
+   "title": "珍珠鳥",
+   "n": 19,
+   "kang": 68.4,
+   "han": 63.2
+  },
+  {
+   "id": "nani-6上-02",
+   "pub": "nani",
+   "grade": 6,
+   "label": "6上L3",
+   "title": "客至",
+   "n": 19,
+   "kang": 52.6,
+   "han": 47.4
+  },
+  {
+   "id": "nani-6上-03",
+   "pub": "nani",
+   "grade": 6,
+   "label": "6上L4",
+   "title": "贏得喝采的輸家",
+   "n": 19,
+   "kang": 42.1,
+   "han": 42.1
+  },
+  {
+   "id": "nani-6上-04",
+   "pub": "nani",
+   "grade": 6,
+   "label": "6上L5",
+   "title": "哇！原來如此",
+   "n": 19,
+   "kang": 47.4,
+   "han": 63.2
+  },
+  {
+   "id": "nani-6上-05",
+   "pub": "nani",
+   "grade": 6,
+   "label": "6上L6",
+   "title": "登月先鋒",
+   "n": 19,
+   "kang": 42.1,
+   "han": 42.1
+  },
+  {
+   "id": "nani-6上-06",
+   "pub": "nani",
+   "grade": 6,
+   "label": "6上L7",
+   "title": "明智的抉擇",
+   "n": 18,
+   "kang": 38.9,
+   "han": 33.3
+  },
+  {
+   "id": "nani-6上-07",
+   "pub": "nani",
+   "grade": 6,
+   "label": "6上L8",
+   "title": "飢渴好「火」伴",
+   "n": 19,
+   "kang": 57.9,
+   "han": 36.8
+  },
+  {
+   "id": "nani-6上-08",
+   "pub": "nani",
+   "grade": 6,
+   "label": "6上L9",
+   "title": "火燒連環船",
+   "n": 19,
+   "kang": 63.2,
+   "han": 31.6
+  },
+  {
+   "id": "nani-6上-09",
+   "pub": "nani",
+   "grade": 6,
+   "label": "6上L10",
+   "title": "戲術",
+   "n": 18,
+   "kang": 44.4,
+   "han": 27.8
+  },
+  {
+   "id": "nani-6上-10",
+   "pub": "nani",
+   "grade": 6,
+   "label": "6上L11",
+   "title": "紀念照",
+   "n": 18,
+   "kang": 11.1,
+   "han": 44.4
+  },
+  {
+   "id": "nani-6上-11",
+   "pub": "nani",
+   "grade": 6,
+   "label": "6上L12",
+   "title": "少年筆耕",
+   "n": 19,
+   "kang": 57.9,
+   "han": 42.1
+  },
+  {
+   "id": "kang-1上-00",
+   "pub": "kang",
+   "grade": 1,
+   "label": "1上L1",
+   "title": "拍拍手",
+   "n": 9,
+   "nani": 88.9,
+   "han": 77.8
+  },
+  {
+   "id": "kang-1上-01",
+   "pub": "kang",
+   "grade": 1,
+   "label": "1上L2",
+   "title": "這是誰的?",
+   "n": 11,
+   "nani": 72.7,
+   "han": 72.7
+  },
+  {
+   "id": "kang-1上-02",
+   "pub": "kang",
+   "grade": 1,
+   "label": "1上L3",
+   "title": "秋千",
+   "n": 14,
+   "nani": 64.3,
+   "han": 78.6
+  },
+  {
+   "id": "kang-1上-03",
+   "pub": "kang",
+   "grade": 1,
+   "label": "1上L4",
+   "title": "大個子，小個子",
+   "n": 13,
+   "nani": 46.2,
+   "han": 46.2
+  },
+  {
+   "id": "kang-1上-04",
+   "pub": "kang",
+   "grade": 1,
+   "label": "1上L5",
+   "title": "比一比",
+   "n": 14,
+   "nani": 50.0,
+   "han": 28.6
+  },
+  {
+   "id": "kang-1上-05",
+   "pub": "kang",
+   "grade": 1,
+   "label": "1上L6",
+   "title": "小路",
+   "n": 13,
+   "nani": 61.5,
+   "han": 38.5
+  },
+  {
+   "id": "kang-2上-00",
+   "pub": "kang",
+   "grade": 2,
+   "label": "2上L1",
+   "title": "新學年新希望",
+   "n": 18,
+   "nani": 72.2,
+   "han": 83.3
+  },
+  {
+   "id": "kang-2上-01",
+   "pub": "kang",
+   "grade": 2,
+   "label": "2上L2",
+   "title": "一起做早餐",
+   "n": 18,
+   "nani": 38.9,
+   "han": 38.9
+  },
+  {
+   "id": "kang-2上-02",
+   "pub": "kang",
+   "grade": 2,
+   "label": "2上L3",
+   "title": "走過小巷",
+   "n": 18,
+   "nani": 50.0,
+   "han": 50.0
+  },
+  {
+   "id": "kang-2上-03",
+   "pub": "kang",
+   "grade": 2,
+   "label": "2上L4",
+   "title": "運動會",
+   "n": 18,
+   "nani": 61.1,
+   "han": 50.0
+  },
+  {
+   "id": "kang-2上-04",
+   "pub": "kang",
+   "grade": 2,
+   "label": "2上L5",
+   "title": "坐竹籃船",
+   "n": 18,
+   "nani": 55.6,
+   "han": 55.6
+  },
+  {
+   "id": "kang-2上-05",
+   "pub": "kang",
+   "grade": 2,
+   "label": "2上L6",
+   "title": "小鎮的柿餅節",
+   "n": 18,
+   "nani": 61.1,
+   "han": 55.6
+  },
+  {
+   "id": "kang-2上-06",
+   "pub": "kang",
+   "grade": 2,
+   "label": "2上L7",
+   "title": "國王的新衣裳",
+   "n": 18,
+   "nani": 33.3,
+   "han": 66.7
+  },
+  {
+   "id": "kang-2上-07",
+   "pub": "kang",
+   "grade": 2,
+   "label": "2上L8",
+   "title": "「聰明」的小熊",
+   "n": 18,
+   "nani": 61.1,
+   "han": 44.4
+  },
+  {
+   "id": "kang-2上-08",
+   "pub": "kang",
+   "grade": 2,
+   "label": "2上L9",
+   "title": "大象有多重?",
+   "n": 18,
+   "nani": 33.3,
+   "han": 33.3
+  },
+  {
+   "id": "kang-2上-09",
+   "pub": "kang",
+   "grade": 2,
+   "label": "2上L10",
+   "title": "新年快樂",
+   "n": 18,
+   "nani": 38.9,
+   "han": 33.3
+  },
+  {
+   "id": "kang-2上-10",
+   "pub": "kang",
+   "grade": 2,
+   "label": "2上L11",
+   "title": "遠方來的黑皮",
+   "n": 18,
+   "nani": 44.4,
+   "han": 50.0
+  },
+  {
+   "id": "kang-2上-11",
+   "pub": "kang",
+   "grade": 2,
+   "label": "2上L12",
+   "title": "我愛冬天",
+   "n": 18,
+   "nani": 38.9,
+   "han": 16.7
+  },
+  {
+   "id": "kang-3上-00",
+   "pub": "kang",
+   "grade": 3,
+   "label": "3上L1",
+   "title": "字的小旅行",
+   "n": 9,
+   "nani": 33.3,
+   "han": 44.4
+  },
+  {
+   "id": "kang-3上-01",
+   "pub": "kang",
+   "grade": 3,
+   "label": "3上L2",
+   "title": "妙故事點點名",
+   "n": 14,
+   "nani": 50.0,
+   "han": 50.0
+  },
+  {
+   "id": "kang-3上-02",
+   "pub": "kang",
+   "grade": 3,
+   "label": "3上L3",
+   "title": "繞口令村",
+   "n": 14,
+   "nani": 64.3,
+   "han": 50.0
+  },
+  {
+   "id": "kang-3上-03",
+   "pub": "kang",
+   "grade": 3,
+   "label": "3上L4",
+   "title": "小丑魚和海葵",
+   "n": 14,
+   "nani": 50.0,
+   "han": 35.7
+  },
+  {
+   "id": "kang-3上-04",
+   "pub": "kang",
+   "grade": 3,
+   "label": "3上L5",
+   "title": "飛舞的絲帶",
+   "n": 14,
+   "nani": 64.3,
+   "han": 78.6
+  },
+  {
+   "id": "kang-3上-05",
+   "pub": "kang",
+   "grade": 3,
+   "label": "3上L6",
+   "title": "小女生",
+   "n": 14,
+   "nani": 57.1,
+   "han": 64.3
+  },
+  {
+   "id": "kang-3上-06",
+   "pub": "kang",
+   "grade": 3,
+   "label": "3上L7",
+   "title": "淡水小鎮",
+   "n": 14,
+   "nani": 14.3,
+   "han": 21.4
+  },
+  {
+   "id": "kang-3上-07",
+   "pub": "kang",
+   "grade": 3,
+   "label": "3上L8",
+   "title": "安平古堡參觀記",
+   "n": 14,
+   "nani": 42.9,
+   "han": 42.9
+  },
+  {
+   "id": "kang-3上-08",
+   "pub": "kang",
+   "grade": 3,
+   "label": "3上L9",
+   "title": "馬太鞍的巴拉告",
+   "n": 14,
+   "nani": 28.6,
+   "han": 21.4
+  },
+  {
+   "id": "kang-3上-09",
+   "pub": "kang",
+   "grade": 3,
+   "label": "3上L10",
+   "title": "狐狸的故事",
+   "n": 14,
+   "nani": 50.0,
+   "han": 35.7
+  },
+  {
+   "id": "kang-3上-10",
+   "pub": "kang",
+   "grade": 3,
+   "label": "3上L11",
+   "title": "巨人的花園",
+   "n": 14,
+   "nani": 14.3,
+   "han": 28.6
+  },
+  {
+   "id": "kang-3上-11",
+   "pub": "kang",
+   "grade": 3,
+   "label": "3上L12",
+   "title": "模仿貓",
+   "n": 14,
+   "nani": 42.9,
+   "han": 42.9
+  },
+  {
+   "id": "kang-4上-00",
+   "pub": "kang",
+   "grade": 4,
+   "label": "4上L1",
+   "title": "水陸小高手",
+   "n": 15,
+   "nani": 60.0,
+   "han": 73.3
+  },
+  {
+   "id": "kang-4上-01",
+   "pub": "kang",
+   "grade": 4,
+   "label": "4上L2",
+   "title": "放學後",
+   "n": 15,
+   "nani": 66.7,
+   "han": 46.7
+  },
+  {
+   "id": "kang-4上-02",
+   "pub": "kang",
+   "grade": 4,
+   "label": "4上L3",
+   "title": "我的籃球夢",
+   "n": 15,
+   "nani": 40.0,
+   "han": 46.7
+  },
+  {
+   "id": "kang-4上-03",
+   "pub": "kang",
+   "grade": 4,
+   "label": "4上L4",
+   "title": "永遠的馬偕",
+   "n": 15,
+   "nani": 53.3,
+   "han": 40.0
+  },
+  {
+   "id": "kang-4上-04",
+   "pub": "kang",
+   "grade": 4,
+   "label": "4上L5",
+   "title": "假如給我三天光明",
+   "n": 15,
+   "nani": 33.3,
+   "han": 46.7
+  },
+  {
+   "id": "kang-4上-05",
+   "pub": "kang",
+   "grade": 4,
+   "label": "4上L6",
+   "title": "攀登生命的高峰",
+   "n": 15,
+   "nani": 26.7,
+   "han": 40.0
+  },
+  {
+   "id": "kang-4上-06",
+   "pub": "kang",
+   "grade": 4,
+   "label": "4上L7",
+   "title": "美味的一堂課",
+   "n": 15,
+   "nani": 33.3,
+   "han": 40.0
+  },
+  {
+   "id": "kang-4上-07",
+   "pub": "kang",
+   "grade": 4,
+   "label": "4上L8",
+   "title": "建築界的長頸鹿",
+   "n": 15,
+   "nani": 40.0,
+   "han": 33.3
+  },
+  {
+   "id": "kang-4上-08",
+   "pub": "kang",
+   "grade": 4,
+   "label": "4上L9",
+   "title": "請到我的家鄉來",
+   "n": 15,
+   "nani": 20.0,
+   "han": 20.0
+  },
+  {
+   "id": "kang-4上-09",
+   "pub": "kang",
+   "grade": 4,
+   "label": "4上L10",
+   "title": "奇幻旋律",
+   "n": 15,
+   "nani": 26.7,
+   "han": 26.7
+  },
+  {
+   "id": "kang-4上-10",
+   "pub": "kang",
+   "grade": 4,
+   "label": "4上L11",
+   "title": "兔子先生等等我",
+   "n": 15,
+   "nani": 53.3,
+   "han": 60.0
+  },
+  {
+   "id": "kang-4上-11",
+   "pub": "kang",
+   "grade": 4,
+   "label": "4上L12",
+   "title": "老鞋匠和小精靈",
+   "n": 15,
+   "nani": 60.0,
+   "han": 53.3
+  },
+  {
+   "id": "kang-5上-00",
+   "pub": "kang",
+   "grade": 5,
+   "label": "5上L1",
+   "title": "蚊帳大使",
+   "n": 18,
+   "nani": 50.0,
+   "han": 38.9
+  },
+  {
+   "id": "kang-5上-01",
+   "pub": "kang",
+   "grade": 5,
+   "label": "5上L2",
+   "title": "從空中看臺灣",
+   "n": 18,
+   "nani": 44.4,
+   "han": 38.9
+  },
+  {
+   "id": "kang-5上-02",
+   "pub": "kang",
+   "grade": 5,
+   "label": "5上L3",
+   "title": "攀岩高手",
+   "n": 18,
+   "nani": 44.4,
+   "han": 50.0
+  },
+  {
+   "id": "kang-5上-03",
+   "pub": "kang",
+   "grade": 5,
+   "label": "5上L4",
+   "title": "恆久的美",
+   "n": 19,
+   "nani": 42.1,
+   "han": 47.4
+  },
+  {
+   "id": "kang-5上-04",
+   "pub": "kang",
+   "grade": 5,
+   "label": "5上L5",
+   "title": "它抓得住你—商標的故事",
+   "n": 18,
+   "nani": 38.9,
+   "han": 44.4
+  },
+  {
+   "id": "kang-5上-05",
+   "pub": "kang",
+   "grade": 5,
+   "label": "5上L6",
+   "title": "故事「動」起來",
+   "n": 20,
+   "nani": 60.0,
+   "han": 55.0
+  },
+  {
+   "id": "kang-5上-06",
+   "pub": "kang",
+   "grade": 5,
+   "label": "5上L7",
+   "title": "為生命找到出口",
+   "n": 19,
+   "nani": 47.4,
+   "han": 31.6
+  },
+  {
+   "id": "kang-5上-07",
+   "pub": "kang",
+   "grade": 5,
+   "label": "5上L8",
+   "title": "最勇敢的女孩",
+   "n": 18,
+   "nani": 61.1,
+   "han": 50.0
+  },
+  {
+   "id": "kang-5上-08",
+   "pub": "kang",
+   "grade": 5,
+   "label": "5上L9",
+   "title": "在挫折中成長",
+   "n": 19,
+   "nani": 47.4,
+   "han": 52.6
+  },
+  {
+   "id": "kang-5上-09",
+   "pub": "kang",
+   "grade": 5,
+   "label": "5上L10",
+   "title": "山中寄情",
+   "n": 19,
+   "nani": 36.8,
+   "han": 42.1
+  },
+  {
+   "id": "kang-5上-10",
+   "pub": "kang",
+   "grade": 5,
+   "label": "5上L11",
+   "title": "與達駭黑熊走入山林",
+   "n": 19,
+   "nani": 26.3,
+   "han": 26.3
+  },
+  {
+   "id": "kang-5上-11",
+   "pub": "kang",
+   "grade": 5,
+   "label": "5上L12",
+   "title": "荒島上的國王",
+   "n": 19,
+   "nani": 26.3,
+   "han": 31.6
+  },
+  {
+   "id": "kang-6上-00",
+   "pub": "kang",
+   "grade": 6,
+   "label": "6上L1",
+   "title": "跑道",
+   "n": 19,
+   "nani": 47.4,
+   "han": 63.2
+  },
+  {
+   "id": "kang-6上-01",
+   "pub": "kang",
+   "grade": 6,
+   "label": "6上L2",
+   "title": "朱子治家格言選",
+   "n": 20,
+   "nani": 50.0,
+   "han": 40.0
+  },
+  {
+   "id": "kang-6上-02",
+   "pub": "kang",
+   "grade": 6,
+   "label": "6上L3",
+   "title": "談遇見更好的自己",
+   "n": 17,
+   "nani": 47.1,
+   "han": 41.2
+  },
+  {
+   "id": "kang-6上-03",
+   "pub": "kang",
+   "grade": 6,
+   "label": "6上L4",
+   "title": "臺灣美食詩選",
+   "n": 16,
+   "nani": 68.8,
+   "han": 50.0
+  },
+  {
+   "id": "kang-6上-04",
+   "pub": "kang",
+   "grade": 6,
+   "label": "6上L5",
+   "title": "最好的味覺禮物",
+   "n": 19,
+   "nani": 68.4,
+   "han": 63.2
+  },
+  {
+   "id": "kang-6上-05",
+   "pub": "kang",
+   "grade": 6,
+   "label": "6上L6",
+   "title": "珍珠奶茶",
+   "n": 17,
+   "nani": 41.2,
+   "han": 41.2
+  },
+  {
+   "id": "kang-6上-06",
+   "pub": "kang",
+   "grade": 6,
+   "label": "6上L7",
+   "title": "大小剛好的鞋子",
+   "n": 17,
+   "nani": 41.2,
+   "han": 35.3
+  },
+  {
+   "id": "kang-6上-07",
+   "pub": "kang",
+   "grade": 6,
+   "label": "6上L8",
+   "title": "狐假虎威",
+   "n": 18,
+   "nani": 16.7,
+   "han": 38.9
+  },
+  {
+   "id": "kang-6上-08",
+   "pub": "kang",
+   "grade": 6,
+   "label": "6上L9",
+   "title": "空城計",
+   "n": 18,
+   "nani": 44.4,
+   "han": 44.4
+  },
+  {
+   "id": "kang-6上-09",
+   "pub": "kang",
+   "grade": 6,
+   "label": "6上L10",
+   "title": "耶誕節",
+   "n": 19,
+   "nani": 42.1,
+   "han": 47.4
+  },
+  {
+   "id": "kang-6上-10",
+   "pub": "kang",
+   "grade": 6,
+   "label": "6上L11",
+   "title": "下午茶風波",
+   "n": 19,
+   "nani": 57.9,
+   "han": 73.7
+  },
+  {
+   "id": "kang-6上-11",
+   "pub": "kang",
+   "grade": 6,
+   "label": "6上L12",
+   "title": "橘子",
+   "n": 18,
+   "nani": 38.9,
+   "han": 38.9
+  },
+  {
+   "id": "han-1上-00",
+   "pub": "han",
+   "grade": 1,
+   "label": "1上L1",
+   "title": "一起走",
+   "n": 10,
+   "nani": 90.0,
+   "kang": 90.0
+  },
+  {
+   "id": "han-1上-01",
+   "pub": "han",
+   "grade": 1,
+   "label": "1上L2",
+   "title": "大風吹",
+   "n": 10,
+   "nani": 60.0,
+   "kang": 50.0
+  },
+  {
+   "id": "han-1上-02",
+   "pub": "han",
+   "grade": 1,
+   "label": "1上L3",
+   "title": "火車過山洞",
+   "n": 11,
+   "nani": 54.5,
+   "kang": 54.5
+  },
+  {
+   "id": "han-1上-03",
+   "pub": "han",
+   "grade": 1,
+   "label": "1上L4",
+   "title": "請問",
+   "n": 13,
+   "nani": 46.2,
+   "kang": 30.8
+  },
+  {
+   "id": "han-1上-04",
+   "pub": "han",
+   "grade": 1,
+   "label": "1上L5",
+   "title": "七彩滑梯",
+   "n": 12,
+   "nani": 50.0,
+   "kang": 41.7
+  },
+  {
+   "id": "han-1上-05",
+   "pub": "han",
+   "grade": 1,
+   "label": "1上L6",
+   "title": "秋千",
+   "n": 11,
+   "nani": 36.4,
+   "kang": 81.8
+  },
+  {
+   "id": "han-1上-06",
+   "pub": "han",
+   "grade": 1,
+   "label": "1上L7",
+   "title": "回音",
+   "n": 10,
+   "nani": 50.0,
+   "kang": 30.0
+  },
+  {
+   "id": "han-2上-00",
+   "pub": "han",
+   "grade": 2,
+   "label": "2上L1",
+   "title": "我的心情",
+   "n": 18,
+   "nani": 55.6,
+   "kang": 50.0
+  },
+  {
+   "id": "han-2上-01",
+   "pub": "han",
+   "grade": 2,
+   "label": "2上L2",
+   "title": "彩色的天空",
+   "n": 18,
+   "nani": 55.6,
+   "kang": 72.2
+  },
+  {
+   "id": "han-2上-02",
+   "pub": "han",
+   "grade": 2,
+   "label": "2上L3",
+   "title": "國王做新衣",
+   "n": 18,
+   "nani": 55.6,
+   "kang": 77.8
+  },
+  {
+   "id": "han-2上-03",
+   "pub": "han",
+   "grade": 2,
+   "label": "2上L4",
+   "title": "水草下的呱呱",
+   "n": 18,
+   "nani": 38.9,
+   "kang": 38.9
+  },
+  {
+   "id": "han-2上-04",
+   "pub": "han",
+   "grade": 2,
+   "label": "2上L5",
+   "title": "沙灘上的畫",
+   "n": 18,
+   "nani": 44.4,
+   "kang": 38.9
+  },
+  {
+   "id": "han-2上-05",
+   "pub": "han",
+   "grade": 2,
+   "label": "2上L6",
+   "title": "草叢裡的星星",
+   "n": 18,
+   "nani": 50.0,
+   "kang": 72.2
+  },
+  {
+   "id": "han-2上-06",
+   "pub": "han",
+   "grade": 2,
+   "label": "2上L7",
+   "title": "不一樣的美食",
+   "n": 18,
+   "nani": 38.9,
+   "kang": 44.4
+  },
+  {
+   "id": "han-2上-07",
+   "pub": "han",
+   "grade": 2,
+   "label": "2上L8",
+   "title": "美食分享日",
+   "n": 18,
+   "nani": 55.6,
+   "kang": 50.0
+  },
+  {
+   "id": "han-2上-08",
+   "pub": "han",
+   "grade": 2,
+   "label": "2上L9",
+   "title": "好味道",
+   "n": 18,
+   "nani": 27.8,
+   "kang": 38.9
+  },
+  {
+   "id": "han-2上-09",
+   "pub": "han",
+   "grade": 2,
+   "label": "2上L10",
+   "title": "加加減減",
+   "n": 18,
+   "nani": 38.9,
+   "kang": 27.8
+  },
+  {
+   "id": "han-2上-10",
+   "pub": "han",
+   "grade": 2,
+   "label": "2上L11",
+   "title": "奇怪的門",
+   "n": 18,
+   "nani": 44.4,
+   "kang": 38.9
+  },
+  {
+   "id": "han-2上-11",
+   "pub": "han",
+   "grade": 2,
+   "label": "2上L12",
+   "title": "詠鵝",
+   "n": 18,
+   "nani": 33.3,
+   "kang": 33.3
+  },
+  {
+   "id": "han-3上-00",
+   "pub": "han",
+   "grade": 3,
+   "label": "3上L1",
+   "title": "時間是什麼",
+   "n": 15,
+   "nani": 53.3,
+   "kang": 46.7
+  },
+  {
+   "id": "han-3上-01",
+   "pub": "han",
+   "grade": 3,
+   "label": "3上L2",
+   "title": "妙用便利貼",
+   "n": 15,
+   "nani": 80.0,
+   "kang": 73.3
+  },
+  {
+   "id": "han-3上-02",
+   "pub": "han",
+   "grade": 3,
+   "label": "3上L3",
+   "title": "提早五分鐘",
+   "n": 15,
+   "nani": 53.3,
+   "kang": 66.7
+  },
+  {
+   "id": "han-3上-03",
+   "pub": "han",
+   "grade": 3,
+   "label": "3上L4",
+   "title": "水滾了",
+   "n": 15,
+   "nani": 40.0,
+   "kang": 20.0
+  },
+  {
+   "id": "han-3上-04",
+   "pub": "han",
+   "grade": 3,
+   "label": "3上L5",
+   "title": "為梨花撐傘用",
+   "n": 15,
+   "nani": 46.7,
+   "kang": 40.0
+  },
+  {
+   "id": "han-3上-05",
+   "pub": "han",
+   "grade": 3,
+   "label": "3上L6",
+   "title": "小鉛筆大學問",
+   "n": 14,
+   "nani": 21.4,
+   "kang": 14.3
+  },
+  {
+   "id": "han-3上-06",
+   "pub": "han",
+   "grade": 3,
+   "label": "3上L7",
+   "title": "風的味道",
+   "n": 13,
+   "nani": 46.2,
+   "kang": 38.5
+  },
+  {
+   "id": "han-3上-07",
+   "pub": "han",
+   "grade": 3,
+   "label": "3上L8",
+   "title": "寄居蟹找新家",
+   "n": 15,
+   "nani": 53.3,
+   "kang": 53.3
+  },
+  {
+   "id": "han-3上-08",
+   "pub": "han",
+   "grade": 3,
+   "label": "3上L9",
+   "title": "阿塱壹古道",
+   "n": 15,
+   "nani": 33.3,
+   "kang": 26.7
+  },
+  {
+   "id": "han-3上-09",
+   "pub": "han",
+   "grade": 3,
+   "label": "3上L10",
+   "title": "秋千上的婚禮",
+   "n": 15,
+   "nani": 40.0,
+   "kang": 33.3
+  },
+  {
+   "id": "han-3上-10",
+   "pub": "han",
+   "grade": 3,
+   "label": "3上L11",
+   "title": "一路平安",
+   "n": 15,
+   "nani": 33.3,
+   "kang": 53.3
+  },
+  {
+   "id": "han-3上-11",
+   "pub": "han",
+   "grade": 3,
+   "label": "3上L12",
+   "title": "不一樣的團圓",
+   "n": 14,
+   "nani": 35.7,
+   "kang": 35.7
+  },
+  {
+   "id": "han-4上-00",
+   "pub": "han",
+   "grade": 4,
+   "label": "4上L1",
+   "title": "美麗島",
+   "n": 14,
+   "nani": 42.9,
+   "kang": 64.3
+  },
+  {
+   "id": "han-4上-01",
+   "pub": "han",
+   "grade": 4,
+   "label": "4上L2",
+   "title": "請到我的家鄉來",
+   "n": 15,
+   "nani": 60.0,
+   "kang": 46.7
+  },
+  {
+   "id": "han-4上-02",
+   "pub": "han",
+   "grade": 4,
+   "label": "4上L3",
+   "title": "鏡頭下的家鄉",
+   "n": 15,
+   "nani": 53.3,
+   "kang": 46.7
+  },
+  {
+   "id": "han-4上-03",
+   "pub": "han",
+   "grade": 4,
+   "label": "4上L4",
+   "title": "飛行夢",
+   "n": 15,
+   "nani": 46.7,
+   "kang": 73.3
+  },
+  {
+   "id": "han-4上-04",
+   "pub": "han",
+   "grade": 4,
+   "label": "4上L5",
+   "title": "月光下",
+   "n": 15,
+   "nani": 40.0,
+   "kang": 40.0
+  },
+  {
+   "id": "han-4上-05",
+   "pub": "han",
+   "grade": 4,
+   "label": "4上L6",
+   "title": "又遠又近的月亮",
+   "n": 15,
+   "nani": 60.0,
+   "kang": 40.0
+  },
+  {
+   "id": "han-4上-06",
+   "pub": "han",
+   "grade": 4,
+   "label": "4上L7",
+   "title": "松鼠先生的麵包",
+   "n": 13,
+   "nani": 30.8,
+   "kang": 46.2
+  },
+  {
+   "id": "han-4上-07",
+   "pub": "han",
+   "grade": 4,
+   "label": "4上L8",
+   "title": "平凡的大俠",
+   "n": 15,
+   "nani": 40.0,
+   "kang": 40.0
+  },
+  {
+   "id": "han-4上-08",
+   "pub": "han",
+   "grade": 4,
+   "label": "4上L9",
+   "title": "王子折箭",
+   "n": 15,
+   "nani": 46.7,
+   "kang": 46.7
+  },
+  {
+   "id": "han-4上-09",
+   "pub": "han",
+   "grade": 4,
+   "label": "4上L10",
+   "title": "海中的熱帶雨林",
+   "n": 15,
+   "nani": 46.7,
+   "kang": 33.3
+  },
+  {
+   "id": "han-4上-10",
+   "pub": "han",
+   "grade": 4,
+   "label": "4上L11",
+   "title": "美食島",
+   "n": 15,
+   "nani": 40.0,
+   "kang": 33.3
+  },
+  {
+   "id": "han-4上-11",
+   "pub": "han",
+   "grade": 4,
+   "label": "4上L12",
+   "title": "寧靜的意樂會",
+   "n": 14,
+   "nani": 21.4,
+   "kang": 42.9
+  },
+  {
+   "id": "han-5上-00",
+   "pub": "han",
+   "grade": 5,
+   "label": "5上L1",
+   "title": "你我之間",
+   "n": 19,
+   "nani": 52.6,
+   "kang": 47.4
+  },
+  {
+   "id": "han-5上-01",
+   "pub": "han",
+   "grade": 5,
+   "label": "5上L2",
+   "title": "風起，大家都在",
+   "n": 17,
+   "nani": 52.9,
+   "kang": 41.2
+  },
+  {
+   "id": "han-5上-02",
+   "pub": "han",
+   "grade": 5,
+   "label": "5上L3",
+   "title": "廉頗與藺相如",
+   "n": 19,
+   "nani": 42.1,
+   "kang": 42.1
+  },
+  {
+   "id": "han-5上-03",
+   "pub": "han",
+   "grade": 5,
+   "label": "5上L4",
+   "title": "來場快樂的桌遊",
+   "n": 19,
+   "nani": 42.1,
+   "kang": 31.6
+  },
+  {
+   "id": "han-5上-04",
+   "pub": "han",
+   "grade": 5,
+   "label": "5上L5",
+   "title": "超級英雄",
+   "n": 19,
+   "nani": 42.1,
+   "kang": 36.8
+  },
+  {
+   "id": "han-5上-05",
+   "pub": "han",
+   "grade": 5,
+   "label": "5上L6",
+   "title": "世足賽的贏家",
+   "n": 19,
+   "nani": 21.1,
+   "kang": 36.8
+  },
+  {
+   "id": "han-5上-06",
+   "pub": "han",
+   "grade": 5,
+   "label": "5上L7",
+   "title": "美景閒情—詩兩首",
+   "n": 17,
+   "nani": 64.7,
+   "kang": 52.9
+  },
+  {
+   "id": "han-5上-07",
+   "pub": "han",
+   "grade": 5,
+   "label": "5上L8",
+   "title": "葫蘆瓜",
+   "n": 18,
+   "nani": 55.6,
+   "kang": 66.7
+  },
+  {
+   "id": "han-5上-08",
+   "pub": "han",
+   "grade": 5,
+   "label": "5上L9",
+   "title": "窗邊的鳴聲",
+   "n": 19,
+   "nani": 47.4,
+   "kang": 31.6
+  },
+  {
+   "id": "han-5上-09",
+   "pub": "han",
+   "grade": 5,
+   "label": "5上L10",
+   "title": "敏銳觀察",
+   "n": 19,
+   "nani": 68.4,
+   "kang": 63.2
+  },
+  {
+   "id": "han-5上-10",
+   "pub": "han",
+   "grade": 5,
+   "label": "5上L11",
+   "title": "你一定會聽見的",
+   "n": 20,
+   "nani": 50.0,
+   "kang": 40.0
+  },
+  {
+   "id": "han-5上-11",
+   "pub": "han",
+   "grade": 5,
+   "label": "5上L12",
+   "title": "藍色連身裙",
+   "n": 17,
+   "nani": 35.3,
+   "kang": 47.1
+  },
+  {
+   "id": "han-6上-00",
+   "pub": "han",
+   "grade": 6,
+   "label": "6上L1",
+   "title": "遇見自己",
+   "n": 17,
+   "nani": 52.9,
+   "kang": 58.8
+  },
+  {
+   "id": "han-6上-01",
+   "pub": "han",
+   "grade": 6,
+   "label": "6上L2",
+   "title": "為什麼大家不理我？",
+   "n": 19,
+   "nani": 57.9,
+   "kang": 36.8
+  },
+  {
+   "id": "han-6上-02",
+   "pub": "han",
+   "grade": 6,
+   "label": "6上L3",
+   "title": "孔子說的話",
+   "n": 18,
+   "nani": 50.0,
+   "kang": 44.4
+  },
+  {
+   "id": "han-6上-03",
+   "pub": "han",
+   "grade": 6,
+   "label": "6上L4",
+   "title": "向大自然學習",
+   "n": 19,
+   "nani": 47.4,
+   "kang": 68.4
+  },
+  {
+   "id": "han-6上-04",
+   "pub": "han",
+   "grade": 6,
+   "label": "6上L5",
+   "title": "樹的聯想",
+   "n": 18,
+   "nani": 50.0,
+   "kang": 22.2
+  },
+  {
+   "id": "han-6上-05",
+   "pub": "han",
+   "grade": 6,
+   "label": "6上L6",
+   "title": "善用自嘲，展現幽默",
+   "n": 19,
+   "nani": 31.6,
+   "kang": 42.1
+  },
+  {
+   "id": "han-6上-06",
+   "pub": "han",
+   "grade": 6,
+   "label": "6上L7",
+   "title": "跟著公共藝術去旅行",
+   "n": 18,
+   "nani": 33.3,
+   "kang": 50.0
+  },
+  {
+   "id": "han-6上-07",
+   "pub": "han",
+   "grade": 6,
+   "label": "6上L8",
+   "title": "街頭藝術家",
+   "n": 19,
+   "nani": 36.8,
+   "kang": 31.6
+  },
+  {
+   "id": "han-6上-08",
+   "pub": "han",
+   "grade": 6,
+   "label": "6上L9",
+   "title": "戲臺上的她與他",
+   "n": 17,
+   "nani": 64.7,
+   "kang": 47.1
+  },
+  {
+   "id": "han-6上-09",
+   "pub": "han",
+   "grade": 6,
+   "label": "6上L10",
+   "title": "過故人莊",
+   "n": 17,
+   "nani": 47.1,
+   "kang": 41.2
+  },
+  {
+   "id": "han-6上-10",
+   "pub": "han",
+   "grade": 6,
+   "label": "6上L11",
+   "title": "來一碗溫暖的羹湯",
+   "n": 19,
+   "nani": 52.6,
+   "kang": 52.6
+  },
+  {
+   "id": "han-6上-11",
+   "pub": "han",
+   "grade": 6,
+   "label": "6上L12",
+   "title": "存根",
+   "n": 19,
+   "nani": 36.8,
+   "kang": 36.8
+  }
+ ],
+ "pairs": [
+  {
+   "a": "南一1上L5 外星人",
+   "b": "康軒1上L5 比一比",
+   "pct": 45,
+   "common": "什外有裡麼"
+  },
+  {
+   "a": "南一1上L1 小船",
+   "b": "康軒1上L1 拍拍手",
+   "pct": 44,
+   "common": "上也右左"
+  },
+  {
+   "a": "南一1上L1 小船",
+   "b": "翰林1上L1 一起走",
+   "pct": 40,
+   "common": "右向左走"
+  },
+  {
+   "a": "南一1上L3 吹泡泡",
+   "b": "康軒1上L2 這是誰的?",
+   "pct": 40,
+   "common": "多好我的"
+  },
+  {
+   "a": "南一1上L4 你好",
+   "b": "康軒1上L3 秋千",
+   "pct": 36,
+   "common": "到友和朋"
+  },
+  {
+   "a": "康軒1上L1 拍拍手",
+   "b": "翰林1上L1 一起走",
+   "pct": 33,
+   "common": "你右左"
+  },
+  {
+   "a": "南一1上L2 印手印",
+   "b": "康軒1上L6 小路",
+   "pct": 30,
+   "common": "在朵花"
+  },
+  {
+   "a": "南一1上L2 印手印",
+   "b": "翰林1上L3 火車過山洞",
+   "pct": 30,
+   "common": "出車開"
+  },
+  {
+   "a": "南一1上L3 吹泡泡",
+   "b": "康軒1上L3 秋千",
+   "pct": 30,
+   "common": "大玩起"
+  },
+  {
+   "a": "南一1上L3 吹泡泡",
+   "b": "翰林1上L1 一起走",
+   "pct": 30,
+   "common": "你我起"
+  },
+  {
+   "a": "南一1上L3 吹泡泡",
+   "b": "翰林1上L2 大風吹",
+   "pct": 30,
+   "common": "大玩的"
+  },
+  {
+   "a": "康軒1上L3 秋千",
+   "b": "翰林1上L2 大風吹",
+   "pct": 30,
+   "common": "們大玩"
+  },
+  {
+   "a": "康軒1上L6 小路",
+   "b": "翰林1上L1 一起走",
+   "pct": 30,
+   "common": "向在走"
+  }
+ ],
+ "named": [
+  {
+   "a": "康軒1上L3 秋千",
+   "b": "翰林1上L6 秋千",
+   "pct": 27,
+   "common": "千秋陪",
+   "commonWords": [
+    "秋千"
+   ]
+  },
+  {
+   "a": "康軒2上L7 國王的新衣裳",
+   "b": "翰林2上L3 國王做新衣",
+   "pct": 0,
+   "common": "",
+   "commonWords": [
+    "大臣"
+   ]
+  },
+  {
+   "a": "康軒4上L9 請到我的家鄉來",
+   "b": "翰林4上L2 請到我的家鄉來",
+   "pct": 0,
+   "common": "",
+   "commonWords": []
+  },
+  {
+   "a": "康軒6上L9 空城計",
+   "b": "南一6上L9 火燒連環船",
+   "pct": 0,
+   "common": "",
+   "commonWords": []
+  },
+  {
+   "a": "南一6上L3 客至",
+   "b": "翰林6上L10 過故人莊",
+   "pct": 0,
+   "common": "",
+   "commonWords": []
+  }
+ ]
+}
