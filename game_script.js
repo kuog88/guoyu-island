@@ -47,12 +47,34 @@ const blankIn = (w, pos) => { const z = wordZy(w); return [...w].map((c,i) => i 
 const known = c => (S.mastery[c] || 0) >= 2;
 
 /* ---------- 聲音 ---------- */
-let voice = null, actx = null;
-function pickVoice(){ try { const vs = speechSynthesis.getVoices(); voice = vs.find(v => /zh[-_]TW/i.test(v.lang)) || vs.find(v => /zh/i.test(v.lang)) || null; } catch(e){} }
-if ("speechSynthesis" in window){ pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+/* 朗讀語音：自動挑裝置上最自然的國語（臺灣）語音，家長也可以在首頁自己換。
+   順序：zh-TW 的 Natural／Online（Edge 雲端語音）> Google 國語（臺灣）> Apple 增強版／高品質 > 其他 zh-TW > zh-CN。
+   zh-HK、粵語不列入。 */
+let voice = null, actx = null, zhVoices = [];
+const vlang = v => (v.lang || "").replace("_", "-").toLowerCase();
+const isTW = v => /^(zh|cmn)-(hant-)?tw/.test(vlang(v));
+const isCantonese = v => /^(zh-hk|zh-mo|yue)/.test(vlang(v)) || /粵|廣東|cantonese/i.test(v.name);
+function voiceScore(v){
+  let n = isTW(v) ? 100 : /^(zh|cmn)/.test(vlang(v)) ? 20 : 0;
+  if (/natural|online|neural/i.test(v.name)) n += 60;
+  if (/google/i.test(v.name)) n += 40;
+  if (/enhanced|premium|高品質|增強/i.test(v.name)) n += 30;
+  if (/美佳|meijia/i.test(v.name)) n += 5;
+  return n;
+}
+function pickVoice(){
+  try {
+    zhVoices = speechSynthesis.getVoices().filter(v => /^(zh|cmn)/.test(vlang(v)) && !isCantonese(v)).sort((a,b) => voiceScore(b) - voiceScore(a));
+    voice = zhVoices.find(v => v.name === S.voiceName) || zhVoices[0] || null;
+    const box = document.getElementById("voicebox"); if (box) bindVoice();
+  } catch(e){}
+}
+if ("speechSynthesis" in window){ pickVoice(); speechSynthesis.addEventListener("voiceschanged", pickVoice); }
 function say(text){
   try {
-    speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = "zh-TW"; u.rate = .8; if (voice) u.voice = voice;
+    /* 單字前後加停頓，免得第一個音被吃掉 */
+    if ([...text].length <= 2) text = `，${text}。`;
+    speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = voice ? voice.lang : "zh-TW"; u.rate = .9; u.pitch = 1; if (voice) u.voice = voice;
     duck(true); u.onend = u.onerror = () => duck(false);
     speechSynthesis.speak(u);
   } catch(e){}
@@ -224,7 +246,9 @@ function setup(p){
         <button class="range" data-r="m1" aria-pressed="${p.range==="m1"}"><b>第一次月考</b><span>${p.grade===1 ? "注音符號、拼音、聲調（三個版本都一樣）" : "前半學期的課"}</span></button>
         <button class="range" data-r="m2" aria-pressed="${p.range==="m2"}"><b>第二次月考</b><span>${p.grade===1 ? "課文生字（依課本版本）" : "後半學期的課"}</span></button></div>
       <p class="muted">各校考試範圍可能不同，在地圖上方可以隨時切換範圍。</p>
-      <div class="row"><span class="spacer"></span><button class="btn primary" id="go" ${p.version && p.grade ? "" : "disabled"}>出發去冒險</button></div></div>`);
+      <div class="row"><span class="spacer"></span><button class="btn primary" id="go" ${p.version && p.grade ? "" : "disabled"}>出發去冒險</button></div></div>
+    <div class="panel" id="voicebox"></div>`);
+  bindVoice();
   app.querySelectorAll(".gbtn").forEach(b => b.onclick = () => setup({...p, grade:+b.dataset.g}));
   app.querySelectorAll(".ver").forEach(b => b.onclick = () => setup({...p, version:b.dataset.v}));
   app.querySelectorAll(".range").forEach(b => b.onclick = () => setup({...p, range:b.dataset.r}));
@@ -234,6 +258,22 @@ function setup(p){
     Object.assign(S, p); save();
     if (await loadGrade(S.grade)) map(switched);
   };
+}
+
+/* 首頁的「試聽／換聲音」 */
+function bindVoice(){
+  const box = document.getElementById("voicebox");
+  if (!box) return;
+  if (!("speechSynthesis" in window)){ box.innerHTML = `<h2>🔈 朗讀聲音</h2><p class="muted">這個瀏覽器不支援朗讀，建議用 Edge 或 Chrome 瀏覽器。</p>`; return; }
+  const auto = zhVoices[0], label = v => `${v.name}${isTW(v) ? "" : "（大陸口音）"}`;
+  box.innerHTML = `<h2>🔈 朗讀聲音</h2>
+    <div class="voicerow"><select id="voicesel" aria-label="朗讀聲音">
+      <option value="">自動${auto ? `（${esc(label(auto))}）` : ""}</option>
+      ${zhVoices.map(v => `<option value="${esc(v.name)}" ${v.name === S.voiceName ? "selected" : ""}>${esc(label(v))}</option>`).join("")}</select>
+      <button class="btn small" id="voicetry">試聽</button></div>
+    ${zhVoices.some(isTW) ? "" : `<p class="muted">這台裝置的中文語音較少，建議用 Edge 瀏覽器，或在系統設定下載「中文（台灣）」語音。</p>`}`;
+  document.getElementById("voicesel").onchange = e => { S.voiceName = e.target.value || undefined; save(); pickVoice(); say("小朋友，我們一起來闖關吧！"); };
+  document.getElementById("voicetry").onclick = () => say("小朋友，我們一起來闖關吧！");
 }
 
 /* ---------- 地圖 ---------- */
