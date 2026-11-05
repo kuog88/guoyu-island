@@ -182,6 +182,14 @@ def main():
             strokes = {c: v for c, v in json.load(open("strokes_g1.json", encoding="utf-8")).items() if c not in skip}
             json.dump(strokes, open("game/strokes/g1.json", "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
         json.dump(data, open(f"game/data/g{g}.json", "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+        if g == 1:
+            # 一年級全文注音：多音字、輕聲依辭典與人工校對（make_zy_g1.py、zy_fix_g1.json）
+            import make_zy_g1
+            if os.path.exists(make_zy_g1.MOE_DICT):
+                make_zy_g1.main()
+            zy1 = json.load(open("zy_g1.json", encoding="utf-8"))
+            data["zyPhrases"], data["zyChars"] = zy1["phrases"], zy1["chars"]
+            json.dump(data, open(f"game/data/g{g}.json", "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
         missing = sorted({c for l in ls for c in l["chars"] if c not in info})
         stats[g] = {"lessons": len(ls), "chars": len(info), "words": len(wz), "zyFix": sum(len(x["zy"]) for x in out_lessons), "missing": "".join(missing)}
     import time

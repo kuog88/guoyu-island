@@ -5,10 +5,10 @@
 <title>國語闖關島</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
-<link rel="preload" href="fonts/twkai.woff2?v=20261105172805" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/twkai.woff2?v=20261105214420" as="font" type="font/woff2" crossorigin>
 <style>
 /* 楷體用「全字庫正楷體」（教育部標準字形）切出的網路字型，每台裝置寫法一致；不用日文或大陸字形的字型 */
-@font-face{font-family:"TWKaiGame";src:url("fonts/twkai.woff2?v=20261105172805") format("woff2");font-display:swap}
+@font-face{font-family:"TWKaiGame";src:url("fonts/twkai.woff2?v=20261105214420") format("woff2");font-display:swap}
 /* Layout: 手機優先的單欄 App。設定 → 島嶼地圖（之字形路徑）→ 課關卡（四站）→ 結算。 */
 :root{
   --sea:#e3f1f4; --sea-deep:#bfe0e7; --sand:#fffaf0; --card:#ffffff; --ink:#1d2b33; --soft:#5b6b73; --line:#d4e3e7;
@@ -83,7 +83,9 @@ button:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
 
 /* 關卡 */
 .top{display:flex;align-items:center;gap:10px}
-.steps{display:flex;gap:6px;flex:1;justify-content:center}
+.steps{display:flex;gap:6px;flex:1;justify-content:center;min-width:24px}
+.top .chip{flex-wrap:wrap;gap:0;min-width:0;flex-shrink:1;justify-content:flex-end}
+.shell span .bpmf{margin-left:0}
 .steps span{height:8px;flex:1;max-width:60px;border-radius:4px;background:var(--sea-deep)}
 .steps span.on{background:var(--coral)} .steps span.ok{background:var(--ok)}
 .stname{font-weight:900;font-size:15px;color:var(--soft);text-align:center}
@@ -103,7 +105,7 @@ button:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
 .sentence{font-family:var(--kai);font-size:clamp(30px,8vw,40px);line-height:2;text-align:left;max-width:100%}
 /* 課本式直排注音：字的右邊一欄注音，聲調符號放在右側中間，輕聲點在最上面 */
 .zc{display:inline-flex;align-items:center;margin-right:.08em;vertical-align:middle}
-.bpmf{display:inline-flex;flex-direction:column;align-items:center;font-size:.42em;line-height:1;position:relative;padding-right:.55em;margin-left:.05em;color:var(--soft)}
+.bpmf{display:inline-flex;flex-direction:column;align-items:center;font-size:max(.42em,9px);line-height:1;position:relative;padding-right:.55em;margin-left:.05em;color:var(--soft)}
 .bpmf i{font-style:normal}
 .bpmf .tn{position:absolute;right:0;top:50%;transform:translateY(-50%)}
 .blank{display:inline-block;min-width:1em;border-bottom:4px solid var(--coral);color:var(--coral);text-align:center;line-height:1.2}
@@ -225,10 +227,11 @@ button:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
 @keyframes swim{50%{transform:translateX(6px) rotate(-3deg)}}
 @keyframes caught{to{transform:translateY(-60px) scale(.4);opacity:0}}
 @keyframes away{50%{transform:translateX(30px)}}
-.shells{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
-.shell{min-height:62px;border-radius:50% 50% 14px 14px;background:var(--sand);border:3px solid var(--rock);display:grid;place-items:center;line-height:1.05;padding:4px}
+.shells{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}
+.shell{min-height:62px;border-radius:50% 50% 14px 14px;background:var(--sand);border:3px solid var(--rock);display:grid;place-items:center;line-height:1.05;padding:4px 1px}
 .shell b{font-family:var(--kai);font-size:30px;font-weight:400}
-.shell span{font-size:11px;color:var(--soft)}
+.shell span{font-size:11px;color:var(--soft);display:flex;flex-wrap:wrap;justify-content:center}
+.shell span .bpmf{font-size:8px;padding-right:.5em}
 .shell:disabled,.fish:disabled{opacity:.35}
 .tools{display:flex;gap:10px;justify-content:center}
 
@@ -476,7 +479,7 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 const PUB = {nani:"南一", kang:"康軒", han:"翰林"};
 const GRADE = ["", "一", "二", "三", "四", "五", "六"];
 const STORE = "guoyu-island-v3";
-const BUILD = "20261105172805";
+const BUILD = "20261105214420";
 const ORDER = "ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙㄧㄨㄩㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥㄦ";
 const LOOKALIKE = {ㄅ:"ㄆㄉ",ㄆ:"ㄅㄊ",ㄇ:"ㄈㄋ",ㄈ:"ㄇㄏ",ㄉ:"ㄊㄅ",ㄊ:"ㄉㄆ",ㄋ:"ㄌㄇ",ㄌ:"ㄋㄖ",ㄍ:"ㄎㄏ",ㄎ:"ㄍㄏ",ㄏ:"ㄈㄎ",ㄐ:"ㄑㄓ",ㄑ:"ㄐㄔ",ㄒ:"ㄕㄙ",ㄓ:"ㄗㄐ",ㄔ:"ㄘㄑ",ㄕ:"ㄙㄒ",ㄖ:"ㄌㄦ",ㄗ:"ㄓㄘ",ㄘ:"ㄔㄗ",ㄙ:"ㄕㄒ",ㄧ:"ㄩㄨ",ㄨ:"ㄧㄩ",ㄩ:"ㄧㄨ",ㄚ:"ㄛㄜ",ㄛ:"ㄜㄡ",ㄜ:"ㄛㄝ",ㄝ:"ㄜㄟ",ㄞ:"ㄟㄠ",ㄟ:"ㄞㄝ",ㄠ:"ㄡㄞ",ㄡ:"ㄠㄛ",ㄢ:"ㄤㄣ",ㄣ:"ㄥㄢ",ㄤ:"ㄢㄥ",ㄥ:"ㄣㄤ",ㄦ:"ㄜㄖ"};
 const TONES = [{v:1,k:"ˉ",n:"一聲"},{v:2,k:"ˊ",n:"二聲"},{v:3,k:"ˇ",n:"三聲"},{v:4,k:"ˋ",n:"四聲"},{v:5,k:"˙",n:"輕聲"}];
@@ -486,6 +489,8 @@ const radLabel = r => RAD_VAR[r] ? `${r}（${RAD_VAR[r]}）` : r;
 
 /* 目前年級的資料（loadGrade 會換掉） */
 let DATA = null, INFO = {}, WZY = {}, STROKES = {}, allGen = [], allWords = [], wordSet = new Set(), CUR_ZY = null;
+/* 一年級全文注音用：校對過的詞語讀音（多音字、輕聲）和課本以外的字的讀音 */
+let ZYP = {}, ZYC = {};
 const canWrite = c => !!STROKES[c] && !!window.HanziWriter;
 const showZy = () => DATA && DATA.grade <= 2;
 
@@ -514,7 +519,54 @@ function bpmf(z){
 const zc = (inner, z) => `<span class="zc">${inner}${bpmf(z)}</span>`;
 /* 一、二年級全文加注音；三年級以上只在要考的地方加 */
 const ruby = (c, z, force) => (force || showZy()) && (z || INFO[c]) ? zc(esc(c), z || zy(c)) : esc(c);
-const rubyText = s => [...s].map(c => ruby(c)).join("");
+const HAN = /[\u3400-\u9fff]/;
+const fullZy = () => !!DATA && DATA.grade === 1;
+/* 依上下文決定每個字的讀音：由左到右找最長的詞（課文語詞、校對過的詞），找不到再用單字讀音 */
+function readText(s){
+  const cs = [...s], out = [];
+  for (let i = 0; i < cs.length;){
+    let n = Math.min(6, cs.length - i);
+    for (; n > 1; n--){ const r = WZY[cs.slice(i, i+n).join("")] || ZYP[cs.slice(i, i+n).join("")]; if (r && r.length === n){ out.push(...r); break; } }
+    if (n > 1){ i += n; continue; }
+    const c = cs[i++];
+    out.push((CUR_ZY && CUR_ZY[c]) || ZYC[c] || (INFO[c] ? INFO[c][0] : ""));
+  }
+  return out;
+}
+/* 標點黏在前一個字（開頭的引號黏在後一個字），才不會單獨跑到下一行的開頭 */
+function zyHTML(s){
+  const cs = [...s], r = readText(s);
+  let out = "", buf = "", last = null;
+  const flush = () => { if (last){ out += `<span class="zc">${last.pre}${esc(last.c)}${bpmf(last.z)}${last.post}</span>`; last = null; } };
+  cs.forEach((c,i) => {
+    if (r[i] && HAN.test(c)){
+      const open = buf.match(/[「『（《〈“‘]+$/);
+      if (open) buf = buf.slice(0, -open[0].length);
+      flush(); out += esc(buf); buf = "";
+      last = {pre:open ? esc(open[0]) : "", c, z:r[i], post:""};
+    } else if (last && !buf && /[，。！？、：；」』）》〉…”’]/.test(c)) last.post += esc(c);
+    else { flush(); buf += c; }
+  });
+  flush();
+  return out + esc(buf);
+}
+const rubyText = s => showZy() ? zyHTML(s) : esc(s);
+/* 一年級：畫面上所有國字自動加注音。會洩漏答案的地方（選項、要拼的字）加 class="nozy" */
+const ZY_SKIP = ".zc,.bpmf,.nozy,script,style,svg";
+function zyNode(node){
+  const s = node.nodeValue, r = readText(s);
+  if (![...s].some((c,i) => r[i] && HAN.test(c))) return;
+  const t = document.createElement("template"); t.innerHTML = zyHTML(s);
+  node.replaceWith(t.content);
+}
+function autoZy(root){
+  if (!fullZy() || app.dataset.page === "parent") return;
+  if (root.nodeType === 3){ if (root.parentElement && !root.parentElement.closest(ZY_SKIP)) zyNode(root); return; }
+  if (root.nodeType !== 1 || root.closest(ZY_SKIP)) return;
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {acceptNode:n => n.parentElement.closest(ZY_SKIP) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT});
+  const list = []; while (w.nextNode()) list.push(w.currentNode);
+  list.forEach(zyNode);
+}
 const wordZy = w => WZY[w] || [...w].map(zy);
 const rubyWord = (w, force) => { const z = wordZy(w); return [...w].map((c,i) => ruby(c, z[i], force)).join(""); };
 const blankIn = (w, pos) => { const z = wordZy(w); return [...w].map((c,i) => i === pos ? zc(`<span class="blank">？</span>`, z[i]) : ruby(c, z[i])).join(""); };
@@ -648,7 +700,9 @@ const BALLCOL = ["var(--coral)","var(--kang)","var(--han)","var(--boss)"];
 const ICON_SPEAK = `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>`;
 
 const app = document.getElementById("app");
-function render(html){ app.innerHTML = html; window.scrollTo(0,0); }
+new MutationObserver(ms => { if (fullZy()) ms.forEach(m => m.addedNodes.forEach(autoZy)); }).observe(app, {childList:true, subtree:true});
+let PARENT_PAGE = false; // 設定頁、家長報表是給大人看的，不加注音
+function render(html){ app.dataset.page = PARENT_PAGE ? "parent" : ""; PARENT_PAGE = false; app.innerHTML = html; window.scrollTo(0,0); }
 
 /* ---------- 載入年級資料 ---------- */
 async function loadGrade(g){
@@ -665,6 +719,8 @@ async function loadGrade(g){
     return false;
   }
   INFO = DATA.info; WZY = DATA.wordZy || {};
+  ZYC = DATA.zyChars || {}; ZYP = {};
+  for (const [w, z] of Object.entries(DATA.zyPhrases || {})) ZYP[w] = z.split(" ");
   allGen = uniq(DATA.lessons.flatMap(l => l.chars)).filter(c => INFO[c]);
   allWords = uniq(DATA.lessons.flatMap(l => l.words)).filter(w => w.length >= 2 && [...w].every(c => INFO[c]));
   wordSet = new Set(allWords);
@@ -708,6 +764,7 @@ function levels(range){
 /* ---------- 設定 ---------- */
 function setup(p){
   p = p || {grade:S.grade, version:S.version, range:S.range};
+  PARENT_PAGE = true;
   render(`
     <div class="hero"><span class="muted">115 學年度・上學期・南一／康軒／翰林</span><h1>國語闖關島</h1>
       <p class="muted">爸爸媽媽設定一次就好：年級、課本版本、要準備哪一次月考。</p></div>
@@ -771,7 +828,7 @@ function map(switched){
     <div class="map" id="map">${lv.map((l,i) => {
       const k = l.chars.filter(known).length, st = S.stars[l.id] || 0;
       return `<button class="node ${st ? "done" : ""}" data-i="${i}">
-        <span class="island" style="${l.glyph.length>1 ? "font-size:20px" : ""}">${esc(l.glyph)}</span>
+        <span class="island nozy" style="${l.glyph.length>1 ? "font-size:20px" : ""}">${esc(l.glyph)}</span>
         <span style="display:grid;gap:4px;min-width:0"><span class="ttl">${esc(l.title)}</span>
           <span class="meta"><span>${esc(l.label)}</span>
             <span class="stars" aria-label="${st} 顆星">${"★".repeat(st)}<span class="off">${"★".repeat(3-st)}</span></span>
@@ -835,6 +892,7 @@ function report(){
         <button class="btn small primary" data-review="${k}">用這 ${weak.length} 個字練一關</button>` : `<p class="muted">${done ? "這個範圍目前沒有常錯的字。" : "還沒開始玩這個範圍。"}</p>`}</div>`;
   }).join("");
   const weakAll = weakChars(chars, 24);
+  PARENT_PAGE = true;
   render(`<div class="top"><button class="btn small" id="back">← 地圖</button><span class="spacer"></span><span class="chip ${S.version}">${GRADE[DATA.grade]}年級・${PUB[S.version]}版</span></div>
     <div class="panel rep">
       <h2>家長報表</h2>
@@ -1321,7 +1379,7 @@ function chest(){
   const l = G.lv, cs = [...l.chars, ...l.readChars.filter(c => INFO[c])];
   render(`${header()}<div class="stage">${talk("寶箱裡藏著這一課的字，全部打開吧！")}
     <div class="detail" id="detail" hidden></div>
-    <div class="chests">${cs.map(c => `<button class="chest ${l.readChars.includes(c) ? "rc" : ""}" data-c="${esc(c)}" aria-label="寶箱"><b>${esc(c)}</b><small>${esc(zy(c))}</small></button>`).join("")}</div>
+    <div class="chests">${cs.map(c => `<button class="chest nozy ${l.readChars.includes(c) ? "rc" : ""}" data-c="${esc(c)}" aria-label="寶箱"><b>${esc(c)}</b><small>${esc(zy(c))}</small></button>`).join("")}</div>
     <p class="muted">${l.readChars.length ? "最後幾個寶箱是只要會認的字。" : ""}</p>
     <div class="row" style="justify-content:center"><button class="btn" id="skip">直接出發</button><button class="btn primary" id="next" hidden>全部打開了，出發！</button></div></div>`);
   bindBack();
@@ -1331,7 +1389,7 @@ function chest(){
     if (!b.classList.contains("open")){ b.classList.add("open"); burst(b); sfx("pop"); collect(c); save(); }
     left.delete(c); say(c);
     const ws = lessonWords(l).filter(w => w.includes(c)).concat(allWords.filter(w => w.includes(c))), d = document.getElementById("detail");
-    d.innerHTML = `<span class="bigchar">${esc(c)}</span><dl><dt>注音</dt><dd>${esc(zy(c))}</dd><dt>部首</dt><dd>${esc(radLabel(i[1]))}${i[3] ? `<span class="muted">（${i[4] ? "也有字典歸在" : "教育部國語小字典歸在"}「${esc(i[3])}」部）</span>` : ""}</dd><dt>筆畫</dt><dd>${i[2]} 畫</dd>${ws.length ? `<dt>語詞</dt><dd>${uniq(ws).slice(0,3).map(w => rubyWord(w)).join("、")}</dd>` : ""}</dl>`;
+    d.innerHTML = `<span class="bigchar nozy">${esc(c)}</span><dl><dt>注音</dt><dd>${esc(zy(c))}</dd><dt>部首</dt><dd>${esc(radLabel(i[1]))}${i[3] ? `<span class="muted">（${i[4] ? "也有字典歸在" : "教育部國語小字典歸在"}「${esc(i[3])}」部）</span>` : ""}</dd><dt>筆畫</dt><dd>${i[2]} 畫</dd>${ws.length ? `<dt>語詞</dt><dd>${uniq(ws).slice(0,3).map(w => rubyWord(w)).join("、")}</dd>` : ""}</dl>`;
     d.hidden = false;
     if (!left.size){ document.getElementById("next").hidden = false; document.getElementById("skip").hidden = true; setMsg("全部打開了！我們出發吧！"); }
   });
@@ -1345,7 +1403,7 @@ function balloon(q, done){
   const xs = [8, 38, 68];
   render(`${header()}<div class="stage">${talk("聽一聽，把對的氣球射下來！")}
     ${speakerBtn()}
-    <div class="sky">${q.opts.map((o,i) => `<button class="balloon" data-o="${esc(o)}" style="left:calc(${xs[i]}% - 10px);bottom:${20 + (i%2)*40}px;animation-delay:${-i*.8}s"><span class="ball" style="background:${BALLCOL[(i + G.qi) % 4]}">${esc(o)}</span><span class="str"></span></button>`).join("")}</div></div>`);
+    <div class="sky">${q.opts.map((o,i) => `<button class="balloon" data-o="${esc(o)}" style="left:calc(${xs[i]}% - 10px);bottom:${20 + (i%2)*40}px;animation-delay:${-i*.8}s"><span class="ball nozy" style="background:${BALLCOL[(i + G.qi) % 4]}">${esc(o)}</span><span class="str"></span></button>`).join("")}</div></div>`);
   bindBack();
   document.getElementById("play").onclick = () => say(q.t); say(q.t);
   let over = false;
@@ -1367,7 +1425,7 @@ function fishGame(q, done, inBoss){
   let tone = null, tries = 0, over = false;
   const html = `
     <div class="pond">
-      <div class="boat"><span class="bigchar">${esc(q.t)}</span><div class="slots" id="slots"></div></div>
+      <div class="boat"><span class="bigchar nozy">${esc(q.t)}</span><div class="slots" id="slots"></div></div>
       ${q.toneOnly ? "" : `<div class="fishes">${fishKeys.map((k,i) => `<button class="fish" data-k="${k}" aria-label="${k}">${FISH(FISHCOL[i % FISHCOL.length])}<span>${k}</span></button>`).join("")}</div>`}
       <div class="shells">${TONES.map(t => `<button class="shell" data-t="${t.v}"><b>${t.k}</b><span>${t.n}</span></button>`).join("")}</div>
       <div class="tools"><button class="btn small" id="undo">退一格</button>${speakerBtn()}</div>
@@ -1469,7 +1527,7 @@ function bridge(q, done){
   render(`${header()}<div class="stage">${talk("橋壞了！看注音，選對的石頭補上去！")}
     <div class="river"><span class="walker" id="walker">${AVATAR}</span>
       <div class="bridge"><span class="cliffL"></span>${[...q.w].map((c,i) => i === q.pos ? `<span class="plank gap" id="gap"><span class="sentence">${zc(`<span class="blank">？</span>`, wordZy(q.w)[i])}</span></span>` : `<span class="plank"><span class="sentence">${ruby(c, wordZy(q.w)[i])}</span></span>`).join("")}<span class="cliffR"></span></div></div>
-    <div class="stones">${q.opts.map(o => `<button class="stone" data-o="${esc(o)}">${esc(o)}</button>`).join("")}</div></div>`);
+    <div class="stones nozy">${q.opts.map(o => `<button class="stone" data-o="${esc(o)}">${esc(o)}</button>`).join("")}</div></div>`);
   bindBack();
   let over = false;
   app.querySelectorAll(".stone").forEach(b => b.onclick = () => {
@@ -1733,7 +1791,7 @@ function bossFight(s){
     } else if (q.kind === "hearword"){
       prompt = speakerBtn("聽語詞"); msg = "聽一聽，是哪一個語詞？"; wide = true;
     }
-    frame(`${prompt}<div class="magic">${q.opts.map(o => `<button class="${wide ? "gem" : "star"}" data-o="${esc(o)}">${esc(q.kind === "radical" ? radLabel(o) : o)}</button>`).join("")}</div>`, msg);
+    frame(`${prompt}<div class="magic ${q.kind === "radical" ? "" : "nozy"}">${q.opts.map(o => `<button class="${wide ? "gem" : "star"}" data-o="${esc(o)}">${esc(q.kind === "radical" ? radLabel(o) : o)}</button>`).join("")}</div>`, msg);
     const play = document.getElementById("play");
     if (play){ play.onclick = () => say(q.w); say(q.w); }
     let over = false;

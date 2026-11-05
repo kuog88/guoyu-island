@@ -83,7 +83,9 @@ button:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
 
 /* 關卡 */
 .top{display:flex;align-items:center;gap:10px}
-.steps{display:flex;gap:6px;flex:1;justify-content:center}
+.steps{display:flex;gap:6px;flex:1;justify-content:center;min-width:24px}
+.top .chip{flex-wrap:wrap;gap:0;min-width:0;flex-shrink:1;justify-content:flex-end}
+.shell span .bpmf{margin-left:0}
 .steps span{height:8px;flex:1;max-width:60px;border-radius:4px;background:var(--sea-deep)}
 .steps span.on{background:var(--coral)} .steps span.ok{background:var(--ok)}
 .stname{font-weight:900;font-size:15px;color:var(--soft);text-align:center}
@@ -103,7 +105,7 @@ button:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
 .sentence{font-family:var(--kai);font-size:clamp(30px,8vw,40px);line-height:2;text-align:left;max-width:100%}
 /* 課本式直排注音：字的右邊一欄注音，聲調符號放在右側中間，輕聲點在最上面 */
 .zc{display:inline-flex;align-items:center;margin-right:.08em;vertical-align:middle}
-.bpmf{display:inline-flex;flex-direction:column;align-items:center;font-size:.42em;line-height:1;position:relative;padding-right:.55em;margin-left:.05em;color:var(--soft)}
+.bpmf{display:inline-flex;flex-direction:column;align-items:center;font-size:max(.42em,9px);line-height:1;position:relative;padding-right:.55em;margin-left:.05em;color:var(--soft)}
 .bpmf i{font-style:normal}
 .bpmf .tn{position:absolute;right:0;top:50%;transform:translateY(-50%)}
 .blank{display:inline-block;min-width:1em;border-bottom:4px solid var(--coral);color:var(--coral);text-align:center;line-height:1.2}
@@ -225,10 +227,11 @@ button:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
 @keyframes swim{50%{transform:translateX(6px) rotate(-3deg)}}
 @keyframes caught{to{transform:translateY(-60px) scale(.4);opacity:0}}
 @keyframes away{50%{transform:translateX(30px)}}
-.shells{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
-.shell{min-height:62px;border-radius:50% 50% 14px 14px;background:var(--sand);border:3px solid var(--rock);display:grid;place-items:center;line-height:1.05;padding:4px}
+.shells{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}
+.shell{min-height:62px;border-radius:50% 50% 14px 14px;background:var(--sand);border:3px solid var(--rock);display:grid;place-items:center;line-height:1.05;padding:4px 1px}
 .shell b{font-family:var(--kai);font-size:30px;font-weight:400}
-.shell span{font-size:11px;color:var(--soft)}
+.shell span{font-size:11px;color:var(--soft);display:flex;flex-wrap:wrap;justify-content:center}
+.shell span .bpmf{font-size:8px;padding-right:.5em}
 .shell:disabled,.fish:disabled{opacity:.35}
 .tools{display:flex;gap:10px;justify-content:center}
 
