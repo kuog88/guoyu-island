@@ -1,16 +1,21 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>國語闖關島</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<link rel="preload" href="fonts/twkai.woff2?v=__BUILD__" as="font" type="font/woff2" crossorigin>
 <style>
+/* 楷體用「全字庫正楷體」（教育部標準字形）切出的網路字型，每台裝置寫法一致；不用日文或大陸字形的字型 */
+@font-face{font-family:"TWKaiGame";src:url("fonts/twkai.woff2?v=__BUILD__") format("woff2");font-display:swap}
 /* Layout: 手機優先的單欄 App。設定 → 島嶼地圖（之字形路徑）→ 課關卡（四站）→ 結算。 */
 :root{
   --sea:#e3f1f4; --sea-deep:#bfe0e7; --sand:#fffaf0; --card:#ffffff; --ink:#1d2b33; --soft:#5b6b73; --line:#d4e3e7;
   --coral:#e5533d; --coral-ink:#ffffff; --ok:#1f9d6b; --ok-bg:#dff5ea; --bad:#d64545; --bad-bg:#fde6e3; --star:#f2a516;
   --nani:#c2410c; --nani-bg:#fdeee5; --kang:#1d4ed8; --kang-bg:#e8eefc; --han:#047857; --han-bg:#e2f4ec;
-  --kai:"DFKai-SB","BiauKai","TW-Kai","LXGW WenKai TC","KaiTi",serif;
-  --ui:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  --kai:"TWKaiGame","TW-Kai","BiauKai","DFKai-SB","標楷體","Noto Serif TC",serif;
+  --ui:"Noto Sans TC","Microsoft JhengHei","PingFang TC",sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --sea:#0f2329; --sea-deep:#16323a; --sand:#14252b; --card:#1b2f36; --ink:#e7f1f3; --soft:#9fb4bb; --line:#2a454d;
@@ -132,6 +137,7 @@ button:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
 .tab b{font-size:16px} .tab span{font-size:13px;color:var(--soft)}
 .tab[aria-pressed="true"]{border-color:var(--coral);box-shadow:0 0 0 2px var(--coral) inset}
 .ranges{display:grid;gap:10px}
+.credit{font-size:12px;text-align:center;padding-bottom:56px}
 .voicerow{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .voicerow select{flex:1;min-width:0;min-height:44px;padding:6px 10px;border-radius:12px;border:2px solid var(--line);background:var(--card);color:var(--ink);font:inherit}
 .range{display:grid;gap:2px;text-align:left;padding:14px 16px;border-radius:14px;background:var(--card);border:2px solid var(--line)}

@@ -24,7 +24,8 @@
 | `char_info_all.json`、`word_zy.json`、`char_info_g1.json` | 注音、部首、筆畫（教育部字典） |
 | `stroke_count.json` | 教育部筆順網的筆畫數（g0v/zh-stroke-data）；字卡筆畫和描寫筆數用它統一（`fetch_stroke_count.py`） |
 | `radical_textbook.json` | 課本（康熙）歸部和教育部字典不同的字（例如最：曰，教育部歸冂），以課本為準出題、字卡註記教育部歸部 |
-| `strokes_g1.json` | 一年級筆順（Make Me a Hanzi 字形，依教育部筆順重新排序） |
+| `strokes_g1.json` | 一年級筆順與字形（g0v/zh-stroke-data 教育部標準字形；只有資料有誤的字才用 Make Me a Hanzi） |
+| `game/fonts/twkai.woff2` | 全字庫正楷體切出遊戲用到的字，各裝置字形一致（`make_font.py`，原始字型放 `fonts_src/`，不進版本庫） |
 | `bank_g3.txt`～`bank_g6.txt` | 各年級共用題庫（成語、關聯詞、量詞、修辭、句子變身、標點、句意、換句話說），自編 |
 | `lessons_g{3-6}_{nani,kang,han}.txt` | 各版本各課的選詞填空、句子積木，自編 |
 | `sentences_g1.txt` | 一年級句子填空，自編 |
@@ -44,5 +45,6 @@ python build_game.py
 
 - 課文生字、語詞：教育部教育百科「生字詞彙表」。
 - 注音、部首、筆畫：教育部字典；筆畫數以教育部筆順網為準；部首以課本（康熙）歸部為準，比對用 Unicode Unihan 15.0 kRSKangXi。
-- 筆順字形：Make Me a Hanzi（hanzi-writer-data）；筆順順序參考 g0v/zh-stroke-data（教育部常用國字標準字體筆順）。正式商用前請向教育部確認授權。
+- 筆順字形：g0v/zh-stroke-data（教育部常用國字標準字體筆順），少數字用 Make Me a Hanzi（hanzi-writer-data）。正式商用前請向教育部確認授權。
+- 楷體字型：全字庫正楷體 TW-Kai（國家發展委員會全字庫，政府資料開放授權條款第 1 版）。
 - 題庫、閱讀短文、句子都是自編，未使用課本原文或出版社試題。

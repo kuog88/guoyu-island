@@ -7,7 +7,8 @@
 - stroke_count.json：教育部筆順網的筆畫數（fetch_stroke_count.py）
 - radical_textbook.json：課本（康熙）歸部和教育部字典不同的字
 - sentences_g1.txt：一年級句子填空（自編）
-- strokes_g1.json：一年級筆順（fetch_strokes.py）
+- strokes_g1.json：一年級筆順與字形（fetch_strokes.py，教育部標準字形）
+- fonts_src/TW-Kai-98_1.ttf：全字庫正楷體，切成 game/fonts/twkai.woff2（make_font.py）
 """
 import json
 import os
@@ -184,9 +185,12 @@ def main():
         missing = sorted({c for l in ls for c in l["chars"] if c not in info})
         stats[g] = {"lessons": len(ls), "chars": len(info), "words": len(wz), "zyFix": sum(len(x["zy"]) for x in out_lessons), "missing": "".join(missing)}
     import time
-    script = open("game_script.js", encoding="utf-8").read().replace("__BUILD__", time.strftime("%Y%m%d%H%M%S"))
-    html = open("game_template.html", encoding="utf-8").read().replace("__SCRIPT__", script)
+    build = time.strftime("%Y%m%d%H%M%S")
+    script = open("game_script.js", encoding="utf-8").read()
+    html = open("game_template.html", encoding="utf-8").read().replace("__SCRIPT__", script).replace("__BUILD__", build)
     open("game/index.html", "w", encoding="utf-8").write(html)
+    import make_font
+    make_font.main()
     for g, s in stats.items():
         print(g, s)
 

@@ -247,7 +247,8 @@ function setup(p){
         <button class="range" data-r="m2" aria-pressed="${p.range==="m2"}"><b>第二次月考</b><span>${p.grade===1 ? "課文生字（依課本版本）" : "後半學期的課"}</span></button></div>
       <p class="muted">各校考試範圍可能不同，在地圖上方可以隨時切換範圍。</p>
       <div class="row"><span class="spacer"></span><button class="btn primary" id="go" ${p.version && p.grade ? "" : "disabled"}>出發去冒險</button></div></div>
-    <div class="panel" id="voicebox"></div>`);
+    <div class="panel" id="voicebox"></div>
+    <p class="muted credit">楷體字型：全字庫正楷體（國家發展委員會，政府資料開放授權）；筆順：教育部常用國字標準字體筆順（g0v/zh-stroke-data）</p>`);
   bindVoice();
   app.querySelectorAll(".gbtn").forEach(b => b.onclick = () => setup({...p, grade:+b.dataset.g}));
   app.querySelectorAll(".ver").forEach(b => b.onclick = () => setup({...p, version:b.dataset.v}));
