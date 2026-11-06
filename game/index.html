@@ -5,10 +5,10 @@
 <title>國語闖關島</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
-<link rel="preload" href="fonts/twkai.woff2?v=20261105214420" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/twkai.woff2?v=20261106224415" as="font" type="font/woff2" crossorigin>
 <style>
 /* 楷體用「全字庫正楷體」（教育部標準字形）切出的網路字型，每台裝置寫法一致；不用日文或大陸字形的字型 */
-@font-face{font-family:"TWKaiGame";src:url("fonts/twkai.woff2?v=20261105214420") format("woff2");font-display:swap}
+@font-face{font-family:"TWKaiGame";src:url("fonts/twkai.woff2?v=20261106224415") format("woff2");font-display:swap}
 /* Layout: 手機優先的單欄 App。設定 → 島嶼地圖（之字形路徑）→ 課關卡（四站）→ 結算。 */
 :root{
   --sea:#e3f1f4; --sea-deep:#bfe0e7; --sand:#fffaf0; --card:#ffffff; --ink:#1d2b33; --soft:#5b6b73; --line:#d4e3e7;
@@ -227,6 +227,7 @@ button:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
 @keyframes swim{50%{transform:translateX(6px) rotate(-3deg)}}
 @keyframes caught{to{transform:translateY(-60px) scale(.4);opacity:0}}
 @keyframes away{50%{transform:translateX(30px)}}
+.examwrap{margin-top:18px;overflow:hidden}
 .shells{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}
 .shell{min-height:62px;border-radius:50% 50% 14px 14px;background:var(--sand);border:3px solid var(--rock);display:grid;place-items:center;line-height:1.05;padding:4px 1px}
 .shell b{font-family:var(--kai);font-size:30px;font-weight:400}
@@ -479,7 +480,7 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 const PUB = {nani:"南一", kang:"康軒", han:"翰林"};
 const GRADE = ["", "一", "二", "三", "四", "五", "六"];
 const STORE = "guoyu-island-v3";
-const BUILD = "20261105214420";
+const BUILD = "20261106224415";
 const ORDER = "ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙㄧㄨㄩㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥㄦ";
 const LOOKALIKE = {ㄅ:"ㄆㄉ",ㄆ:"ㄅㄊ",ㄇ:"ㄈㄋ",ㄈ:"ㄇㄏ",ㄉ:"ㄊㄅ",ㄊ:"ㄉㄆ",ㄋ:"ㄌㄇ",ㄌ:"ㄋㄖ",ㄍ:"ㄎㄏ",ㄎ:"ㄍㄏ",ㄏ:"ㄈㄎ",ㄐ:"ㄑㄓ",ㄑ:"ㄐㄔ",ㄒ:"ㄕㄙ",ㄓ:"ㄗㄐ",ㄔ:"ㄘㄑ",ㄕ:"ㄙㄒ",ㄖ:"ㄌㄦ",ㄗ:"ㄓㄘ",ㄘ:"ㄔㄗ",ㄙ:"ㄕㄒ",ㄧ:"ㄩㄨ",ㄨ:"ㄧㄩ",ㄩ:"ㄧㄨ",ㄚ:"ㄛㄜ",ㄛ:"ㄜㄡ",ㄜ:"ㄛㄝ",ㄝ:"ㄜㄟ",ㄞ:"ㄟㄠ",ㄟ:"ㄞㄝ",ㄠ:"ㄡㄞ",ㄡ:"ㄠㄛ",ㄢ:"ㄤㄣ",ㄣ:"ㄥㄢ",ㄤ:"ㄢㄥ",ㄥ:"ㄣㄤ",ㄦ:"ㄜㄖ"};
 const TONES = [{v:1,k:"ˉ",n:"一聲"},{v:2,k:"ˊ",n:"二聲"},{v:3,k:"ˇ",n:"三聲"},{v:4,k:"ˋ",n:"四聲"},{v:5,k:"˙",n:"輕聲"}];
@@ -834,7 +835,9 @@ function map(switched){
             <span class="stars" aria-label="${st} 顆星">${"★".repeat(st)}<span class="off">${"★".repeat(3-st)}</span></span>
             ${l.items && DATA.bank ? `<span class="tagnew">句型新玩法</span>` : ""}
             ${l.kind === "lesson" ? `<span class="meter" aria-hidden="true"><i style="width:${l.chars.length ? k/l.chars.length*100 : 0}%"></i></span><span>會了 ${k}/${l.chars.length}</span>` : ""}</span></span></button>`;
-    }).join("")}<span class="mapavatar" id="me">${AVATAR}</span></div>`);
+    }).join("")}<span class="mapavatar" id="me">${AVATAR}</span></div>
+    <div class="panel nozy examwrap" id="exam-box" hidden></div>`);
+  examBox();
   const me = document.getElementById("me"), nodes = [...app.querySelectorAll(".node")];
   const key = `${DATA.grade}-${S.version}-${S.range}`;
   const place = i => { const n = nodes[i]; if (!n) return; me.style.left = (n.offsetLeft + n.offsetWidth - 30) + "px"; me.style.top = (n.offsetTop - 26) + "px"; };
@@ -845,6 +848,23 @@ function map(switched){
   document.getElementById("report").onclick = () => report();
   app.querySelectorAll(".tab").forEach(b => b.onclick = () => { S.range = b.dataset.r; save(); map(); });
   nodes.forEach((b,i) => b.onclick = () => { place(i); S.at[key] = i; save(); setTimeout(() => start(lv[i], i), 520); });
+}
+/* 📝 月考測驗卷：題庫在 exam/g{n}.json（make_exam.py），試卷畫面由遊戲樂園共用的 kg-exam.js 負責 */
+const EXAM = {};
+async function examBox(){
+  const box = document.getElementById("exam-box"), g = DATA.grade, v = S.version;
+  if (!box) return;
+  try {
+    if (!EXAM[g]){ const r = await fetch(`exam/g${g}.json?v=${BUILD}`, {cache:"no-cache"}); if (!r.ok) throw new Error(r.status); EXAM[g] = await r.json(); }
+  } catch(e){ return; }
+  const B = EXAM[g][v];
+  if (!B) return;
+  let tries = 0;
+  (function m(){
+    if (!document.body.contains(box)) return;
+    if (window.KGExam){ box.hidden = false; KGExam.mount(box, B); }
+    else if (tries++ < 50) setTimeout(m, 200);   // 引擎載不到（例如離線）就不顯示
+  })();
 }
 function dex(){
   CUR_ZY = null;
@@ -1840,3 +1860,4 @@ boot();
 
 </script>
 <script src="https://kuog88.github.io/home-button.js" defer></script>
+<script src="https://kuog88.github.io/kg-exam.js" defer></script>

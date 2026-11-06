@@ -199,6 +199,9 @@ def main():
     open("game/index.html", "w", encoding="utf-8").write(html)
     import make_font
     make_font.main()
+    # 📝 月考測驗卷題庫
+    import make_exam
+    make_exam.main()
     for g, s in stats.items():
         print(g, s)
 

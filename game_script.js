@@ -357,7 +357,9 @@ function map(switched){
             <span class="stars" aria-label="${st} 顆星">${"★".repeat(st)}<span class="off">${"★".repeat(3-st)}</span></span>
             ${l.items && DATA.bank ? `<span class="tagnew">句型新玩法</span>` : ""}
             ${l.kind === "lesson" ? `<span class="meter" aria-hidden="true"><i style="width:${l.chars.length ? k/l.chars.length*100 : 0}%"></i></span><span>會了 ${k}/${l.chars.length}</span>` : ""}</span></span></button>`;
-    }).join("")}<span class="mapavatar" id="me">${AVATAR}</span></div>`);
+    }).join("")}<span class="mapavatar" id="me">${AVATAR}</span></div>
+    <div class="panel nozy examwrap" id="exam-box" hidden></div>`);
+  examBox();
   const me = document.getElementById("me"), nodes = [...app.querySelectorAll(".node")];
   const key = `${DATA.grade}-${S.version}-${S.range}`;
   const place = i => { const n = nodes[i]; if (!n) return; me.style.left = (n.offsetLeft + n.offsetWidth - 30) + "px"; me.style.top = (n.offsetTop - 26) + "px"; };
@@ -368,6 +370,23 @@ function map(switched){
   document.getElementById("report").onclick = () => report();
   app.querySelectorAll(".tab").forEach(b => b.onclick = () => { S.range = b.dataset.r; save(); map(); });
   nodes.forEach((b,i) => b.onclick = () => { place(i); S.at[key] = i; save(); setTimeout(() => start(lv[i], i), 520); });
+}
+/* 📝 月考測驗卷：題庫在 exam/g{n}.json（make_exam.py），試卷畫面由遊戲樂園共用的 kg-exam.js 負責 */
+const EXAM = {};
+async function examBox(){
+  const box = document.getElementById("exam-box"), g = DATA.grade, v = S.version;
+  if (!box) return;
+  try {
+    if (!EXAM[g]){ const r = await fetch(`exam/g${g}.json?v=${BUILD}`, {cache:"no-cache"}); if (!r.ok) throw new Error(r.status); EXAM[g] = await r.json(); }
+  } catch(e){ return; }
+  const B = EXAM[g][v];
+  if (!B) return;
+  let tries = 0;
+  (function m(){
+    if (!document.body.contains(box)) return;
+    if (window.KGExam){ box.hidden = false; KGExam.mount(box, B); }
+    else if (tries++ < 50) setTimeout(m, 200);   // 引擎載不到（例如離線）就不顯示
+  })();
 }
 function dex(){
   CUR_ZY = null;
