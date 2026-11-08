@@ -5,10 +5,10 @@
 <title>國語闖關島</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
-<link rel="preload" href="fonts/twkai.woff2?v=20261108170426" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/twkai.woff2?v=20261108172139" as="font" type="font/woff2" crossorigin>
 <style>
 /* 楷體用「全字庫正楷體」（教育部標準字形）切出的網路字型，每台裝置寫法一致；不用日文或大陸字形的字型 */
-@font-face{font-family:"TWKaiGame";src:url("fonts/twkai.woff2?v=20261108170426") format("woff2");font-display:swap}
+@font-face{font-family:"TWKaiGame";src:url("fonts/twkai.woff2?v=20261108172139") format("woff2");font-display:swap}
 /* Layout: 手機優先的單欄 App。設定 → 島嶼地圖（之字形路徑）→ 課關卡（四站）→ 結算。 */
 :root{
   --sea:#e3f1f4; --sea-deep:#bfe0e7; --sand:#fffaf0; --card:#ffffff; --ink:#1d2b33; --soft:#5b6b73; --line:#d4e3e7;
@@ -481,7 +481,7 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 const PUB = {nani:"南一", kang:"康軒", han:"翰林"};
 const GRADE = ["", "一", "二", "三", "四", "五", "六"];
 const STORE = "guoyu-island-v3";
-const BUILD = "20261108170426";
+const BUILD = "20261108172139";
 const ORDER = "ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙㄧㄨㄩㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥㄦ";
 const LOOKALIKE = {ㄅ:"ㄆㄉ",ㄆ:"ㄅㄊ",ㄇ:"ㄈㄋ",ㄈ:"ㄇㄏ",ㄉ:"ㄊㄅ",ㄊ:"ㄉㄆ",ㄋ:"ㄌㄇ",ㄌ:"ㄋㄖ",ㄍ:"ㄎㄏ",ㄎ:"ㄍㄏ",ㄏ:"ㄈㄎ",ㄐ:"ㄑㄓ",ㄑ:"ㄐㄔ",ㄒ:"ㄕㄙ",ㄓ:"ㄗㄐ",ㄔ:"ㄘㄑ",ㄕ:"ㄙㄒ",ㄖ:"ㄌㄦ",ㄗ:"ㄓㄘ",ㄘ:"ㄔㄗ",ㄙ:"ㄕㄒ",ㄧ:"ㄩㄨ",ㄨ:"ㄧㄩ",ㄩ:"ㄧㄨ",ㄚ:"ㄛㄜ",ㄛ:"ㄜㄡ",ㄜ:"ㄛㄝ",ㄝ:"ㄜㄟ",ㄞ:"ㄟㄠ",ㄟ:"ㄞㄝ",ㄠ:"ㄡㄞ",ㄡ:"ㄠㄛ",ㄢ:"ㄤㄣ",ㄣ:"ㄥㄢ",ㄤ:"ㄢㄥ",ㄥ:"ㄣㄤ",ㄦ:"ㄜㄖ"};
 const TONES = [{v:1,k:"ˉ",n:"一聲"},{v:2,k:"ˊ",n:"二聲"},{v:3,k:"ˇ",n:"三聲"},{v:4,k:"ˋ",n:"四聲"},{v:5,k:"˙",n:"輕聲"}];
@@ -1868,6 +1868,8 @@ function finish(){
   const lv = G.lv, pct = G.total ? G.right / G.total : 1;
   const st = pct >= .9 ? 3 : pct >= .7 ? 2 : 1;
   S.stars[lv.id] = Math.max(S.stars[lv.id] || 0, st);
+  /* 全站星星：家長報表的關卡紀錄、大星星動畫（KGReport 由遊戲樂園的 parent-report.js 提供） */
+  try { if (window.KGReport) KGReport.done({stars:st, right:G.right, total:G.total}); } catch(e){}
   const lvs = levels(S.range), nextLv = lvs[G.idx + 1];
   if (nextLv) S.at[`${DATA.grade}-${S.version}-${S.range}`] = G.idx + 1;
   save(); sfx("win");

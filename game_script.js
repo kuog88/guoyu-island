@@ -1389,6 +1389,8 @@ function finish(){
   const lv = G.lv, pct = G.total ? G.right / G.total : 1;
   const st = pct >= .9 ? 3 : pct >= .7 ? 2 : 1;
   S.stars[lv.id] = Math.max(S.stars[lv.id] || 0, st);
+  /* 全站星星：家長報表的關卡紀錄、大星星動畫（KGReport 由遊戲樂園的 parent-report.js 提供） */
+  try { if (window.KGReport) KGReport.done({stars:st, right:G.right, total:G.total}); } catch(e){}
   const lvs = levels(S.range), nextLv = lvs[G.idx + 1];
   if (nextLv) S.at[`${DATA.grade}-${S.version}-${S.range}`] = G.idx + 1;
   save(); sfx("win");
