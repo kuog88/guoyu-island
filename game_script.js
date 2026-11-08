@@ -119,15 +119,46 @@ function pickVoice(){
   } catch(e){}
 }
 if ("speechSynthesis" in window){ pickVoice(); speechSynthesis.addEventListener("voiceschanged", pickVoice); }
-function say(text){
+/* 依序唸幾段話。iPad Safari 在 cancel() 之後馬上 speak() 會被吃掉，所以先停、隔一下再唸 */
+function speakSeq(list){
   try {
-    /* 單字前後加停頓，免得第一個音被吃掉 */
-    if ([...text].length <= 2) text = `，${text}。`;
-    speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = voice ? voice.lang : "zh-TW"; u.rate = .9; u.pitch = 1; if (voice) u.voice = voice;
-    duck(true); u.onend = u.onerror = () => duck(false);
-    speechSynthesis.speak(u);
+    list = list.filter(Boolean);
+    if (!list.length) return;
+    const go = () => {
+      duck(true);
+      list.forEach((t,i) => {
+        const u = new SpeechSynthesisUtterance(t); u.lang = voice ? voice.lang : "zh-TW"; u.rate = .9; u.pitch = 1; if (voice) u.voice = voice;
+        if (i === list.length - 1) u.onend = u.onerror = () => duck(false);
+        speechSynthesis.speak(u);
+      });
+    };
+    if (speechSynthesis.speaking || speechSynthesis.pending){ speechSynthesis.cancel(); setTimeout(go, 80); } else go();
   } catch(e){}
 }
+/* 一年級：題目說明、提示都唸出來（孩子還看不懂字）。說明先記著，接下來要唸的字詞會接在後面一起唸 */
+let PENDING_TALK = null, LAST_TALK = "", talkTimer = 0;
+const spoken = t => String(t).replace(/<[^>]+>/g, "").replace(/[ㄅ-ㄯ˙ˊˇˋ]/g, "").replace(/[🔊←→・]/g, " ").replace(/\s+/g, " ").trim();
+function queueTalk(msg){
+  if (!fullZy()) return;
+  PENDING_TALK = LAST_TALK = spoken(msg);
+  clearTimeout(talkTimer);
+  talkTimer = setTimeout(() => { if (PENDING_TALK){ const t = PENDING_TALK; PENDING_TALK = null; speakSeq([t]); } }, 40);
+}
+function say(text){
+  /* 單字前後加停頓，免得第一個音被吃掉 */
+  if ([...text].length <= 2) text = `，${text}。`;
+  const pre = PENDING_TALK; PENDING_TALK = null; clearTimeout(talkTimer);
+  speakSeq(pre ? [pre, text] : [text]);
+}
+/* iPad／iPhone：第一次點畫面時先解鎖朗讀和音效（之後由程式自動出聲才不會被擋） */
+let unlocked = false;
+function unlockAudio(){
+  if (unlocked) return; unlocked = true;
+  try { audio(); const b = actx.createBuffer(1, 1, 22050), src = actx.createBufferSource(); src.buffer = b; src.connect(actx.destination); src.start(0); } catch(e){}
+  try { const u = new SpeechSynthesisUtterance(" "); u.volume = 0; speechSynthesis.speak(u); } catch(e){}
+}
+document.addEventListener("pointerdown", unlockAudio, true);
+document.addEventListener("touchend", unlockAudio, true);
 function sfx(kind){
   try {
     audio();
@@ -147,7 +178,7 @@ const CHORDS = [[48,55,64,71],[45,52,60,67],[41,48,57,64],[43,50,59,65]]; // Cma
 const PENTA = [60,62,64,67,69,72,74,76];
 const BEAT = 60/72;
 const hz = m => 440 * Math.pow(2, (m-69)/12);
-function audio(){ actx = actx || new (window.AudioContext || window.webkitAudioContext)(); return actx; }
+function audio(){ actx = actx || new (window.AudioContext || window.webkitAudioContext)(); if (actx.state === "suspended") actx.resume(); return actx; }
 function tone(f, t, len, vol, type){
   const o = actx.createOscillator(), g = actx.createGain();
   o.type = type; o.frequency.value = f;
@@ -223,6 +254,7 @@ const BALLCOL = ["var(--coral)","var(--kang)","var(--han)","var(--boss)"];
 const ICON_SPEAK = `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>`;
 
 const app = document.getElementById("app");
+app.addEventListener("click", e => { const b = e.target.closest(".say .bubble"); if (b && fullZy()){ const t = b.querySelector(".msgt"); speakSeq([LAST_TALK || spoken((t || b).textContent)]); } });
 new MutationObserver(ms => { if (fullZy()) ms.forEach(m => m.addedNodes.forEach(autoZy)); }).observe(app, {childList:true, subtree:true});
 let PARENT_PAGE = false; // 設定頁、家長報表是給大人看的，不加注音
 function render(html){ app.dataset.page = PARENT_PAGE ? "parent" : ""; PARENT_PAGE = false; app.innerHTML = html; window.scrollTo(0,0); }
@@ -912,8 +944,8 @@ function afterAnswer(q, ok, chosen){
   }
 }
 function speakerBtn(label){ return `<button class="speak" id="play">${ICON_SPEAK}<span>${label || "再聽一次"}</span></button>`; }
-function talk(msg){ return `<div class="say">${AVATAR}<div class="bubble" id="msg">${msg}</div></div>`; }
-function setMsg(t){ const m = document.getElementById("msg"); if (m) m.textContent = t; const a = app.querySelector(".say .avatar"); if (a){ a.classList.remove("jump"); void a.offsetWidth; a.classList.add("jump"); } }
+function talk(msg){ queueTalk(msg); return `<div class="say">${AVATAR}<div class="bubble" id="msg">${fullZy() ? `<span class="nozy replay" aria-hidden="true">🔊</span>` : ""}<span class="msgt">${msg}</span></div></div>`; }
+function setMsg(t){ const m = document.querySelector("#msg .msgt") || document.getElementById("msg"); if (m) m.textContent = t; queueTalk(t); const a = app.querySelector(".say .avatar"); if (a){ a.classList.remove("jump"); void a.offsetWidth; a.classList.add("jump"); } }
 const cheer = () => rand(["答對了！","好厲害！","太棒了！","你好棒！"]);
 
 /* 寶箱：點開認識新字 */
@@ -1295,6 +1327,7 @@ function bossFight(s){
     if (hearts <= 0){
       setTimeout(() => {
         frame(`<p class="bubble">魔王太強了！休息一下再挑戰吧</p><button class="btn primary" id="retry">再挑戰一次</button>`);
+        queueTalk("魔王太強了！休息一下再挑戰吧");
         document.getElementById("retry").onclick = () => { s.qs = shuffle(s.qs); bossFight(s); };
       }, 700);
       return true;
@@ -1334,6 +1367,7 @@ function bossFight(s){
       prompt = speakerBtn("聽語詞"); msg = "聽一聽，是哪一個語詞？"; wide = true;
     }
     frame(`${prompt}<div class="magic ${q.kind === "radical" ? "" : "nozy"}">${q.opts.map(o => `<button class="${wide ? "gem" : "star"}" data-o="${esc(o)}">${esc(q.kind === "radical" ? radLabel(o) : o)}</button>`).join("")}</div>`, msg);
+    if (q.kind === "sentence"){ const ps = q.s.split(/\[(.)\]/); queueTalk(`把句子補完整。${ps[0]}，空格，${ps[2]}`); }
     const play = document.getElementById("play");
     if (play){ play.onclick = () => say(q.w); say(q.w); }
     let over = false;

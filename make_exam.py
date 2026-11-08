@@ -216,10 +216,19 @@ def main():
                             add(u, {"type": "choice", "q": T("「") + parts + TONEK[t] + T("」拼起來是哪一個？") if t != 5 else T("「") + "˙" + parts + T("」拼起來是哪一個？"),
                                     "choices": [z] + wrong[:3], "answer": z, "explain": f"{parts} 拼成 {z}。注意形狀很像的符號。"}, trap=True)
                         if stat.get(u, {}).get("tf", 0) < 8:
-                            right = rnd.random() < .5 or not wrong
-                            shown = z if right else wrong[0]
-                            add(u, {"type": "tf", "q": T("「") + parts + T("」拼起來是「") + shown + T("」。"), "answer": shown == z if right else False,
-                                    "explain": f"{parts} 拼成 {b}，" + ("正確。" if right else f"不是 {base_of(shown)}。")}, trap=not right)
+                            # 題目的拼法要帶聲調，和右邊的答案一致（ㄉ＋ㄨ＋ㄛ＋ˇ＝ㄉㄨㄛˇ）
+                            pt = ("˙" if t == 5 else "") + parts + (TONEK[t] if t in (2, 3, 4) else "")
+                            r0 = rnd.random()
+                            if r0 < .5 or not wrong:
+                                shown, why = z, f"{pt} 拼成 {z}，正確。"
+                            elif r0 < .75:
+                                t2 = rnd.choice([x for x in (1, 2, 3, 4, 5) if x != t])
+                                shown, why = fmt(b, t2), f"{pt} 是{TONEN[t]}，拼成 {z}，不是{TONEN[t2]}的 {fmt(b, t2)}。"
+                            else:
+                                shown, why = wrong[0], f"{pt} 拼成 {z}，不是 {wrong[0]}，要看清楚形狀很像的符號。"
+                            assert (shown == z) == (parse(shown) == (b, t))
+                            add(u, {"type": "tf", "q": T("「") + pt + T("」拼起來是「") + shown + T("」。"), "answer": shown == z,
+                                    "explain": why}, trap=shown != z)
                         if stat.get(u, {}).get("fill", 0) < 7:
                             i = rnd.randrange(n)
                             miss = b[i]
