@@ -145,10 +145,13 @@ function queueTalk(msg){
   talkTimer = setTimeout(() => { if (PENDING_TALK){ const t = PENDING_TALK; PENDING_TALK = null; speakSeq([t]); } }, 40);
 }
 function say(text){
+  /* 沒有要唸的字（例如標點、句意題）就只唸說明；朗讀出錯也不能讓遊戲停住 */
+  if (text === null || text === undefined || text === ""){ text = ""; }
+  text = String(text);
   /* 單字前後加停頓，免得第一個音被吃掉 */
-  if ([...text].length <= 2) text = `，${text}。`;
+  if (text && [...text].length <= 2) text = `，${text}。`;
   const pre = PENDING_TALK; PENDING_TALK = null; clearTimeout(talkTimer);
-  speakSeq(pre ? [pre, text] : [text]);
+  speakSeq([pre, text]);
 }
 /* iPad／iPhone：第一次點畫面時先解鎖朗讀和音效（之後由程式自動出聲才不會被擋） */
 let unlocked = false;
@@ -1375,7 +1378,8 @@ function bossFight(s){
       if (over) return;
       if (b.dataset.o === answer){
         over = true; b.classList.add("fly"); good(q);
-        say(q.kind === "sentence" ? q.s.replace(/[\[\]]/g, "") : q.w || q.t); setMsg(cheer()); setTimeout(() => hit(q), 400);
+        setTimeout(() => hit(q), 400);   // 先排好下一步，後面就算出錯也不會卡住
+        try { say(q.kind === "sentence" ? q.s.replace(/[\[\]]/g, "") : q.w || q.t || ""); setMsg(cheer()); } catch(e){}
       } else {
         b.classList.add("dud"); b.disabled = true; bad(q, b.dataset.o);
         if (hurt(q)) over = true;
