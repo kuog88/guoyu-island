@@ -260,7 +260,7 @@ const app = document.getElementById("app");
 app.addEventListener("click", e => { const b = e.target.closest(".say .bubble"); if (b && fullZy()){ const t = b.querySelector(".msgt"); speakSeq([LAST_TALK || spoken((t || b).textContent)]); } });
 new MutationObserver(ms => { if (fullZy()) ms.forEach(m => m.addedNodes.forEach(autoZy)); }).observe(app, {childList:true, subtree:true});
 let PARENT_PAGE = false; // 設定頁、家長報表是給大人看的，不加注音
-function render(html){ app.dataset.page = PARENT_PAGE ? "parent" : ""; PARENT_PAGE = false; app.innerHTML = html; window.scrollTo(0,0); }
+function render(html){ app.dataset.page = PARENT_PAGE ? "parent" : ""; app.classList.toggle("zy1", fullZy() && !PARENT_PAGE); PARENT_PAGE = false; app.innerHTML = html; window.scrollTo(0,0); }
 
 /* ---------- 載入年級資料 ---------- */
 async function loadGrade(g){

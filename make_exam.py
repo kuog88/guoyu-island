@@ -66,10 +66,10 @@ class ZY:
         b, t = parse(z)
         sy = "".join(f"<span>{x}</span>" for x in b)
         dot = "<span>˙</span>" if t == 5 else ""
-        tn = f'<span style="position:absolute;right:0;top:50%;transform:translateY(-50%)">{TONEK[t]}</span>' if t in (2, 3, 4) else ""
-        return (f'<span style="display:inline-flex;align-items:center;vertical-align:middle;margin-right:.06em">{c}'
-                f'<span style="display:inline-flex;flex-direction:column;align-items:center;font-size:max(.5em,9px);line-height:1.05;'
-                f'position:relative;padding-right:.62em;margin-left:.06em;color:#555">{dot}{sy}{tn}</span>{post}</span>')
+        tn = f'<span style="position:absolute;right:0;bottom:.5em;line-height:1">{TONEK[t]}</span>' if t in (2, 3, 4) else ""
+        return (f'<span style="display:inline-flex;align-items:center;vertical-align:middle;white-space:nowrap;margin-right:.18em;line-height:1.1">{c}'
+                f'<span style="display:inline-flex;flex-direction:column;align-items:center;justify-content:center;font-size:max(.5em,11px);line-height:1.04;'
+                f'position:relative;padding-right:.72em;margin-left:.15em;color:#555">{dot}{sy}{tn}</span>{post}</span>')
 
     def html(self, s):
         r, out = self.read(s), ""
@@ -155,6 +155,12 @@ def main():
 
             def add(u, q, trap=False):
                 q["unit"] = u
+                if g == 1:
+                    # 開頭的引號、括號放進下一個字的注音組裡，換行時才不會單獨留在行尾
+                    for k in ("q", "choices"):
+                        if k in q:
+                            fix = lambda h: re.sub(r'([「『（]+)(<span style="display:inline-flex;align-items:center;vertical-align:middle;white-space:nowrap;[^"]*">)', lambda m: m.group(2) + m.group(1), h)
+                            q[k] = fix(q[k]) if isinstance(q[k], str) else [fix(x) for x in q[k]]
                 bank.append(q)
                 s = stat.setdefault(u, {"tf": 0, "choice": 0, "fill": 0, "trap": 0})
                 s[q["type"]] += 1

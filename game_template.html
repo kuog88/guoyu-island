@@ -104,10 +104,16 @@ button:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
 @keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 .sentence{font-family:var(--kai);font-size:clamp(30px,8vw,40px);line-height:2;text-align:left;max-width:100%}
 /* 課本式直排注音：字的右邊一欄注音，聲調符號放在右側中間，輕聲點在最上面 */
-.zc{display:inline-flex;align-items:center;margin-right:.08em;vertical-align:middle}
-.bpmf{display:inline-flex;flex-direction:column;align-items:center;font-size:max(.42em,9px);line-height:1;position:relative;padding-right:.55em;margin-left:.05em;color:var(--soft)}
+/* 注音：字＋注音包成一組不拆開；注音欄右邊留出聲調的位置，字和字之間再留一點空，才不會黏到下一個字 */
+.zc{display:inline-flex;align-items:center;margin-right:.18em;vertical-align:middle;white-space:nowrap;line-height:1.1}
+.bpmf{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;font-size:max(.5em,11px);line-height:1.04;position:relative;padding-right:.72em;margin-left:.15em;color:var(--soft);font-family:var(--ui);font-weight:500}
 .bpmf i{font-style:normal}
-.bpmf .tn{position:absolute;right:0;top:50%;transform:translateY(-50%)}
+.btn.primary .bpmf,.chip .bpmf,.tab[aria-pressed="true"] .bpmf{color:inherit;opacity:.85}
+.bpmf .tn{position:absolute;right:0;bottom:.5em;font-size:.95em;line-height:1}
+/* 一年級：小字放大，配上注音才看得清楚 */
+.zy1 .tabs{grid-template-columns:1fr} .zy1 .tab b{font-size:19px} .zy1 .tab > span{font-size:17px;line-height:1.6}
+.zy1 .node .meta{font-size:15px} .zy1 .chip{font-size:15px} .zy1 .btn.small{font-size:16px}
+.zy1 .stname{font-size:17px} .zy1 .muted{font-size:16px}
 .blank{display:inline-block;min-width:1em;border-bottom:4px solid var(--coral);color:var(--coral);text-align:center;line-height:1.2}
 .feedback{min-height:28px;font-weight:900;font-size:18px}
 .feedback.ok{color:var(--ok)} .feedback.no{color:var(--bad)}
@@ -116,27 +122,28 @@ button:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:10px;width:100%}
 .ccard{display:grid;justify-items:center;gap:2px;padding:10px 4px;border-radius:16px;background:var(--card);border:2px solid var(--line)}
 .ccard b{font-family:var(--kai);font-size:44px;line-height:1.1;font-weight:400}
-.ccard span{font-family:var(--kai);font-size:16px;color:var(--soft)}
+.ccard > span{font-family:var(--kai);font-size:16px;color:var(--soft)}
 .ccard.read{border-style:dashed}
 .ccard[aria-pressed="true"]{border-color:var(--coral)}
 .detail{width:100%;background:var(--card);border-radius:16px;padding:14px 16px;display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;text-align:left;border:2px solid var(--line)}
 .detail .bigchar{font-size:84px}
 .detail dl{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;margin:0;font-size:15px}
 .detail dt{color:var(--soft)} .detail dd{margin:0;font-family:var(--kai);font-size:18px}
+.detail dt{white-space:nowrap} .zy1 .detail .bigchar{font-size:64px} .zy1 .detail{gap:10px;padding:12px}
 
 /* 結算 */
 .result{display:grid;gap:14px;justify-items:center;text-align:center}
 .bigstars{font-size:56px;color:var(--star);letter-spacing:6px}
 .bigstars .off{color:var(--line)}
 .learned{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;font-family:var(--kai);font-size:28px}
-.learned span{padding:2px 10px;border-radius:10px;background:var(--ok-bg);color:var(--ok)}
-.learned span.weak{background:var(--bad-bg);color:var(--bad)}
+.learned > span{padding:2px 10px;border-radius:10px;background:var(--ok-bg);color:var(--ok)}
+.learned > span.weak{background:var(--bad-bg);color:var(--bad)}
 @media (prefers-reduced-motion:reduce){.opt{transition:none}.opt.wrong{animation:none}}
 
 /* 月考範圍分頁 */
 .tabs{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px}
 .tab{padding:10px 12px;border-radius:14px;background:var(--card);border:2px solid var(--line);text-align:left;display:grid;gap:0}
-.tab b{font-size:16px} .tab span{font-size:13px;color:var(--soft)}
+.tab b{font-size:16px} .tab > span{font-size:13px;color:var(--soft)}
 .tab[aria-pressed="true"]{border-color:var(--coral);box-shadow:0 0 0 2px var(--coral) inset}
 .ranges{display:grid;gap:10px}
 .credit{font-size:12px;text-align:center;padding-bottom:56px}
@@ -164,7 +171,7 @@ button:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
 .tones{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;width:100%}
 .tkey{min-height:60px;border-radius:14px;background:var(--sea-deep);border:3px solid transparent;display:grid;place-items:center;gap:0;line-height:1.1;padding:4px}
 .tkey b{font-family:var(--kai);font-size:30px;font-weight:400}
-.tkey span{font-size:12px;color:var(--soft)}
+.tkey > span{font-size:12px;color:var(--soft)}
 .keyrow{display:flex;gap:10px;justify-content:center;width:100%}
 .key:disabled,.tkey:disabled{opacity:.35}
 
@@ -232,8 +239,8 @@ button:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
 .shells{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}
 .shell{min-height:62px;border-radius:50% 50% 14px 14px;background:var(--sand);border:3px solid var(--rock);display:grid;place-items:center;line-height:1.05;padding:4px 1px}
 .shell b{font-family:var(--kai);font-size:30px;font-weight:400}
-.shell span{font-size:11px;color:var(--soft);display:flex;flex-wrap:wrap;justify-content:center}
-.shell span .bpmf{font-size:8px;padding-right:.5em}
+.shell > span{font-size:11px;color:var(--soft);display:flex;flex-wrap:wrap;justify-content:center}
+.shell span .bpmf{font-size:10px;padding-right:.6em}
 .shell:disabled,.fish:disabled{opacity:.35}
 .tools{display:flex;gap:10px;justify-content:center}
 
@@ -278,7 +285,7 @@ button:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
 .tabs{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px}
 .tab{padding:10px 12px;border-radius:14px;background:var(--card);border:2px solid var(--line);text-align:left;display:grid}
 .tab b{font-size:16px}
-.tab span{font-size:13px;color:var(--soft)}
+.tab > span{font-size:13px;color:var(--soft)}
 .tab[aria-pressed="true"]{border-color:var(--coral);box-shadow:0 0 0 2px var(--coral) inset}
 .ranges{display:grid;gap:10px}
 .range{display:grid;gap:2px;text-align:left;padding:14px 16px;border-radius:14px;background:var(--card);border:2px solid var(--line)}
@@ -286,8 +293,8 @@ button:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
 .range[aria-pressed="true"]{border-color:var(--coral);box-shadow:0 0 0 2px var(--coral) inset}
 .mapavatar{position:absolute;width:44px;height:50px;transition:top .5s ease,left .5s ease;z-index:2;pointer-events:none}
 .dex{display:grid;grid-template-columns:repeat(auto-fill,minmax(60px,1fr));gap:8px}
-.dex span{aspect-ratio:1;border-radius:12px;background:var(--card);border:2px solid var(--line);display:grid;place-items:center;font-family:var(--kai);font-size:32px}
-.dex span.no{color:transparent;background:var(--sea-deep);border-style:dashed}
+.dex > span{aspect-ratio:1;border-radius:12px;background:var(--card);border:2px solid var(--line);display:grid;place-items:center;font-family:var(--kai);font-size:32px}
+.dex > span.no{color:transparent;background:var(--sea-deep);border-style:dashed}
 .burst{position:fixed;pointer-events:none;inset:0;z-index:20}
 .burst i{position:absolute;width:10px;height:10px;border-radius:50%;animation:burst .7s forwards}
 @keyframes burst{to{transform:translate(var(--x),var(--y)) scale(.3);opacity:0}}
@@ -305,8 +312,8 @@ button:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
 .writehead{display:flex;align-items:center;gap:14px;justify-content:center}
 .writehead .bigchar{font-size:64px}
 .dex button{all:unset;cursor:pointer}
-.dex button span{aspect-ratio:1;border-radius:12px;background:var(--card);border:2px solid var(--line);display:grid;place-items:center;font-family:var(--kai);font-size:32px}
-.dex button:focus-visible span{outline:3px solid var(--coral)}
+.dex button > span{aspect-ratio:1;border-radius:12px;background:var(--card);border:2px solid var(--line);display:grid;place-items:center;font-family:var(--kai);font-size:32px}
+.dex button:focus-visible > span{outline:3px solid var(--coral)}
 
 /* 手機、平板優先：防止誤觸縮放、選取文字 */
 button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
