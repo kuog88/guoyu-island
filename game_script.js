@@ -367,7 +367,26 @@ function bindVoice(){
 }
 
 /* ---------- 地圖 ---------- */
+/* 新版自動更新：手機上的分頁可能好幾天沒重新整理，還在跑舊程式。
+   回到畫面或回地圖時檢查 version.json，有新版就在地圖頁重新載入（不會打斷正在玩的關卡） */
+let NEW_BUILD = null, lastCheck = 0;
+/* 網址加上新版號，強迫瀏覽器拿新的頁面；同一個版本只重新載入一次，避免一直重整 */
+function reloadNew(){
+  try { if (sessionStorage.getItem("guoyu-reload") === NEW_BUILD) return false; sessionStorage.setItem("guoyu-reload", NEW_BUILD); } catch(e){}
+  location.replace(location.pathname + "?v=" + encodeURIComponent(NEW_BUILD) + location.hash);
+  return true;
+}
+function checkUpdate(){
+  if (Date.now() - lastCheck < 60000 || location.protocol === "file:") return;
+  lastCheck = Date.now();
+  fetch(`version.json?t=${Date.now()}`, {cache:"no-store"}).then(r => r.ok ? r.json() : null).then(v => {
+    if (v && v.build && v.build !== BUILD){ NEW_BUILD = v.build; if (document.querySelector(".mapbar")) reloadNew(); }
+  }).catch(() => {});
+}
+document.addEventListener("visibilitychange", () => { if (!document.hidden) checkUpdate(); });
 function map(switched){
+  if (NEW_BUILD && reloadNew()) return;
+  checkUpdate();
   CUR_ZY = null;
   const rg = ranges();
   if (!rg[S.range]) S.range = "m1";
@@ -1014,7 +1033,7 @@ function fishGame(q, done, inBoss){
     const nextI = filled.indexOf(null);
     slots.innerHTML = `<div class="slotcol">${filled.map((x,i) => `<span class="slot ${q.toneOnly ? "locked" : x ? "filled" : i===nextI ? "next" : ""} ${state && state.bad.includes(i) ? "wrong" : state && state.ok ? "right" : ""}">${x || ""}</span>`).join("")}</div>
       <span class="slot tone ${tone ? "filled" : nextI < 0 ? "next" : ""} ${state && state.toneBad ? "wrong" : state && state.ok ? "right" : ""}">${tone ? TONES[tone-1].k : ""}</span>`;
-    app.querySelectorAll(".shell").forEach(b => b.disabled = over || filled.includes(null));
+    app.querySelectorAll(".shell").forEach(b => { b.disabled = over; b.classList.toggle("wait", filled.includes(null)); });
   }
   function check(){
     const bad = filled.map((x,i) => x === p.syl[i] ? -1 : i).filter(i => i >= 0), toneBad = tone !== p.tone;
@@ -1041,7 +1060,8 @@ function fishGame(q, done, inBoss){
     sfx("pop"); draw();
   });
   app.querySelectorAll(".shell").forEach(b => b.onclick = () => {
-    if (over || filled.includes(null)) return;
+    if (over) return;
+    if (filled.includes(null)){ setMsg("先把注音魚撈進格子，再撿聲調貝殼喔"); sfx("no"); return; }
     tone = +b.dataset.t; draw(); setTimeout(check, 250);
   });
   document.getElementById("undo").onclick = () => {

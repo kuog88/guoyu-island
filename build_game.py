@@ -197,6 +197,7 @@ def main():
     script = open("game_script.js", encoding="utf-8").read()
     html = open("game_template.html", encoding="utf-8").read().replace("__SCRIPT__", script).replace("__BUILD__", build)
     open("game/index.html", "w", encoding="utf-8").write(html)
+    json.dump({"build": build}, open("game/version.json", "w", encoding="utf-8"))
     import make_font
     make_font.main()
     # 📝 月考測驗卷題庫
