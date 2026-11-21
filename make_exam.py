@@ -379,12 +379,22 @@ def main():
                 items = (l.get("items") or {}).get("fill", [])
                 allans = [x[1] for ll in ls for x in (ll.get("items") or {}).get("fill", [])]
                 for s, a, *wrong in items:
-                    extra = [x for x in allans if x not in [a] + wrong and x[0] != a[0]]
-                    rnd.shuffle(extra)
+                    # 第四個選項用「正確語詞寫錯一個字」的假詞，保證是錯的（用別課的語詞可能也說得通）
+                    extra = []
+                    for j in rnd.sample(range(len(a)), len(a)):
+                        if a[j] not in info:
+                            continue
+                        b0 = parse(info[a[j]][0])[0]
+                        for d in homo(a[j], info[a[j]][0], a, j, n=6)[0]:
+                            f = a[:j] + d + a[j + 1:]
+                            if any(parse(x)[0] == b0 for x in valid(d)) and f not in realw and f not in wrong:
+                                extra.append(f)
+                        if extra:
+                            break
                     blank = s.replace(f"[{a}]", "（　）")
                     if len(wrong) >= 2 and extra:
                         add(u, {"type": "choice", "q": "選出最適合填入（　）的語詞：" + blank, "choices": [a] + wrong[:2] + extra[:1], "answer": a,
-                                "explain": s.replace("[", "「").replace("]", "」") + " 其他語詞字面很像，但意思不合。"}, trap=True)
+                                "explain": s.replace("[", "「").replace("]", "」") + (f" 「{extra[0]}」有錯字；" if extra else " ") + "其他語詞字面很像，但意思不合。"}, trap=True)
                     chips = [a] + wrong[:2]; rnd.shuffle(chips)
                     add(u, {"type": "fill", "q": "在（　）裡填入最適合的語詞：" + blank, "answer": a, "chips": chips,
                             "explain": s.replace("[", "「").replace("]", "」")}, trap=True)

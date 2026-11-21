@@ -80,6 +80,30 @@ def parse_bank(path):
     return out
 
 
+# 句子積木：常見「換個順序也通」的情形自動加進可接受的答案
+B_PLACE = ("在", "沿著", "圍著", "迎著")
+B_ADV = ("慢慢", "輕輕", "努力", "緩緩", "靜靜")
+B_TIME = {"今天", "每天", "每天晚上", "每天早上", "下個月", "週末", "明天"}
+
+
+def build_alts(t):
+    out = []
+    def swap(i):
+        a = t[:]; a[i], a[i + 1] = a[i + 1], a[i]
+        if a != t and a not in out:
+            out.append(a)
+    for i in range(len(t) - 1):
+        x, y = t[i], t[i + 1]
+        if y.endswith("。") or x.endswith("。"):
+            continue
+        place_adv = (x.startswith(B_PLACE) and (y.endswith("地") or y in B_ADV)) or (y.startswith(B_PLACE) and (x.endswith("地") or x in B_ADV))
+        tool = (x.startswith("用") and y.startswith("把")) or (x.startswith("把") and y.startswith("用"))
+        time = i == 0 and (x in B_TIME or y in B_TIME)
+        if place_adv or tool or time:
+            swap(i)
+    return out
+
+
 def parse_lesson_items(path):
     """各課題目：@ 課 id，W 選詞填空，B 句子積木"""
     out, cur = {}, None
@@ -95,7 +119,8 @@ def parse_lesson_items(path):
             assert m and len(parts) == 3, line
             cur["fill"].append([parts[0], m.group(1), parts[1], parts[2]])
         elif line.startswith("B "):
-            cur["build"].append([[t.strip() for t in alt.split("/")] for alt in line[2:].split("||")])
+            alts = [[t.strip() for t in alt.split("/")] for alt in line[2:].split("||")]
+            cur["build"].append(alts + [a for a in build_alts(alts[0]) if a not in alts])
     return out
 
 
