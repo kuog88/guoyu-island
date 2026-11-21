@@ -124,9 +124,15 @@ def parse_lesson_items(path):
     return out
 
 
+# 筆順網沒有收、又是左邊「礻」「衤」的字：字典用部首原形算（多 1 畫），照課本寫法改
+STROKE_FIX = {"祛": 9, "袪": 10, "襬": 20}
+
+
 def strokes_of(c, dict_n, moe_count):
     """字卡的筆畫數要和孩子實際寫的一樣。字典用部首原形計算（礻算 5 畫、衤算 6 畫），
     筆順網比字典少 1 畫的就用筆順網的；筆順資料比字典多的是資料本身有誤，仍用字典。"""
+    if c in STROKE_FIX:
+        return STROKE_FIX[c]
     n = moe_count.get(c)
     return n if n and dict_n and n == dict_n - 1 else (dict_n or n or 0)
 
