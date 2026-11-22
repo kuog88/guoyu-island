@@ -87,6 +87,10 @@ class ZY:
         return out
 
 
+# 辭典沒收、但其實是通順詞組的「假詞」，不能拿來當錯字選項
+NOT_FAKE = {"微屈"}
+
+
 def main():
     rnd = random.Random(20261106)
     words_d, chars_d, _ = make_zy_g1.load_dict()
@@ -103,9 +107,11 @@ def main():
 
         VAL = {}
         for w, r in wzy.items():
-            for i, x in enumerate(w):
-                if i < len(r):
-                    VAL.setdefault(x, set()).add(r[i])
+            # 辭典裡這個詞的其他讀音（例如簡編本「窗戶」也可念 ㄔㄨㄤ ˙ㄏㄨ）也算對，不能拿來當錯誤選項
+            for rr in [r] + list(words_d.get(w, [])):
+                for i, x in enumerate(w):
+                    if i < len(rr):
+                        VAL.setdefault(x, set()).add(rr[i])
 
         def valid(c):
             v = VAL.setdefault(c, set())
@@ -153,8 +159,13 @@ def main():
             def uname(l):
                 return f"前導 {l['title']}" if g == 1 and pub == "nani" and l["order"] == 0 else f"第{l['lessonNo']}課 {l['title']}"
 
-            def add(u, q, trap=False):
+            KEY = []   # 這題考的字／語詞：遊戲出考卷時，同一個字詞在一張考卷只出一題（避免前一題送出後一題的答案）
+
+            def add(u, q, trap=False, keys=None):
                 q["unit"] = u
+                k = list(dict.fromkeys(keys or KEY))
+                if k:
+                    q["k"] = k
                 if g == 1:
                     # 開頭的引號、括號放進下一個字的注音組裡，換行時才不會單獨留在行尾
                     for k in ("q", "choices"):
@@ -279,6 +290,7 @@ def main():
                     i = w.index(c) if w else 0
                     z = reading(w, l)[i] if w else (l["zy"].get(c) or info[c][0])
                     ctx = f"「{w}」的「{c}」" if w else f"「{c}」"
+                    KEY[:] = [c] + ([w] if w else [])
                     # 選擇：注音
                     vs = zy_variants(c, z)
                     if len(vs) == 3:
@@ -321,6 +333,7 @@ def main():
                 # 語詞
                 lw = ws or allw[:4]
                 for w in lw:
+                    KEY[:] = [w]
                     r = reading(w, l)
                     # 是非：注音
                     if rnd.random() < .5:
@@ -344,7 +357,7 @@ def main():
                         ds = [d for d in ds if any(parse(x)[0] == b0 for x in valid(d))]
                         for d in ds:
                             f = w[:j] + d + w[j + 1:]
-                            if f not in realw and f not in fakes:
+                            if f not in realw and f not in fakes and f not in NOT_FAKE:
                                 fakes.append(f)
                         if len(fakes) >= 3:
                             break
@@ -360,8 +373,9 @@ def main():
                         add(u, {"type": "choice", "q": T("下面哪一個語詞的用字完全正確？"), "choices": [w] + fakes[:3], "answer": w,
                                 "explain": f"正確的是「{w}」，其他選項有同音或形近的錯字。"}, trap=True)
                     elif len(fakes) >= 1 and len(others) >= 3:
-                        add(u, {"type": "choice", "q": T("下面哪一個語詞有錯字？"), "choices": [fakes[0]] + rnd.sample(others, 3), "answer": fakes[0],
-                                "explain": f"「{fakes[0]}」應該寫「{w}」。"}, trap=True)
+                        oth = rnd.sample(others, 3)
+                        add(u, {"type": "choice", "q": T("下面哪一個語詞有錯字？"), "choices": [fakes[0]] + oth, "answer": fakes[0],
+                                "explain": f"「{fakes[0]}」應該寫「{w}」。"}, trap=True, keys=[w] + oth)
                 # 注音不正確的是哪一個
                 for _ in range(2):
                     if len(lw) < 4:
@@ -374,12 +388,13 @@ def main():
                     rb = reading(bad, l)[:]; rb[j] = vs[0]
                     ch = [f"{bad} {' '.join(rb)}"] + [f"{x} {' '.join(reading(x, l))}" for x in pick[1:]]
                     add(u, {"type": "choice", "q": T("下面哪一個語詞的注音「不正確」？"), "choices": ch, "answer": ch[0],
-                            "explain": f"「{bad}」應該是 {' '.join(reading(bad, l))}。"}, trap=True)
+                            "explain": f"「{bad}」應該是 {' '.join(reading(bad, l))}。"}, trap=True, keys=pick)
                 # 選詞填空（三年級以上）
                 items = (l.get("items") or {}).get("fill", [])
                 allans = [x[1] for ll in ls for x in (ll.get("items") or {}).get("fill", [])]
                 # 同一句只出一種題型（單數題出選擇、雙數題出填充），同一張考卷才不會考到同一句兩次
                 for wi, (s, a, *wrong) in enumerate(items):
+                    KEY[:] = [a]
                     # 第四個選項用「正確語詞寫錯一個字」的假詞，保證是錯的（用別課的語詞可能也說得通）
                     extra = []
                     for j in rnd.sample(range(len(a)), len(a)):
@@ -404,6 +419,7 @@ def main():
                             "explain": s.replace("[", "「").replace("]", "」")}, trap=True)
                 # 一年級句子填空
                 for s, a, wrong in sents:
+                    KEY[:] = [a]
                     if a in l["chars"]:
                         chips = [a] + list(wrong); rnd.shuffle(chips)
                         add(u, {"type": "fill", "q": T("選字填入句子：") + T(s.split("[")[0]) + "（　）" + T(s.split("]")[1]), "answer": a, "chips": chips,
@@ -412,6 +428,7 @@ def main():
                 extra_c = [c for c in l.get("readChars", []) if c in info]
                 while sum(stat.get(u, {}).get(k, 0) for k in ("tf", "choice", "fill")) < 25 and extra_c:
                     c = extra_c.pop()
+                    KEY[:] = [c]
                     z = info[c][0]; vs = zy_variants(c, z)
                     if len(vs) == 3:
                         add(u, {"type": "choice", "q": T("「") + c + T("」的注音是哪一個？"), "choices": [z] + vs, "answer": z, "explain": f"「{c}」念 {z}。"}, trap=True)

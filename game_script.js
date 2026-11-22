@@ -427,14 +427,28 @@ function map(switched){
 }
 /* 📝 月考測驗卷：題庫在 exam/g{n}.json（make_exam.py），試卷畫面由遊戲樂園共用的 kg-exam.js 負責 */
 const EXAM = {};
+function examOnePerKey(bank){
+  const a = bank.slice();
+  for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  const used = new Set();
+  return a.filter(q => {
+    const k = q.k || [];
+    if (k.some(x => used.has(x))) return false;
+    k.forEach(x => used.add(x));
+    return true;
+  });
+}
 async function examBox(){
   const box = document.getElementById("exam-box"), g = DATA.grade, v = S.version;
   if (!box) return;
   try {
     if (!EXAM[g]){ const r = await fetch(`exam/g${g}.json?v=${BUILD}`, {cache:"no-cache"}); if (!r.ok) throw new Error(r.status); EXAM[g] = await r.json(); }
   } catch(e){ return; }
-  const B = EXAM[g][v];
-  if (!B) return;
+  const B0 = EXAM[g][v];
+  if (!B0) return;
+  // 每次出考卷都重新抽：同一個字詞（題目的 k）只留一題，前一題才不會送出後一題的答案
+  const B = Object.assign({}, B0);
+  Object.defineProperty(B, "bank", { get(){ return examOnePerKey(B0.bank); } });
   let tries = 0;
   (function m(){
     if (!document.body.contains(box)) return;

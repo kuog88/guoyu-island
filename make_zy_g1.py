@@ -24,6 +24,22 @@ def norm(z):
 
 
 def load_dict():
+    """優先用教育部國語辭典公眾授權網的最新版（moe_data.py：簡編本 2026-09-29 在前、修訂本在後），沒有才用舊的 g0v 辭典檔"""
+    import moe_data
+    if os.path.exists(os.path.join(moe_data.DIR, moe_data.FILES["concised"])):
+        D = moe_data.load()
+        words, chars = {}, {}
+        for src in (D["cwords"], D["words"]):
+            for w, rs in src.items():
+                if 2 <= len(w) <= MAXW:
+                    L = words.setdefault(w, [])
+                    L += [r for r in rs if r not in L]
+        words = {w: L for w, L in words.items() if L}
+        for src in (D["cchars"], D["chars"]):
+            for c, v in src.items():
+                L = chars.setdefault(c, [])
+                L += [z for z in v["zy"] if z not in L]
+        return words, chars, _common(words, chars)
     d = json.loads(lzma.open(MOE_DICT).read().decode("utf-8"))
     words, chars = {}, {}
     for e in d:
@@ -52,16 +68,23 @@ def load_dict():
             for r in rs:
                 if r not in words[t]:
                     words[t].append(r)
+    return words, chars, _common(words, chars)
+
+
+def _common(words, chars):
     # 單字最常見的讀音：看這個字在辭典詞語裡各個讀音出現幾次
     freq = {}
     for w, rs in words.items():
+        if not rs:
+            continue
         for i, c in enumerate(w):
             f = freq.setdefault(c, {})
             f[rs[0][i]] = f.get(rs[0][i], 0) + 1
     common = {c: max(f, key=f.get) for c, f in freq.items()}
     for c, rs in chars.items():
-        common.setdefault(c, rs[0])
-    return words, chars, common
+        if rs:
+            common.setdefault(c, rs[0])
+    return common
 
 
 def texts_from_js(path):
